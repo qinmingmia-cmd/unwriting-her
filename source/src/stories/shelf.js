@@ -39,6 +39,7 @@ UH.registerShelf([
   },
   {
     id: 'moon-orchid',
+    story: 'moon-orchid',
     name: 'Moon Orchid',
     work: 'The Woman Warrior',
     author: 'Maxine Hong Kingston',

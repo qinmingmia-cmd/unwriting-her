@@ -181,12 +181,12 @@ window.addEventListener('DOMContentLoaded', function () {
       el('p', { class: 'slip-blurb', text: entry.blurb }));
     if (story) {
       const run = store.runs[story.id];
-      const started = run && (run.scene !== story.start || run.beat > 0);
-      const ends = (store.endings[story.id] || []).map(e => story.endings[e]).filter(Boolean);
+      const started = story.mount ? story.started() : run && (run.scene !== story.start || run.beat > 0);
+      const ends = story.mount ? story.endingsReached() : (store.endings[story.id] || []).map(e => story.endings[e]).filter(Boolean);
       const actions = el('div', { class: 'slip-actions' });
       if (started) actions.append(
         el('button', { class: 'btn primary', type: 'button', onclick: () => navigate(story.id) }, 'Continue reading'),
-        el('button', { class: 'btn quiet', type: 'button', onclick: () => { store.runs[story.id] = fresh(story); persist(); navigate(story.id); } }, 'Begin again'));
+        el('button', { class: 'btn quiet', type: 'button', onclick: () => { if (story.mount) story.reset(); else { store.runs[story.id] = fresh(story); persist(); } navigate(story.id); } }, 'Begin again'));
       else actions.append(el('button', { class: 'btn primary', type: 'button', onclick: () => navigate(story.id) }, 'Open the volume'));
       slipBox.append(actions);
       if (ends.length) slipBox.append(el('p', { class: 'slip-ends', text: 'Endings reached: ' + ends.join(' · ') }));
@@ -199,7 +199,7 @@ window.addEventListener('DOMContentLoaded', function () {
         el('header', { class: 'hub-head' },
           el('p', { class: 'kicker', text: 'Catalogue of the confined' }),
           el('h1', { text: 'The Reading Room' }),
-          el('p', { class: 'hub-lede', text: 'Women written as mad, silenced, or kept. Each of them stands beside someone her book calls normal. One volume has a candle lit beside it; the others are sealed until their stories are written. Take a book down from the shelf.' })),
+          el('p', { class: 'hub-lede', text: 'Women written as mad, silenced, or kept. Each of them stands beside someone her book calls normal. ' + (UH.shelf.filter(e => e.story && UH.stories[e.story]).length > 1 ? 'The volumes with a candle lit beside them can be opened' : 'One volume has a candle lit beside it') + '; the others are sealed until their stories are written. Take a book down from the shelf.' })),
         el('div', { class: 'room' },
           el('div', { class: 'case' }, el('div', { class: 'case-glow', 'aria-hidden': 'true' }), shelf, el('div', { class: 'plank', 'aria-hidden': 'true' })),
           slipBox)));
@@ -215,6 +215,13 @@ window.addEventListener('DOMContentLoaded', function () {
   function openStory(id) {
     const story = UH.stories[id];
     if (!story) return showHub();
+    if (story.mount) {            // a chapter with its own engine (see chapters/)
+      view = 'chapter'; cur = null; stopMotes();
+      app.innerHTML = '';
+      story.mount(app, { navigate });
+      window.scrollTo(0, 0);
+      return;
+    }
     view = 'story';
     const s = normalise(store.runs[id] || fresh(story), story);
     store.runs[id] = s;
