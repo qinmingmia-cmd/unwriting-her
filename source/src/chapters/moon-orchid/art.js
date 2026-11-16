@@ -114,8 +114,8 @@
   }
 
   /* ------------------------------------------------------------ props */
-  function chair(x, y, c, s = 1) {
-    return `<g transform="translate(${x} ${y}) scale(${s})"><path d="M-4,0 L-10,62 M54,0 L60,62 M-10,62 L60,62" stroke="${P.chrome}" stroke-width="4" fill="none"/><path d="M0,-6 C-4,-46 -2,-70 6,-84 C20,-90 40,-90 52,-84 C58,-60 58,-30 54,-6 C40,4 12,4 0,-6Z" fill="${c}"/><path d="M-8,-4 C10,6 44,6 62,-4 L60,8 C44,16 8,16 -6,8Z" fill="${c}"/><path d="M6,-84 C12,-60 12,-30 8,-6" stroke="#fff" stroke-width="5" opacity=".18" fill="none"/></g>`;
+  function chair(x, y, c, s = 1, flip = false) {
+    return `<g transform="translate(${x} ${y}) scale(${flip ? -s : s} ${s})"><path d="M-4,0 L-10,62 M54,0 L60,62 M-10,62 L60,62" stroke="${P.chrome}" stroke-width="4" fill="none"/><path d="M0,-6 C-4,-46 -2,-70 6,-84 C20,-90 40,-90 52,-84 C58,-60 58,-30 54,-6 C40,4 12,4 0,-6Z" fill="${c}"/><path d="M-8,-4 C10,6 44,6 62,-4 L60,8 C44,16 8,16 -6,8Z" fill="${c}"/><path d="M6,-84 C12,-60 12,-30 8,-6" stroke="#fff" stroke-width="5" opacity=".18" fill="none"/></g>`;
   }
   function suitcase(x, y, w, h, c, strap = true) {
     return `<g transform="translate(${x} ${y})">${shadowE(w / 2, 0, w * 0.6, 6)}<rect x="0" y="${-h}" width="${w}" height="${h}" rx="7" fill="${c}"/><rect x="0" y="${-h}" width="${w}" height="${h * 0.18}" rx="6" fill="#fff" opacity=".12"/><path d="M${w / 2 - 14},${-h} C${w / 2 - 14},${-h - 16} ${w / 2 + 14},${-h - 16} ${w / 2 + 14},${-h}" stroke="${P.tob2}" stroke-width="5" fill="none"/>${strap ? `<rect x="${w * 0.22}" y="${-h}" width="6" height="${h}" fill="#000" opacity=".14"/><rect x="${w * 0.72}" y="${-h}" width="6" height="${h}" fill="#000" opacity=".14"/>` : ''}</g>`;
@@ -415,10 +415,10 @@
       ${[[120, 40], [300, 30], [520, 46], [700, 34], [850, 44]].map(([x, y]) => `<ellipse cx="${x}" cy="${y}" rx="44" ry="14" fill="#f6f2e8"/><ellipse cx="${x}" cy="${y - 4}" rx="30" ry="9" fill="${['#c9a46e', '#7ea36b', '#b5654a', '#e9dcb4', '#9a7a56'][x % 5]}"/>`).join('')}
       ${[[200, 60], [420, 66], [620, 60], [780, 70]].map(([x, y]) => `<path d="M${x - 22},${y - 14} C${x - 22},${y + 10} ${x + 22},${y + 10} ${x + 22},${y - 14}Z" fill="#fbfaf6"/><path d="M${x - 22},${y - 12} L${x + 22},${y - 12}" stroke="#6f93ad" stroke-width="2"/><path d="M${x + 26},${y - 30} L${x + 60},${y}" stroke="#a37b52" stroke-width="3"/>`).join('')}
       <path d="M470,20 C470,-14 530,-14 530,20Z" fill="#e9e4da"/><path d="M500,-14 L500,-28" stroke="#c9c6bb" stroke-width="4"/></g>`;
-    b += chair(160, 820, '#b08a5e', 1.1) + chair(1290, 820, '#b08a5e', 1.1);
-    // around the table: Brave Orchid standing, her sister seated, the niece at the end
-    b += person('mo', 420, 680, { pose: 'sit', s: 0.95, look: 'mo' });
-    b += person('niece', 1260, 690, { pose: 'sit', s: 0.92, flip: true, look: 'niece' });
+    b += chair(204, 830, '#b08a5e', 1.1, true) + chair(1350, 830, '#b08a5e', 1.1);
+    // around the table: Brave Orchid standing, her sister and her niece on chairs at either end
+    b += person('mo', 166, 826, { pose: 'sit', s: 0.95, look: 'mo' });
+    b += person('niece', 1384, 826, { pose: 'sit', s: 0.92, flip: true, look: 'niece' });
     b += person('bo', 860, 940, { arm: 'point', s: 1.08, flip: true });
     return wrap(b, 'A kitchen table at night under a hanging lamp, covered in dishes; Brave Orchid on her feet explaining, her sister and her niece seated');
   }
@@ -471,26 +471,53 @@
 
   /* ============================================================ CURB: the car */
   function curb() {
+    // Inside the parked car, looking back from the front seat: the husband in the foreground, turned round;
+    // the front seat-back across the frame; the two sisters behind it on the back seat; the glass tower through the rear window.
     let b = '';
-    b += `<rect width="1600" height="1000" fill="#9fb6c1"/>${[...Array(16)].map((_, i) => `<rect x="${i * 104}" y="0" width="8" height="620" fill="${P.chrome}"/>`).join('')}${[...Array(8)].map((_, i) => `<rect x="0" y="${40 + i * 74}" width="1600" height="6" fill="${P.chrome}"/>`).join('')}<path d="M0,0 L600,0 L0,500Z" fill="#fff" opacity=".14"/>`;
-    b += `<rect y="620" width="1600" height="80" fill="#d9d3c4"/><rect y="700" width="1600" height="300" fill="#8f8a80"/>`;
-    // the car in cutaway: the front seat as a wall between him and them
-    b += `<g transform="translate(800 900)">${shadowE(0, 10, 700, 26)}
-      <path d="M-700,-60 C-700,-120 -660,-150 -580,-156 L-420,-164 C-330,-330 -180,-350 0,-350 L240,-350 C350,-350 420,-290 480,-170 L600,-160 C670,-150 700,-120 700,-60 L700,-10 L-700,-10Z" fill="#5d8a76"/>
-      <path d="M-400,-170 C-320,-320 -190,-334 -40,-334 L-30,-170Z" fill="#c3d7e2" opacity=".6"/><path d="M0,-170 L0,-334 L230,-334 C330,-334 390,-280 450,-170Z" fill="#c3d7e2" opacity=".6"/>
-      <path d="M-640,-150 L640,-150 L640,-30 L-640,-30Z" fill="#7b5c40"/>
-      <path d="M-20,-290 L40,-290 L40,-40 L-20,-40Z" fill="#5c3d25"/><path d="M-20,-290 C-20,-310 40,-310 40,-290" fill="#5c3d25"/>
-      <path d="M-560,-240 L-500,-240 L-500,-40 L-560,-40Z" fill="#5c3d25"/>
-      <path d="M-700,-20 L700,-20" stroke="${P.chrome}" stroke-width="10"/>
-      <circle cx="-470" cy="-10" r="70" fill="#2a2723"/><circle cx="-470" cy="-10" r="34" fill="${P.chrome}"/><circle cx="480" cy="-10" r="70" fill="#2a2723"/><circle cx="480" cy="-10" r="34" fill="${P.chrome}"/></g>`;
-    // the two sisters in the back seat, the husband in front, turned half toward them
-    b += person('mo', 330, 768, { pose: 'sit', s: 1.12, look: 'mo' });
-    b += person('bo', 560, 768, { pose: 'sit', s: 1.16, look: 'bo' });
-    b += `<path d="M780,600 L846,600 L846,880 L780,880Z" fill="#5c3d25"/><path d="M780,600 C780,576 846,576 846,600" fill="#6b4a2f"/>`;
-    b += `<g data-on="husband">${person('husband', 1010, 768, { pose: 'sit', s: 1.2, flip: true, look: 'husband' })}</g>`;
-    // the son on the pavement
-    b += person('son', 1460, 700, { s: 0.92, flip: true });
-    return wrap(b, 'The green sedan at the curb in front of the glass tower, drawn in cutaway: the two old sisters in the back seat, the husband in a dark suit in the front, the high seat-back between them');
+    b += R(0, 0, 1600, 1000, '#cdbfa6');
+    // roof lining and its seams
+    b += `<path d="M0,0 L1600,0 L1600,150 C1200,110 400,110 0,150Z" fill="#d9ccb2"/>${[260, 560, 860, 1160].map(x => `<path d="M${x},0 C${x + 10},60 ${x + 20},100 ${x + 30},126" stroke="#c4b598" stroke-width="3" fill="none"/>`).join('')}`;
+    // the rear window: the tower of glass and chrome, a palm, the street
+    b += `<clipPath id="mo-rear"><path d="M420,190 C600,160 1000,160 1180,190 L1140,440 C1000,456 600,456 460,440Z"/></clipPath>
+      <g clip-path="url(#mo-rear)"><rect x="400" y="150" width="800" height="320" fill="#9fb6c1"/>${[...Array(14)].map((_, i) => `<rect x="${420 + i * 56}" y="150" width="5" height="320" fill="${P.chrome}"/>`).join('')}${[...Array(6)].map((_, i) => `<rect x="400" y="${170 + i * 52}" width="800" height="4" fill="${P.chrome}"/>`).join('')}
+        <path d="M400,150 L700,150 L400,400Z" fill="#fff" opacity=".16"/><rect x="400" y="400" width="800" height="70" fill="#d9d3c4"/>
+        <path d="M1100,470 C1104,380 1096,300 1102,220" stroke="#8a7458" stroke-width="7" fill="none"/>${[-60, -20, 20, 60, 110, 160].map(a => `<path d="M1102,220 q${Math.cos(a * Math.PI / 180) * 40},${Math.sin(a * Math.PI / 180) * 18 - 12} ${Math.cos(a * Math.PI / 180) * 70},${Math.sin(a * Math.PI / 180) * 36 + 12}" stroke="#6f8a52" stroke-width="5" fill="none"/>`).join('')}</g>
+      <path d="M420,190 C600,160 1000,160 1180,190 L1140,440 C1000,456 600,456 460,440Z" fill="none" stroke="#3a3530" stroke-width="10"/>`;
+    // the rear side windows and the pillars
+    b += `<path d="M0,200 L330,190 L380,470 L0,520Z" fill="#b9cbd3"/><path d="M0,200 L330,190 L380,470 L0,520Z" fill="none" stroke="#3a3530" stroke-width="10"/><path d="M60,470 L340,452" stroke="#d9d3c4" stroke-width="22"/>
+      <path d="M1600,200 L1270,190 L1220,470 L1600,520Z" fill="#b9cbd3"/><path d="M1600,200 L1270,190 L1220,470 L1600,520Z" fill="none" stroke="#3a3530" stroke-width="10"/>
+      <path d="M330,180 L430,186 L470,470 L380,480Z" fill="#7b6a52"/><path d="M1270,180 L1170,186 L1130,470 L1220,480Z" fill="#7b6a52"/>`;
+    // Brave Orchid's son, outside on the pavement, seen through the left window
+    b += `<g transform="translate(150 460) scale(.62)"><path d="M-30,0 C-36,-90 -34,-170 -24,-200 L24,-200 C34,-170 36,-90 30,0Z" fill="#e9e4d8"/><circle cx="0" cy="-228" r="22" fill="${P.skin}"/><path d="M-20,-236 C-22,-262 22,-262 22,-238Z" fill="${P.hair}"/></g>`;
+    // the back seat
+    b += `<path d="M120,470 C500,440 1100,440 1480,470 L1520,900 L80,900Z" fill="#6b8a7b"/>${[0, 1, 2, 3, 4].map(i => `<path d="M${300 + i * 250},460 L${290 + i * 252},900" stroke="#5d7b6c" stroke-width="4"/>`).join('')}<path d="M120,470 C500,440 1100,440 1480,470" stroke="#7fa08f" stroke-width="10" fill="none"/>`;
+    // the two sisters, facing forward, hands in their laps
+    function sister(x, y, k) {
+      const L = LOOK[k], s = 1.25;
+      let g = `<g transform="translate(${x} ${y}) scale(${s})">`;
+      g += `<path d="M-70,180 C-74,90 -60,30 -36,14 L36,14 C60,30 74,90 70,180Z" fill="${L.coat}"/><path d="M-70,180 C-74,90 -60,30 -36,14 L-22,14 C-40,50 -48,110 -44,180Z" fill="#000" opacity=".1"/>`;
+      g += `<path d="M-12,14 L0,52 L12,14" fill="none" stroke="${L.coat2}" stroke-width="3"/>`;
+      if (L.pearls) for (let i = -3; i <= 3; i++) g += `<circle cx="${i * 5}" cy="${20 + Math.abs(i) * -1.4 + 4}" r="3" fill="#f6f1e6"/>`;
+      g += `<rect x="-9" y="-6" width="18" height="22" fill="${P.skin2}"/><ellipse cx="0" cy="-32" rx="24" ry="30" fill="${P.skin}"/>`;
+      if (L.bun) g += `<path d="M-24,-34 C-26,-70 26,-70 24,-34 C18,-50 8,-54 0,-54 C-8,-54 -18,-50 -24,-34Z" fill="${L.hair}"/><circle cx="0" cy="-66" r="13" fill="${L.hair}"/>`;
+      if (L.curls) g += `<path d="M-26,-26 C-34,-72 34,-72 26,-26 C22,-46 12,-54 0,-54 C-12,-54 -22,-46 -26,-26Z" fill="${L.hair}"/>${[[-22, -50], [-8, -64], [10, -64], [24, -50], [-28, -32], [28, -32]].map(([cx, cy]) => `<circle cx="${cx}" cy="${cy}" r="11" fill="${L.hair}"/>`).join('')}`;
+      if (k === 'mo') g += `<rect x="-30" y="120" width="60" height="44" rx="7" fill="${P.tob}"/><path d="M-16,120 C-16,102 16,102 16,120" stroke="${P.tob2}" stroke-width="4" fill="none"/>`;
+      g += `<circle cx="-22" cy="${k === 'mo' ? 124 : 140}" r="9" fill="${P.skin}"/><circle cx="22" cy="${k === 'mo' ? 124 : 140}" r="9" fill="${P.skin}"/>`;
+      return g + '</g>';
+    }
+    b += `<g class="fig" data-who="mo"><ellipse class="fig-light" cx="560" cy="640" rx="190" ry="120" fill="url(#mo-pool)"/>${sister(560, 520, 'mo')}</g>`;
+    b += `<g class="fig" data-who="bo"><ellipse class="fig-light" cx="900" cy="640" rx="190" ry="120" fill="url(#mo-pool)"/>${sister(900, 510, 'bo')}</g>`;
+    // the front seat-back: the barrier across the car
+    b += `<path d="M0,700 C400,672 1200,672 1600,700 L1600,1000 L0,1000Z" fill="#7b5c40"/><path d="M0,700 C400,672 1200,672 1600,700" stroke="${P.chrome}" stroke-width="9" fill="none"/>${[200, 520, 840, 1160, 1440].map(x => `<path d="M${x},690 L${x - 6},1000" stroke="#6b4e35" stroke-width="5"/>`).join('')}`;
+    // the husband in the foreground, turned round over the seat-back to face them
+    b += `<g data-on="husband"><g class="fig" data-who="husband"><ellipse class="fig-light" cx="1260" cy="760" rx="260" ry="110" fill="url(#mo-pool)"/>
+      <path d="M1000,1000 C990,880 1040,770 1140,736 L1330,720 C1460,730 1560,820 1600,900 L1600,1000Z" fill="#262a30"/>
+      <path d="M1140,736 C1100,770 1080,820 1074,880" stroke="#1d2025" stroke-width="6" fill="none"/><path d="M1236,726 C1250,780 1252,860 1244,1000" stroke="#1d2025" stroke-width="5" fill="none"/>
+      <path d="M1140,740 C1060,730 960,712 900,708" stroke="#262a30" stroke-width="44" stroke-linecap="round" fill="none"/><circle cx="886" cy="706" r="17" fill="${P.skin}"/>
+      <path d="M1196,690 L1252,690 L1256,736 L1192,736Z" fill="#f1eee6"/><rect x="1204" y="656" width="40" height="40" fill="${P.skin2}"/>
+      <ellipse cx="1222" cy="612" rx="54" ry="62" fill="#141210"/><path d="M1172,600 C1166,630 1172,662 1188,676 C1176,650 1174,624 1180,600Z" fill="${P.skin}"/><ellipse cx="1172" cy="626" rx="8" ry="14" fill="${P.skin2}"/>
+      <path d="M1180,560 C1200,546 1240,546 1262,560" stroke="#2a2723" stroke-width="3" fill="none" opacity=".6"/></g></g>`;
+    return wrap(b, 'Inside the parked car: the husband in a dark suit in the front seat, turned round with his arm along the seat-back; behind the seat-back, the two old sisters side by side on the back seat; the glass tower through the rear window, and the son outside on the pavement');
   }
 
   /* ============================================================ APARTMENT: Los Angeles, the windows covered */
