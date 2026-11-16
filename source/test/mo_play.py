@@ -26,29 +26,34 @@ def run(tag, picks, w=1440, h=900, shots=True, reduced=False):
         while steps < 120:
             steps += 1
             sc = pg.evaluate('UH._mo.state.scene')
+            # open every note in the newest beat, and its margin notes
+            beat = pg.locator('.mo-beat').last
+            cl = beat.locator('.mo-clue:not(.on)')
+            for i in range(cl.count()):
+                c = beat.locator('.mo-clue:not(.on)').first
+                if c.count(): c.click(); pg.wait_for_timeout(60)
+            mg = beat.locator('.mo-margin-btn[aria-expanded="false"]')
+            for i in range(mg.count()):
+                beat.locator('.mo-margin-btn[aria-expanded="false"]').first.click(); pg.wait_for_timeout(60)
             if pg.locator('.mo-end').count(): shot('end'); break
             ch = pg.locator('.mo-choice')
             if ch.count():
-                labels = [ch.nth(i).inner_text() for i in range(ch.count())]
-                want = None
-                for i, l in enumerate(labels):
-                    if picks and picks[0].lower() in l.lower(): want = i; break
-                if want is None:
-                    errors.append(f'[{tag}] at {sc}: wanted {picks[0] if picks else None!r}, had {labels}'); want = 0
-                if picks: picks.pop(0)
                 n += 1
-                if n in (2, 4, 6, 9): shot(f'{n:02d}-{sc}')
-                ch.nth(want).click(); pg.wait_for_timeout(250); settle()
-                if pg.locator('.mo-margin-btn').count() and n == 5:
-                    pg.locator('.mo-margin-btn').first.click(); pg.wait_for_timeout(150); shot('margin')
+                idx = picks.pop(0) if picks else 0
+                if n in (1, 3, 5): shot(f'{n:02d}-{sc}-q')
+                ch.nth(idx % ch.count()).click(); pg.wait_for_timeout(300)
+                if n in (1, 3, 5): shot(f'{n:02d}-{sc}-a')
+                o = pg.locator('.mo-others summary').last
+                if o.count(): o.click(); pg.wait_for_timeout(80)
                 continue
             if pg.locator('.mo-continue').count():
+                if steps in (2, 6): shot(f's{steps:02d}-{sc}', full=False)
                 pg.locator('.mo-continue').click(); pg.wait_for_timeout(250); settle(); continue
             errors.append(f'[{tag}] stuck at {sc}'); shot('stuck'); break
-        st = pg.evaluate('JSON.stringify({f: UH._mo.state.f, wishes: UH._mo.state.wishes, account: UH._mo.state.account, done: UH._mo.state.done})')
+        st = pg.evaluate('JSON.stringify({readings: UH._mo.state.readings, account: UH._mo.state.account, seen: UH._mo.state.seenIds, opened: UH._mo.state.opened.length, done: UH._mo.state.done})')
         print(tag, st)
         # the record
-        pg.get_by_role('button', name='What was said').first.click(); pg.wait_for_timeout(400); shot('said')
+        pg.get_by_role('button', name='The record').first.click(); pg.wait_for_timeout(400); shot('said')
         before = pg.evaluate('JSON.stringify(UH._mo.state)')
         pg.locator('.mo-drawer .mo-bar-btn').click(); pg.wait_for_timeout(200)
         if pg.evaluate('JSON.stringify(UH._mo.state)') != before: errors.append(f'[{tag}] reading the record changed state')
@@ -63,9 +68,9 @@ def run(tag, picks, w=1440, h=900, shots=True, reduced=False):
         if not pg.locator('.view-story').count(): errors.append(f'[{tag}] bertha did not open')
         b.close()
 
-A = ['pillar', 'how everyone walks', 'when they mean', 'gas-station', 'children', 'what else the letters', 'eldest daughter answer', 'laundry', 'towels', 'waiting', 'evenings']
-B = ['smart coat', 'bags', 'whether she wants', 'wait while', 'laundry', 'wait', 'wait', 'children', 'let her continue', 'eldest daughter answer', 'evenings']
-Cc = ['pillar', 'wait', 'what is in the box', 'good teacups', 'children', 'drive her', 'eldest son', 'laundry', 'crate', 'wait', 'evenings']
+A = [2, 1, 2, 0, 0, 1]
+B = [0, 0, 0, 1, 1, 0]
+Cc = [3, 1, 3, 0, 3, 1]
 which = sys.argv[1:] or ['a', 'b', 'c', 'phone']
 if 'a' in which: run('a', A)
 if 'b' in which: run('b', B, shots=True)

@@ -1,14 +1,14 @@
 /* Before She Answers: the chapter's own engine.
-   It shares the site's shelf, router and wordmark, and nothing else: no roles, no hearing, no Record.
+   It shares the site's shelf, router and wordmark. Retold passages, notes, readings and the account are its own.
    State is namespaced and versioned in localStorage; a corrupt or missing save simply starts fresh.
    Every rendered beat is stored with its evaluated text, so resuming shows exactly what was shown. */
 (function () {
   'use strict';
   const UH = window.UH;
-  const KEY = 'unwriting-her:moon-orchid:v1', V = 1;
+  const KEY = 'unwriting-her:moon-orchid:v2', V = 2;
   const reduce = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const fresh = () => ({ v: V, scene: 'entry', trail: [], f: {}, account: {}, said: [], wishes: {}, log: [], done: [], tags: {}, focus: null, explained: false, hinted: [], order: [] });
+  const fresh = () => ({ v: V, scene: 'entry', trail: [], account: {}, said: [], wishes: {}, readings: {}, seenIds: [], opened: [], done: [], tags: {}, focus: null, order: [] });
   function load() {
     try {
       const raw = localStorage.getItem(KEY);
@@ -27,7 +27,7 @@
   const chapter = {
     id: 'moon-orchid', start: 'arrivals', endings: {}, scenes: {},
     mount,
-    started: () => { const x = load(); return x.scene !== 'entry'; },
+    started: () => load().scene !== 'entry',
     reset: () => { s = fresh(); save(); },
     endingsReached: () => []
   };
@@ -48,13 +48,27 @@
     kids.flat().forEach(c => { if (c == null || c === false) return; n.append(c.nodeType ? c : document.createTextNode(c)); });
     return n;
   }
-  const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   const ital = t => esc(t).replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  const CLUE = /\[\[([^|\]]+)\|([^\]]+)\]\]/g;
+  const plain = t => String(t).replace(CLUE, '$1');
+  function rich(t) {
+    return String(t).split(/\n\n/).map(par => {
+      let out = '', last = 0, m; CLUE.lastIndex = 0;
+      while ((m = CLUE.exec(par))) {
+        out += ital(par.slice(last, m.index));
+        out += `<button type="button" class="mo-clue${s.opened.includes(m[2]) ? ' seen' : ''}" data-clue="${esc(m[2])}" aria-expanded="false">${ital(m[1])}</button>`;
+        last = CLUE.lastIndex;
+      }
+      return '<p>' + out + ital(par.slice(last)) + '</p>';
+    }).join('');
+  }
 
   let C, A, host, root, artBox, attnEl, accountEl, flowEl, ctlEl, drawer, drawerBtn, menu, menuBtn, sceneHead;
-  const who = id => (C.who[id] && C.who[id].name) || (id === 'coat' ? 'A stranger in a smart coat' : id);
+  const who = id => (C.who[id] && C.who[id].name) || id;
   const scene = () => C.scenes[s.scene];
   const beatOf = id => scene().beats[id];
+  const TIER = { annotation: 'Annotation', context: 'Context', criticism: 'Criticism', conjecture: 'Conjecture', retold: 'Retold' };
 
   /* ============================================================ MOUNT */
   function mount(app, h) {
@@ -64,6 +78,7 @@
     app.innerHTML = '';
     root = el('div', { class: 'mo' });
     app.append(root);
+    root.addEventListener('click', onClue);
     if (s.scene === 'entry') renderEntry(); else renderStage(true);
   }
 
@@ -71,31 +86,31 @@
   function renderEntry() {
     root.innerHTML = '';
     root.className = 'mo mo-at-entry';
-    const started = s.trail.length > 0 || s.said.length > 0;
+    const started = s.scene !== 'entry' || s.trail.length > 0;
     const flap = el('div', { class: 'mo-flaps', 'aria-hidden': 'true' });
-    const word = 'BEFORE SHE ANSWERS';
-    [...word].forEach((ch, i) => flap.append(el('span', { class: 'mo-flap' + (ch === ' ' ? ' sp' : ''), style: `--i:${i}`, 'data-ch': ch }, el('b', { text: ch === ' ' ? '' : ch }))));
+    [...'BEFORE SHE ANSWERS'].forEach((ch, i) => flap.append(el('span', { class: 'mo-flap' + (ch === ' ' ? ' sp' : ''), style: `--i:${i}` }, el('b', { text: ch === ' ' ? '' : ch }))));
     const note = el('details', { class: 'mo-note' }, el('summary', {}, 'Content note'), el('p', { text: C.contentNote }));
-    const how = el('details', { class: 'mo-note' }, el('summary', {}, 'How this chapter works'), ...C.howTo.map(t => el('p', { text: t })), el('p', { text: C.sourceNote }));
+    const how = el('details', { class: 'mo-note', open: true }, el('summary', {}, 'How to read this chapter'), ...C.howTo.map(t => el('p', { text: t })), keyRow());
     const confirm = el('div', { class: 'mo-confirm', hidden: true },
       el('p', { text: 'Start this chapter again from the airport? Your other chapters are not affected.' }),
       el('div', { class: 'mo-row' },
         el('button', { type: 'button', class: 'mo-btn', onclick: () => { chapter.reset(); begin(); } }, 'Start again'),
         el('button', { type: 'button', class: 'mo-btn quiet', onclick: () => { confirm.hidden = true; } }, 'Keep my place')));
     const actions = el('div', { class: 'mo-row' },
-      started ? el('button', { type: 'button', class: 'mo-btn', onclick: () => { s.scene = s.order.length ? s.scene : 'arrivals'; resume(); } }, 'Continue') : el('button', { type: 'button', class: 'mo-btn', onclick: begin }, 'Begin'),
+      started ? el('button', { type: 'button', class: 'mo-btn', onclick: () => renderStage(true) }, 'Continue') : el('button', { type: 'button', class: 'mo-btn', onclick: begin }, 'Begin'),
       started ? el('button', { type: 'button', class: 'mo-btn quiet', onclick: () => { confirm.hidden = false; } }, 'Start again') : null,
       el('button', { type: 'button', class: 'mo-btn quiet', onclick: () => host.navigate('reading-room') }, 'Back to the Reading Room'));
-    root.append(
-      bar(false),
+    root.append(bar(false),
       el('main', { class: 'mo-entry', id: 'mo-main' },
-        el('div', { class: 'mo-entry-art', html: luggage() }),
-        flap,
+        el('div', { class: 'mo-entry-art', html: luggage() }), flap,
         el('h1', { class: 'mo-title', text: C.title }),
         el('p', { class: 'mo-sub', text: C.sub }),
         el('p', { class: 'mo-notice', text: C.notice }),
-        note, how, actions, confirm));
+        how, note, actions, confirm));
     if (!reduce()) requestAnimationFrame(() => flap.classList.add('go')); else flap.classList.add('go', 'still');
+  }
+  function keyRow() {
+    return el('div', { class: 'mo-key' }, ['retold', 'annotation', 'context', 'criticism'].map(t => el('span', { class: 'mo-tier', 'data-tier': t, text: TIER[t] })));
   }
   function luggage() {
     return `<svg viewBox="0 0 520 170" aria-hidden="true"><ellipse cx="260" cy="160" rx="250" ry="10" fill="rgba(70,48,28,.14)"/>
@@ -103,8 +118,7 @@
       <rect x="214" y="70" width="130" height="86" rx="8" fill="#6b8a7b"/><path d="M256,70 C256,52 302,52 302,70" stroke="#4c7563" stroke-width="7" fill="none"/>
       <rect x="360" y="88" width="120" height="68" fill="#c9a874"/><path d="M360,88 L480,88 L470,76 L370,76Z" fill="#d9bb88"/><path d="M420,76 L420,156 M360,122 L480,122" stroke="#6e5536" stroke-width="3"/><path d="M410,66 C416,76 424,76 430,66" stroke="#6e5536" stroke-width="3" fill="none"/></svg>`;
   }
-  function begin() { s = fresh(); s.scene = C.start; save(); goScene(C.start, true); }
-  function resume() { renderStage(true); }
+  function begin() { s = fresh(); save(); goScene(C.start, true); }
 
   /* ============================================================ CHROME */
   function bar(inStory) {
@@ -112,15 +126,15 @@
       el('button', { type: 'button', class: 'mo-word', onclick: () => host.navigate('reading-room'), title: 'Back to the Reading Room' }, 'Unwriting Her'),
       el('span', { class: 'mo-bar-place' }, inStory ? sceneLabel() : 'Moon Orchid'));
     if (!inStory) return b;
-    drawerBtn = el('button', { type: 'button', class: 'mo-bar-btn', 'aria-expanded': 'false', 'aria-controls': 'mo-said', onclick: () => openDrawer() }, 'What was said');
+    drawerBtn = el('button', { type: 'button', class: 'mo-bar-btn', 'aria-expanded': 'false', 'aria-controls': 'mo-said', onclick: () => openDrawer() }, 'The record');
     menuBtn = el('button', { type: 'button', class: 'mo-bar-btn', 'aria-expanded': 'false', 'aria-controls': 'mo-menu' }, 'Menu');
     const confirm = el('div', { class: 'mo-confirm', hidden: true },
-      el('p', { text: 'Start this chapter again? Everything you have done in it will be cleared. Other chapters are not affected.' }),
+      el('p', { text: 'Start this chapter again? Your readings in it will be cleared. Other chapters are not affected.' }),
       el('div', { class: 'mo-row' },
         el('button', { type: 'button', class: 'mo-btn small', onclick: () => { closeMenu(); chapter.reset(); renderEntry(); } }, 'Start again'),
         el('button', { type: 'button', class: 'mo-btn small quiet', onclick: () => { confirm.hidden = true; } }, 'Keep my place')));
     menu = el('div', { class: 'mo-menu', id: 'mo-menu', hidden: true },
-      el('button', { type: 'button', class: 'mo-menu-item', onclick: () => { closeMenu(); renderEntry(); } }, 'Title page and notes'),
+      el('button', { type: 'button', class: 'mo-menu-item', onclick: () => { closeMenu(); renderEntry(); } }, 'Title page and how to read'),
       el('button', { type: 'button', class: 'mo-menu-item', onclick: () => { closeMenu(); host.navigate('reading-room'); } }, 'Back to the Reading Room'),
       el('button', { type: 'button', class: 'mo-menu-item', onclick: () => { confirm.hidden = false; } }, 'Start this chapter again'),
       confirm);
@@ -147,187 +161,189 @@
       el('p', { class: 'mo-place', text: sc.place }));
     flowEl = el('div', { class: 'mo-flow' });
     ctlEl = el('div', { class: 'mo-ctl' });
-    drawer = el('aside', { class: 'mo-drawer', id: 'mo-said', 'aria-label': 'What was said', hidden: true, tabindex: '-1' });
+    drawer = el('aside', { class: 'mo-drawer', id: 'mo-said', 'aria-label': 'The record', hidden: true, tabindex: '-1' });
     const left = el('div', { class: 'mo-left' }, el('figure', { class: 'mo-art' }, artBox, attnEl));
-    const col = el('section', { class: 'mo-col', 'aria-label': 'The story' }, sceneHead, flowEl, ctlEl);
+    const col = el('section', { class: 'mo-col', 'aria-label': 'The chapter' }, sceneHead, flowEl, ctlEl);
     root.append(bar(true), el('main', { class: 'mo-stage', id: 'mo-main', 'data-mv': sc.mv }, left, col), drawer);
-    // the account captions the picture on wide screens, and rides at the top of the text on narrow ones
     const narrow = window.matchMedia('(max-width: 900px)');
     const place = () => { if (narrow.matches) col.prepend(accountEl); else left.append(accountEl); };
     place();
     if (narrow.addEventListener) narrow.addEventListener('change', place);
     artBox.innerHTML = A[sc.art]();
-    s.trail.forEach((item, i) => flowEl.append(renderItem(item, false)));
+    s.trail.forEach(item => flowEl.append(renderItem(item, false)));
     applyArt(); drawAccount(false); drawControls();
-    window.scrollTo(0, resuming ? Math.max(0, document.documentElement.scrollHeight) : 0);
-    if (resuming) { const last = flowEl.lastElementChild; if (last) last.scrollIntoView({ block: 'end' }); }
+    if (resuming) { const last = flowEl.lastElementChild; if (last) last.scrollIntoView({ block: 'start' }); } else window.scrollTo(0, 0);
   }
 
-  /* ---------- art: tags and attention */
+  /* ---------- art */
   function applyArt() {
     const svg = artBox.querySelector('svg');
     if (!svg) return;
     const tags = new Set(s.tags[s.scene] || []);
-    svg.querySelectorAll('[data-on]').forEach(n => n.classList.toggle('mo-vis', n.dataset.on.split(/\s+/).some(t => tags.has(t))));
-    svg.querySelectorAll('[data-on]').forEach(n => n.classList.add('mo-tag'));
+    svg.querySelectorAll('[data-on]').forEach(n => { n.classList.add('mo-tag'); n.classList.toggle('mo-vis', n.dataset.on.split(/\s+/).some(t => tags.has(t))); });
     svg.querySelectorAll('[data-off]').forEach(n => n.classList.toggle('mo-gone', n.dataset.off.split(/\s+/).some(t => tags.has(t))));
     svg.querySelectorAll('.fig').forEach(n => n.classList.toggle('lit', n.dataset.who === s.focus));
-    attnEl.innerHTML = s.focus && s.focus !== 'none' ? `The room is turned toward <b>${esc(who(s.focus))}</b>` : '';
+    attnEl.innerHTML = s.focus && C.who[s.focus] ? `In this passage: <b>${esc(who(s.focus))}</b>` : '';
   }
   function tag(list) { if (!list) return; const t = s.tags[s.scene] = s.tags[s.scene] || []; list.forEach(x => { if (!t.includes(x)) t.push(x); }); }
 
-  /* ---------- the account at the top of the page */
+  /* ---------- the account */
   function drawAccount(animate) {
     const a = s.account[s.scene];
     accountEl.innerHTML = '';
     accountEl.append(el('p', { class: 'mo-account-k', text: 'As it will be told' }));
     if (!a) { accountEl.append(el('p', { class: 'mo-account-t empty', text: 'Nothing here has been put into words yet.' })); return; }
-    const q = el('p', { class: 'mo-account-t' + (animate && !reduce() ? ' arriving' : ''), 'data-who': a.who, text: a.who === 'none' ? a.text : '“' + a.text + '”' });
-    accountEl.append(q, el('p', { class: 'mo-account-by', text: a.who === 'none' ? 'No one’s version' : a.who === 'mo' ? 'In her words' : who(a.who) + '’s version' }));
-    // the versions this one replaced stay visible, struck through, so the change itself can be seen
+    accountEl.append(
+      el('p', { class: 'mo-account-t' + (animate && !reduce() ? ' arriving' : ''), 'data-who': a.who, text: '“' + a.text + '”' }),
+      el('p', { class: 'mo-account-by', text: a.who === 'mo' ? 'Kept in her terms' : who(a.who) + '’s terms' }));
     const was = s.said.filter(x => x.k === 'account' && x.sc === s.scene).slice(0, -1);
     if (was.length) accountEl.append(el('div', { class: 'mo-account-was' }, el('p', { class: 'mo-account-k', text: 'Replaced' }),
-      ...was.reverse().map(x => el('p', {}, el('s', { text: x.who === 'none' ? x.text : '“' + x.text + '”' }), el('span', { text: x.who === 'none' ? '' : x.who === 'mo' ? ' · her words' : ' · ' + who(x.who) })))));
+      ...was.reverse().map(x => el('p', {}, el('s', { text: '“' + x.text + '”' }), el('span', { text: x.who === 'mo' ? ' · her terms' : ' · ' + who(x.who) })))));
   }
-  function setAccount(a, via) {
+  function setAccount(a) {
     if (!a) return;
-    const prev = s.account[s.scene];
-    if (prev && prev.text === a.text && prev.who === a.who) return;
     s.account[s.scene] = { who: a.who, text: a.text };
-    s.said.push({ k: 'account', sc: s.scene, who: a.who, text: a.text, via: via || null });
+    s.said.push({ k: 'account', sc: s.scene, who: a.who, text: a.text });
   }
 
-  /* ---------- rendering an item of the trail */
-  function lineNode(l, extra) {
-    const n = el('div', { class: 'mo-line' + (extra ? ' ' + extra : ''), 'data-who': l.who },
-      el('p', { class: 'mo-who' }, el('span', { text: who(l.who) }), l.en ? el('span', { class: 'mo-lang', text: 'in English' }) : null, l.wish ? el('span', { class: 'mo-wish', text: 'a plan of hers' }) : null),
-      el('p', { class: 'mo-words', html: ital(l.text) }));
-    return n;
-  }
+  /* ---------- blocks */
   function stepNode(st) {
-    if (st.t === 'n') return el('p', { class: 'mo-narr', html: ital(st.text) });
-    if (st.t === 'l') return lineNode(st);
+    if (st.t === 'n') return el('div', { class: 'mo-narr', html: rich(st.text) });
+    if (st.t === 'r') return el('figure', { class: 'mo-retold' },
+      el('figcaption', {}, el('span', { class: 'mo-tier', 'data-tier': 'retold', text: 'Retold' }), el('span', { class: 'mo-cite', text: st.cite })),
+      el('div', { class: 'mo-retold-t', html: rich(st.text) }));
+    if (st.t === 'seen') {
+      const p = C.seen[st.id];
+      return el('div', { class: 'mo-seen', role: 'group', 'aria-label': 'Seen as' },
+        el('p', { class: 'mo-seen-cap' }, el('span', { text: 'Seen as' }), el('span', { text: p.cite })),
+        el('div', { class: 'mo-seen-panes' },
+          el('div', { class: 'mo-pane as' }, el('span', { class: 'mo-pane-k', text: 'By ' + p.by }), el('span', { class: 'mo-pane-t', text: p.as })),
+          el('div', { class: 'mo-pane text' }, el('span', { class: 'mo-pane-k', text: 'In the text' }), el('span', { class: 'mo-pane-t', text: p.text }))));
+    }
     return null;
   }
+  function blk(node) { const w = el('div', { class: 'mo-blk' }, node); if (node.querySelector && node.querySelector('.mo-clue')) w.append(el('div', { class: 'mo-slips' })); return w; }
   function renderItem(item, fresh) {
     const bt = beatOf(item.b);
     const wrap = el('div', { class: 'mo-beat', 'data-beat': item.b });
-    if (item.diverge) wrap.append(el('p', { class: 'mo-diverge', text: 'Imagined divergence' }));
-    item.r.forEach(st => { const n = stepNode(st); if (n) wrap.append(n); });
-    if (bt.displace) {
-      const d = bt.displace;
-      const restored = item.o && s.account[s.scene] && item.restored;
-      const hers = lineNode(d.line, 'mo-displaced' + (restored ? ' restored' : ''));
-      hers.append(el('p', { class: 'mo-tagline', text: restored ? 'Back in the account, in her words.' : 'Set aside before she finished.' }));
-      const over = lineNode(d.over, 'mo-over');
-      over.append(el('p', { class: 'mo-tagline', text: 'Taken up as the account.' }));
-      wrap.append(hers, over);
-      if (fresh && !reduce()) { over.classList.add('arriving'); hers.classList.add('waiting'); setTimeout(() => hers.classList.remove('waiting'), 900); }
-      if (d.explain && item.explain) wrap.append(el('p', { class: 'mo-explain', text: d.explain }));
-    }
-    if (bt.margin) bt.margin.forEach((m, i) => wrap.append(marginNode(m, item.b + i)));
-    if (item.o) {
-      const o = bt.choices.find(x => x.id === item.o);
-      wrap.append(el('p', { class: 'mo-you' }, el('span', { class: 'mo-you-k', text: 'You' }), el('span', { text: o.log })));
-      (item.rr || []).forEach(st => { const n = stepNode(st); if (n) wrap.append(n); });
-    }
+    item.r.forEach(st => { const n = stepNode(st); if (n) wrap.append(blk(n)); });
+    (bt.margin || []).forEach(id => wrap.append(marginNode(id)));
+    const q = bt.reading || bt.word;
+    if (q && item.o) wrap.append(readingDone(q, item.o, !!bt.word, fresh));
     return wrap;
   }
-  const TIER = { context: 'Context', criticism: 'Criticism', annotation: 'Annotation', conjecture: 'Conjecture' };
-  function marginNode(m, key) {
-    const id = 'mo-m-' + key;
-    const body = el('div', { class: 'mo-margin-body', id, hidden: true }, el('p', { class: 'mo-margin-by', text: [TIER[m.tier], m.by].filter(Boolean).join(' · ') }), el('p', { html: ital(m.text) }));
-    const btn = el('button', { type: 'button', class: 'mo-margin-btn', 'aria-expanded': 'false', 'aria-controls': id, 'data-tier': m.tier },
-      el('span', { class: 'mo-margin-dot', 'aria-hidden': 'true' }), 'In the margin · ' + TIER[m.tier]);
-    btn.addEventListener('click', () => { const open = body.hidden; body.hidden = !open; btn.setAttribute('aria-expanded', String(open)); });
-    return el('div', { class: 'mo-margin', 'data-tier': m.tier }, btn, body);
+  function slip(n, id) {
+    return el('aside', { class: 'mo-slip', 'data-tier': n.tier, 'data-clue': id || '' },
+      el('p', { class: 'mo-slip-cap' }, el('span', { class: 'mo-tier', 'data-tier': n.tier, text: TIER[n.tier] }), n.by ? el('span', { class: 'mo-slip-by', text: n.by }) : null),
+      el('div', { class: 'mo-slip-t', html: rich(n.text) }));
+  }
+  function marginNode(id) {
+    const n = C.clues[id];
+    const body = el('div', { class: 'mo-margin-body', id: 'mo-m-' + id, hidden: true }, slip(n, id));
+    const btn = el('button', { type: 'button', class: 'mo-margin-btn', 'aria-expanded': 'false', 'aria-controls': 'mo-m-' + id },
+      el('span', { class: 'mo-tier', 'data-tier': n.tier, text: TIER[n.tier] }), n.by ? el('span', { class: 'mo-margin-by', text: n.by }) : null, el('span', { class: 'mo-margin-more', text: 'In the margin' }));
+    btn.addEventListener('click', () => { const open = body.hidden; body.hidden = !open; btn.setAttribute('aria-expanded', String(open)); if (open && !s.opened.includes(id)) { s.opened.push(id); save(); } });
+    return el('div', { class: 'mo-margin' }, btn, body);
+  }
+  function onClue(e) {
+    const x = e.target.closest('.mo-slip-x');
+    if (x) { const sl = x.closest('.mo-slip'); root.querySelectorAll(`.mo-clue[data-clue="${sl.dataset.clue}"]`).forEach(c => { c.classList.remove('on'); c.setAttribute('aria-expanded', 'false'); }); sl.remove(); return; }
+    const c = e.target.closest('.mo-clue');
+    if (!c) return;
+    const id = c.dataset.clue, n = C.clues[id];
+    const holder = c.closest('.mo-blk') && c.closest('.mo-blk').querySelector(':scope > .mo-slips');
+    if (!n || !holder) return;
+    const open = holder.querySelector(`.mo-slip[data-clue="${id}"]`);
+    if (open) { open.remove(); c.classList.remove('on'); c.setAttribute('aria-expanded', 'false'); return; }
+    if (!s.opened.includes(id)) { s.opened.push(id); save(); }
+    c.classList.add('on', 'seen'); c.setAttribute('aria-expanded', 'true');
+    const sl = slip(n, id);
+    sl.append(el('button', { type: 'button', class: 'mo-slip-x', 'aria-label': 'Close this note' }, '×'));
+    if (n.reflect && C.seen[n.reflect] && !s.seenIds.includes(n.reflect)) { s.seenIds.push(n.reflect); save(); }
+    holder.append(sl);
+    sl.setAttribute('tabindex', '-1'); sl.focus({ preventScroll: true });
   }
 
-  /* ---------- controls: choices, Wait, Continue */
+  /* ---------- readings and words */
+  function readingDone(q, k, isWord, fresh) {
+    const o = q.options.find(x => x.k === k);
+    const box = el('section', { class: 'mo-reading done' + (isWord ? ' is-word' : '') },
+      el('p', { class: 'mo-reading-k', text: isWord ? 'Whose word stands' : 'Your reading' }),
+      el('p', { class: 'mo-reading-q', text: q.prompt }),
+      el('p', { class: 'mo-reading-pick' }, el('span', { class: 'mo-stamp' + (fresh && !reduce() ? ' thump' : ''), text: o.label }), o.sub ? el('span', { class: 'mo-reading-sub', text: o.sub }) : null),
+      slip({ tier: o.tier || 'annotation', by: o.by, text: o.text }));
+    const others = q.options.filter(x => x.k !== k);
+    const more = el('details', { class: 'mo-others' }, el('summary', {}, isWord ? 'The other word, and what it would have meant' : 'The other readings'),
+      ...others.map(x => el('div', { class: 'mo-other' }, el('p', { class: 'mo-other-h' }, el('b', { text: x.label }), x.sub ? ' · ' + x.sub : ''), slip({ tier: x.tier || 'annotation', by: x.by, text: x.text }))));
+    box.append(more);
+    return box;
+  }
   function drawControls() {
     ctlEl.innerHTML = '';
     const sc = scene();
     const item = s.trail[s.trail.length - 1];
     if (!item) return;
     const bt = beatOf(item.b);
-    if (sc.end && !bt.choices) {
+    const q = bt.reading || bt.word;
+    if (q && !item.o) {
+      const box = el('section', { class: 'mo-reading' + (bt.word ? ' is-word' : '') },
+        el('p', { class: 'mo-reading-k', text: bt.word ? 'Whose word stands' : 'Choose a reading' }),
+        el('p', { class: 'mo-reading-q', text: q.prompt }));
+      const list = el('div', { class: 'mo-choices', role: 'group', 'aria-label': q.prompt });
+      q.options.forEach(o => list.append(el('button', { type: 'button', class: 'mo-choice', onclick: () => pick(q, o, !!bt.word) },
+        el('span', { class: 'mo-choice-l', text: o.label }), o.sub ? el('span', { class: 'mo-choice-s', text: o.sub }) : null)));
+      box.append(list);
+      ctlEl.append(box);
+      return;
+    }
+    if (sc.end && !bt.next) {
       ctlEl.append(el('div', { class: 'mo-end' },
         el('p', { class: 'mo-end-k', text: 'End of the preview' }),
         el('div', { class: 'mo-row' },
-          el('button', { type: 'button', class: 'mo-btn', onclick: () => openDrawer() }, 'Read what was said'),
+          el('button', { type: 'button', class: 'mo-btn', onclick: () => openDrawer() }, 'Open the record'),
           el('button', { type: 'button', class: 'mo-btn quiet', onclick: () => host.navigate('reading-room') }, 'Back to the Reading Room'))));
-      return;
-    }
-    if (bt.choices && !item.o) {
-      const opts = bt.choices.filter(o => !o.when || o.when(s));
-      if (bt.hint && !s.hinted.includes(item.b)) ctlEl.append(el('p', { class: 'mo-hint', text: bt.hint }));
-      const list = el('div', { class: 'mo-choices', role: 'group', 'aria-label': 'What you do' });
-      opts.forEach(o => list.append(el('button', { type: 'button', class: 'mo-choice' + (o.kind === 'wait' ? ' wait' : ''), onclick: () => choose(o) }, o.label)));
-      ctlEl.append(list);
       return;
     }
     ctlEl.append(el('button', { type: 'button', class: 'mo-continue', onclick: advance }, 'Continue'));
   }
 
-  /* ============================================================ MOVING THROUGH THE STORY */
+  /* ============================================================ MOVING THROUGH THE CHAPTER */
   const evalSteps = list => (list || []).map(st => typeof st === 'function' ? st(s) : st).filter(Boolean).map(x => Object.assign({}, x));
   function enterBeat(id) {
     const bt = beatOf(id);
     const item = { b: id, r: evalSteps(bt.steps) };
-    if (bt.diverge && !s.f['div_' + s.scene]) { item.diverge = true; s.f['div_' + s.scene] = true; }
-    if (bt.displace && bt.displace.explain && !s.explained) { item.explain = true; s.explained = true; }
     s.trail.push(item);
-    // record what was said, in order
-    item.r.forEach(st => { if (st.t === 'l') recordLine(st); });
-    if (bt.displace) {
-      recordLine(bt.displace.line, { set: true });
-      recordLine(bt.displace.over);
-      setAccount(bt.displace.account);
-    }
+    item.r.forEach(st => {
+      if (st.show) tag(st.show);
+      if (st.wish && !s.wishes[st.wish]) s.wishes[st.wish] = { text: st.wishText, status: st.wishStatus, sc: s.scene };
+      if (st.t === 'seen' && !s.seenIds.includes(st.id)) s.seenIds.push(st.id);
+      if (st.t === 'r') s.said.push({ k: 'event', sc: s.scene, text: plain(st.text) });
+    });
     if (bt.account) setAccount(bt.account);
     tag(bt.show);
     if (bt.focus) s.focus = bt.focus;
     save();
     const node = renderItem(item, true);
     flowEl.append(node);
-    applyArt(); drawAccount(!!(bt.displace || bt.account)); drawControls();
+    applyArt(); drawAccount(!!bt.account); drawControls();
     focusNew(node);
   }
-  function recordLine(l, o) {
-    s.said.push({ k: 'line', sc: s.scene, who: l.who, text: l.text, en: !!l.en, wish: l.wish || null, setAside: !!(o && o.set) });
-    if (l.wish && !s.wishes[l.wish]) s.wishes[l.wish] = { text: l.text, sc: s.scene, status: 'Said aloud.' };
-  }
-  function choose(o) {
+  function pick(q, o, isWord) {
     const item = s.trail[s.trail.length - 1];
-    const bt = beatOf(item.b);
-    if (bt.hint && !s.hinted.includes(item.b)) s.hinted.push(item.b);
-    item.o = o.id;
-    s.log.push({ sc: s.scene, b: item.b, o: o.id, text: o.log });
-    s.said.push({ k: 'you', sc: s.scene, text: o.log, wait: o.kind === 'wait' });
-    if (o.set) o.set(s);
-    item.rr = evalSteps(o.reply);
-    item.rr.forEach(st => { if (st.t === 'l') recordLine(st); });
-    if (o.account) { setAccount(o.account, o.log); if (o.account.who === 'mo') { item.restored = true; markRestored(); } }
-    if (o.wish) { const w = s.wishes[o.wish.id]; if (w) w.status = o.wish.status; }
-    tag(o.show);
-    if (o.focus) s.focus = o.focus;
-    item.next = o.next || null;
+    item.o = o.k;
+    s.readings[q.id] = o.k;
+    s.said.push({ k: isWord ? 'word' : 'reading', sc: s.scene, q: q.prompt, label: o.label });
+    if (o.account) setAccount(o.account);
     save();
     const old = flowEl.lastElementChild;
-    const node = renderItem(item, false);
+    const node = renderItem(item, true);
     flowEl.replaceChild(node, old);
     applyArt(); drawAccount(!!o.account); drawControls();
-    const you = node.querySelector('.mo-you');
-    focusNew(you || node);
-    if (o.next && !(o.reply && o.reply.length)) advance();
-  }
-  function markRestored() {
-    for (let i = s.said.length - 1; i >= 0; i--) { const x = s.said[i]; if (x.sc === s.scene && x.setAside) { x.restored = true; break; } }
+    focusNew(node.querySelector('.mo-reading') || node);
   }
   function advance() {
     const item = s.trail[s.trail.length - 1];
-    const bt = beatOf(item.b);
-    let n = item.next || bt.next;
+    let n = beatOf(item.b).next;
     if (typeof n === 'function') n = n(s);
     if (!n) return;
     if (typeof n === 'object' && n.scene) return goScene(n.scene);
@@ -335,10 +351,10 @@
   }
   function goScene(id, first) {
     const prev = s.scene;
-    if (!first && prev && prev !== 'entry' && !C.scenes[prev].hub && !s.done.includes(prev)) s.done.push(prev);
+    if (!first && prev && C.scenes[prev] && !s.done.includes(prev)) s.done.push(prev);
     const prevMv = prev && C.scenes[prev] ? C.scenes[prev].mv : null;
     s.scene = id; s.trail = []; s.focus = null;
-    s.tags[id] = [];
+    s.tags[id] = [].concat(C.scenes[id].show || []);
     if (!s.order.includes(id)) s.order.push(id);
     save();
     const go = () => { renderStage(false); enterBeat(C.scenes[id].first); const t = sceneHead.querySelector('.mo-scene-title'); if (t) t.focus({ preventScroll: true }); };
@@ -348,53 +364,52 @@
     if (!node) return;
     node.setAttribute('tabindex', '-1');
     node.focus({ preventScroll: true });
-    node.scrollIntoView({ behavior: reduce() ? 'auto' : 'smooth', block: 'nearest' });
+    node.scrollIntoView({ behavior: reduce() ? 'auto' : 'smooth', block: 'start' });
   }
   function titleCard(m, then) {
     if (reduce()) { then(); return; }
     const card = el('div', { class: 'mo-card', role: 'presentation' }, el('p', { class: 'mo-card-k', text: 'Movement ' + m.n }), el('p', { class: 'mo-card-t', text: m.title }));
     let done = false;
-    const end = () => { if (done) return; done = true; card.classList.add('out'); setTimeout(() => card.remove(), 600); then(); };
+    const key = e => { if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') end(); };
+    const end = () => { if (done) return; done = true; document.removeEventListener('keydown', key); card.classList.add('out'); setTimeout(() => card.remove(), 600); then(); };
     card.addEventListener('click', end);
-    document.addEventListener('keydown', function k(e) { if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') { document.removeEventListener('keydown', k); end(); } });
+    document.addEventListener('keydown', key);
     document.body.append(card);
     setTimeout(end, 1700);
   }
 
-  /* ============================================================ WHAT WAS SAID */
+  /* ============================================================ THE RECORD */
   function openDrawer() {
     if (!drawer) return;
     drawer.innerHTML = '';
-    const close = () => { drawer.hidden = true; drawerBtn.setAttribute('aria-expanded', 'false'); drawerBtn.focus(); document.removeEventListener('keydown', esc_); };
     const esc_ = e => { if (e.key === 'Escape') close(); };
-    drawer.append(el('header', { class: 'mo-drawer-head' },
-      el('h2', { text: 'What was said' }),
-      el('button', { type: 'button', class: 'mo-bar-btn', onclick: close }, 'Close')),
-      el('p', { class: 'mo-drawer-lede', text: 'Every line in the order it was spoken, including the ones that were set aside, and every account as it changed. What you did is marked too. Reading this changes nothing.' }));
-    const wishes = Object.entries(s.wishes);
-    if (wishes.length) {
-      drawer.append(el('h3', { class: 'mo-drawer-sc', text: 'Her plans' }));
-      drawer.append(el('ul', { class: 'mo-plans' }, wishes.map(([, w]) => el('li', {}, el('p', { class: 'mo-plan-t', text: '“' + w.text + '”' }), el('p', { class: 'mo-plan-s', text: w.status })))));
+    const close = () => { drawer.hidden = true; drawerBtn.setAttribute('aria-expanded', 'false'); drawerBtn.focus(); document.removeEventListener('keydown', esc_); };
+    drawer.append(el('header', { class: 'mo-drawer-head' }, el('h2', { text: 'The record' }), el('button', { type: 'button', class: 'mo-bar-btn', onclick: close }, 'Close')),
+      el('p', { class: 'mo-drawer-lede', text: 'How she has been seen so far, how each moment is being told, and what you chose. Reading this changes nothing.' }));
+    const seenIds = s.seenIds.filter(id => C.seen[id]);
+    if (seenIds.length) {
+      drawer.append(el('h3', { class: 'mo-drawer-sc', text: 'Seen as' }));
+      seenIds.forEach(id => drawer.append(stepNode({ t: 'seen', id })));
     }
-    const byScene = [];
-    s.said.forEach(x => { let g = byScene.find(g => g.sc === x.sc); if (!g) byScene.push(g = { sc: x.sc, items: [] }); g.items.push(x); });
-    if (!byScene.length) drawer.append(el('p', { class: 'mo-empty', text: 'Nothing yet.' }));
-    byScene.forEach(g => {
+    const wishes = Object.values(s.wishes);
+    if (wishes.length) {
+      drawer.append(el('h3', { class: 'mo-drawer-sc', text: 'What she asked for' }));
+      drawer.append(el('ul', { class: 'mo-plans' }, wishes.map(w => el('li', {}, el('p', { class: 'mo-plan-t', text: w.text }), el('p', { class: 'mo-plan-s', text: w.status })))));
+    }
+    const groups = [];
+    s.said.forEach(x => { if (x.k === 'event') return; let g = groups.find(g => g.sc === x.sc); if (!g) groups.push(g = { sc: x.sc, items: [] }); g.items.push(x); });
+    if (groups.length) drawer.append(el('h3', { class: 'mo-drawer-sc', text: 'The account, and your choices' }));
+    groups.forEach(g => {
       const sc = C.scenes[g.sc];
-      drawer.append(el('h3', { class: 'mo-drawer-sc', text: `${sc.title} · ${sc.place}` }));
+      drawer.append(el('p', { class: 'mo-drawer-scene', text: sc.title + ' · ' + sc.place }));
       const ol = el('ol', { class: 'mo-said' });
       g.items.forEach(x => {
-        if (x.k === 'line') ol.append(el('li', { class: 'said-line' + (x.setAside ? ' aside' : ''), 'data-who': x.who },
-          el('span', { class: 'said-who', text: who(x.who) + (x.en ? ' · in English' : '') }),
-          el('span', { class: 'said-t', text: x.text }),
-          x.setAside ? el('span', { class: 'said-note', text: x.restored ? 'Set aside, then returned to the account.' : 'Set aside. It did not reach the account.' }) : null));
-        if (x.k === 'account') ol.append(el('li', { class: 'said-account' },
-          el('span', { class: 'said-who', text: 'The account became' + (x.who === 'none' ? '' : x.who === 'mo' ? ', in her words' : ', in ' + who(x.who) + '’s version') }),
-          el('span', { class: 'said-t', text: x.text })));
-        if (x.k === 'you') ol.append(el('li', { class: 'said-you' }, el('span', { class: 'said-who', text: 'You' }), el('span', { class: 'said-t', text: x.text })));
+        if (x.k === 'account') ol.append(el('li', { class: 'said-account', 'data-who': x.who }, el('span', { class: 'said-who', text: 'The account became, in ' + (x.who === 'mo' ? 'her terms' : who(x.who) + '’s terms') }), el('span', { class: 'said-t', text: x.text })));
+        if (x.k === 'reading' || x.k === 'word') ol.append(el('li', { class: 'said-you' }, el('span', { class: 'said-who', text: x.k === 'word' ? 'You kept the word' : 'Your reading' }), el('span', { class: 'said-t', text: x.label + ' · ' + x.q })));
       });
       drawer.append(ol);
     });
+    if (!seenIds.length && !groups.length) drawer.append(el('p', { class: 'mo-empty', text: 'Nothing yet.' }));
     drawer.hidden = false;
     drawerBtn.setAttribute('aria-expanded', 'true');
     drawer.focus();

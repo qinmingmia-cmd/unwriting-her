@@ -1,408 +1,254 @@
 /* Before She Answers: the Moon Orchid chapter. Authored content only.
-   Nothing here quotes Maxine Hong Kingston. Events from The Woman Warrior ("At the Western Palace") are retold;
-   every line of dialogue is written for this game. Rules and presentation live in chapter.js and art.js.
 
-   A scene is a set of beats. A beat shows its steps, may set the account (the version of events that will be
-   told), may displace one of Moon Orchid's lines with someone else's version, and ends with choices or Continue.
-   Steps: N(text) narration · L(who, text, opts) a spoken line. Either can be a function of state returning null. */
+   The Woman Warrior (1976) is in copyright, so nothing here quotes Kingston. Every passage marked "Retold" is a
+   close paraphrase of an event in "At the Western Palace", in this game's words, with no invented events or speech.
+   Where the book reports what someone said, the paraphrase reports it; it does not script it.
+
+   Markup: [[visible words|clueId]] opens a note; *words* is italic.
+   Steps:  R(text)   a retold passage from the chapter
+           N(text)   the game's own connecting line (kept short, never adds events)
+           SEEN(id)  a "Seen as" pair: how she is seen, set against what the text shows
+   A beat may carry a reading (choose an interpretation; the analysis follows) or a word (whose word the account keeps). */
 (function () {
   'use strict';
+  const CH = 'Ch. 4 · At the Western Palace';
+  const R = (text, o) => Object.assign({ t: 'r', text, cite: CH }, o || {});
   const N = text => ({ t: 'n', text });
-  const L = (who, text, o) => Object.assign({ t: 'l', who, text }, o || {});
-  const EN = { en: true };   // spoken in English; everything else between the sisters is in Chinese
+  const SEEN = id => ({ t: 'seen', id });
 
   const WHO = {
-    mo: { name: 'Moon Orchid' },
-    bo: { name: 'Brave Orchid' },
-    niece: { name: 'Her daughter', long: 'Moon Orchid’s daughter' },
-    daughter: { name: 'The eldest daughter', long: 'Brave Orchid’s eldest daughter' },
-    son: { name: 'The eldest son', long: 'Brave Orchid’s eldest son' },
-    father: { name: 'Brave Orchid’s husband' },
-    none: { name: 'No one' },
-    you: { name: 'You' }
+    mo: { name: 'Moon Orchid' }, bo: { name: 'Brave Orchid' }, niece: { name: 'Moon Orchid’s daughter' },
+    children: { name: 'Brave Orchid’s children' }, none: { name: 'No one' }
+  };
+  const MOVEMENTS = { I: { n: 'I', title: 'Arrivals' }, II: { n: 'II', title: 'A Place in the Household' }, III: { n: 'III', title: 'The Rehearsal' } };
+
+  /* ------------------------------------------------------------------ notes */
+  const clues = {
+    c_noI: { tier: 'annotation', text: 'Every other chapter of *The Woman Warrior* has an “I” in it. This one does not. The narrator who tells the rest of the book disappears, and the chapter is told in the third person, like a story heard rather than lived.\n\nIn the next chapter she admits it: she was not there for the confrontation in Los Angeles. Her brother told the story to her sister, and her sister told her. The account of Moon Orchid reaches us third-hand.' },
+    c_versions: { tier: 'criticism', by: 'Boardman, 1991', text: 'Kathleen Boardman points out that the meeting between Moon Orchid and her husband exists in two versions, the one told in this chapter and the brother’s plainer one in the next, and that Kingston declines to choose between them. The book’s point is not which version is true but that every account of Moon Orchid has passed through someone else.' },
+    c_aloft: { tier: 'annotation', text: 'Brave Orchid believes her attention holds the plane up. It is magical thinking, and also an exact description of how this family works: people stay aloft because someone concentrates on them.\n\nKeep the idea in mind. The chapter that follows is about what happens to a woman when the attention holding her up is withdrawn.' },
+    c_shaman: { tier: 'criticism', by: 'VanSpanckeren, 1991', text: 'In the previous chapter, “Shaman,” Brave Orchid is a heroine: a doctor trained in China who sits up all night in a haunted room and talks a ghost away. Kathryn VanSpanckeren reads “At the Western Palace” as a cautionary sequel to that chapter. The same force of will that defeated a ghost in China is about to be turned on her sister in America.' },
+    c_ship: { tier: 'context', text: 'Her son is serving in the war in Vietnam. Brave Orchid adds his ship to the plane she is already holding up, and gets a headache. The war is the book’s background in this chapter; it is also another son of the household whom no one can see.' },
+    c_niece: { tier: 'context', text: 'Brave Orchid brought her niece to America too, by arranging her marriage to a Chinese American. That marriage is what let Moon Orchid follow. Moon Orchid’s journey was planned in advance by her sister, using her daughter’s marriage as the route.' },
+    c_young: { tier: 'annotation', reflect: 'young', text: 'Brave Orchid is looking for the sister she remembers. The woman she claims is young and wears Western clothes, which is to say she fits the picture, not the person. It takes the niece to correct her: her mother will look much older.\n\nThe first thing that happens to Moon Orchid in America is that she is not recognized.' },
+    c_old: { tier: 'annotation', text: 'The sisters have not seen each other for decades, and each is shocked by the other’s age. In the car to Stockton they keep returning to it, as if the shock has to be repeated to be believed.\n\nAge matters to the argument of this chapter. A woman in her sixties, arriving to reclaim a marriage, is arriving into a country and a family that have already decided what her future can hold.' },
+    c_famulan: { tier: 'annotation', text: 'Fa Mu Lan is the woman warrior of the book’s second chapter, the heroine the narrator imagines becoming: trained in the mountains, avenging her village, the words of her family’s grievances carved into her back.\n\nHere she arrives as a paper cutout, a present from Hong Kong for children who handle it at once. The warrior of the book’s title enters this chapter flat, decorative and given away, and in this chapter no one will fight.' },
+    c_chin: { tier: 'criticism', by: 'Chin, 1991', text: 'Frank Chin attacked Kingston’s Fa Mu Lan as a fake: in “Come All Ye Asian American Writers of the Real and the Fake” he objected that she had grafted onto the heroine the tattooed back that belongs to the male general Yue Fei, and had served white readers a feminized, invented China. The quarrel is about who is entitled to retell a story, and how faithfully: the same question this chapter asks about Moon Orchid.' },
+    c_gods: { tier: 'annotation', text: 'Brave Orchid judges the gifts by an economy of luck. Too much generosity attracts envy, from gods as well as people. Extravagance is not just wasteful to her; it is dangerous.' },
+    c_wong: { tier: 'criticism', by: 'Wong, 1993', text: 'Sau-ling Cynthia Wong reads Asian American writing through a tension she calls Necessity and Extravagance. Necessity is survival, thrift and use; Extravagance is play, pleasure and expression that serve no purpose.\n\nThe two sisters divide almost exactly along this line. Moon Orchid has lived for thirty years on money sent from America and has never had to work. Brave Orchid runs a laundry. Each sister’s idea of what a person is for comes from the life she has had.' },
+    c_useful: { tier: 'annotation', text: 'Brave Orchid puts the useful presents away in the back bedroom, which is where Moon Orchid will sleep until a permanent plan has been made for her. The guest’s gifts are sorted by use, and so, in effect, is the guest.' },
+    c_bracelets: { tier: 'annotation', text: 'Jade bracelets for the girls, forbidden by their mother: they are too young, and would break them playing baseball. The gift is refused on the grounds of the American life the girls actually lead, which Moon Orchid has not seen.' },
+    c_sweet: { tier: 'context', text: 'In the welcoming ritual Brave Orchid insists on, the children are fed candy because a beginning must be sweet. They do not want it. The ceremony that is supposed to bless Moon Orchid’s arrival is performed on children who do not believe in it.' },
+    c_letters: { tier: 'annotation', text: 'Moon Orchid knows these young people from her sister’s letters, and checks the people against what she has read. It is what Brave Orchid did at the airport: matching a person to an account. Here, for once, Moon Orchid is the one holding the account.' },
+    c_narrate: { tier: 'annotation', reflect: 'narrate', text: 'She says aloud what they are doing, as they do it. They find it unbearable.\n\nIn a book about who gets to tell whose story, this is the one scene where Moon Orchid narrates other people to their faces. The discomfort it causes is the discomfort of being described by someone who has not asked.' },
+    c_milk: { tier: 'context', text: 'They look adults in the eye, accept compliments without denying them, eat meat half-cooked and smell of milk. To Moon Orchid these are signs of something animal. In the custom she grew up with, milk was for infants.\n\nIn this family, white Americans are “ghosts.” Moon Orchid, newly arrived, finds something unhuman in her own nieces and nephews. The book keeps turning the question of who counts as fully human around.' },
+    c_babies: { tier: 'context', text: 'Brave Orchid’s first two children died in China, before she emigrated; the book tells this in “Shaman.” Moon Orchid measures the living children against those two dead ones, and finds the dead ones sweeter. Her standard is the past.' },
+    c_defends: { tier: 'annotation', text: 'When Brave Orchid scolds the children for their manners and their clothes, it is Moon Orchid who takes their side. She is not only a critic of them, and she is not passive: in this scene she argues with her sister on someone else’s behalf.' },
+    c_laundry: { tier: 'context', text: 'For Chinese immigrants in the exclusion era, hand laundries were one of the few trades open to them, and laundry work became one of the most common Chinese American livelihoods. Brave Orchid was a doctor in China. In America she irons shirts from six in the morning.' },
+    c_americans: { tier: 'annotation', text: 'Moon Orchid calls the Chinese people she sees in Chinatown “Americans.” Brave Orchid finds this silly: they are overseas Chinese.\n\nIt is a disagreement about who belongs to which country, and the one with the authority to settle it is the sister who has lived here for decades.' },
+    c_chua: { tier: 'criticism', by: 'Chua, 1991', text: 'Cheng Lok Chua reads *ghost* in *The Woman Warrior* as a word with many referents: the dead, the uncanny, and, in the family’s speech, white Americans. In his reading, being a ghost can also be a chosen and productive estrangement, not only a loss of self.\n\nThe sisters’ quarrel over the word *Americans* is a quarrel over that map: who is solid, who is foreign, and who is the ghost.' },
+    c_scorch: { tier: 'annotation', text: 'At the iron she scorches a shirt and is sent to rest. Nothing in the book suggests she cannot learn. It is the heat, the speed and the fact that she has never worked.' },
+    c_crate: { tier: 'annotation', reflect: 'crate', text: 'She asks for company back to Chinatown. Her sister keeps working and sets out a crate for her to sit on. Moon Orchid’s request is answered with a seat beside the work.' },
+    c_mahjong: { tier: 'annotation', text: 'In Chinatown, Brave Orchid’s friends joke about blackmailing the husband, or beating him. Moon Orchid takes it as a joke and plays mahjong. The community has already turned her marriage into a story with a plot. She declines the plot and plays a game.' },
+    c_towels: { tier: 'annotation', text: 'Late in the afternoons, when the laundry has cooled, she folds towels. It is the one work she does here, and she can do it only once the room is bearable.' },
+    c_ready: { tier: 'annotation', text: 'The same question every day, and the same answer: not yet. Only one of the two is treated as information. The question is repeated until the answer stops mattering.' },
+    c_bigamy: { tier: 'annotation', text: 'Moon Orchid has read that an American man may not have two wives. She is right, and the husband will make exactly this argument in Los Angeles. Brave Orchid waves the law aside.\n\nThe one piece of knowledge Moon Orchid brings to the plan is accurate, and it is dismissed.' },
+    c_fricker: { tier: 'criticism', by: 'Fricker, 2007', text: 'Miranda Fricker writes that testimonial injustice “occurs when prejudice causes a hearer to give a deflated level of credibility to a speaker’s word.”\n\nWhether the word *prejudice* fits a loving sister is a fair question. But the pattern is visible: Moon Orchid says something true about the country she has just arrived in, and it carries no weight with the person making the plan.' },
+    c_glenn: { tier: 'context', by: 'Glenn, 1983', text: 'For about thirty years the husband has lived in America and sent money to his wife in Hong Kong, without ever asking her to join him. The sociologist Evelyn Nakano Glenn called this pattern the “split household”: for generations, exclusion laws kept Chinese wives out while their husbands worked in the United States, and families were held together by remittances across the Pacific.\n\nThe book makes this husband’s silence his own choice. But Moon Orchid has lived her whole married life inside the old shape of it.' }
   };
 
-  const MOVEMENTS = {
-    I: { n: 'I', title: 'Arrivals' },
-    II: { n: 'II', title: 'A Place in the Household' },
-    III: { n: 'III', title: 'The Rehearsal' }
+  /* ------------------------------------------------------------------ seen as */
+  const seen = {
+    young: { cite: 'The airport', as: 'A young woman in Western clothes, the sister Brave Orchid remembers.', by: 'Brave Orchid', text: 'A small, thin woman with grey hair in a knot, in a grey wool suit and pearls.' },
+    narrate: { cite: 'The house', as: 'An aunt who will not stop describing them.', by: 'Brave Orchid’s children', text: 'A newcomer learning a family she knew only from letters, out loud.' },
+    crate: { cite: 'The laundry', as: 'Someone to be given a seat while the work goes on.', by: 'Brave Orchid', text: 'A woman asking for company to go back to Chinatown.' }
   };
 
+  /* ------------------------------------------------------------------ scenes */
   const scenes = {};
 
-  /* ============================================================ I · ARRIVALS */
   scenes.arrivals = {
-    mv: 'I', title: 'Arrivals', place: 'San Francisco · the international arrivals hall', art: 'airport', first: 'a1',
+    mv: 'I', title: 'Arrivals', place: 'San Francisco International Airport', art: 'airport', first: 'a1',
     beats: {
-      a1: {
-        focus: 'bo',
+      a1: { focus: 'bo',
         steps: [
-          N('The board above the barrier turns its letters over with a sound like someone shuffling cards. HONG KONG, it says, and then, a long while later, LANDED.'),
-          N('Brave Orchid has been here since morning: nine hours in the molded chairs, then more hours at the rope while the passengers come through customs one at a time. She has brought food for everyone in paper bags. Her grown children have walked the terminal so many times they know which drinking fountain is cold.'),
-          N('Beside her stands her sister’s daughter, who lives in Los Angeles and has not seen her mother in years.')
+          N('[[This chapter is told without an “I”.|c_noI]] What follows is [[one version of it|c_versions]].'),
+          R('Brave Orchid is sixty-eight. She has taken a day off from the laundry and has been at the San Francisco airport for more than nine hours, waiting for the plane from Hong Kong that is bringing her younger sister. She has been awake since before it took off. All that time she has been [[keeping the plane in the air|c_aloft]] by concentrating on it.'),
+          R('Her grown children could drive, so they came, but they cannot sit still; they wander the terminal. Moon Orchid’s daughter, [[whom Brave Orchid also brought to America|c_niece]], sits quietly beside her.')
         ],
-        next: 'a2'
-      },
-      a2: {
-        focus: 'bo', show: ['coat'],
+        margin: ['c_shaman'],
+        next: 'a2' },
+      a2: { focus: 'bo',
         steps: [
-          N('Brave Orchid knows exactly what she is looking for: a young woman, slim, the sister she left behind. When a woman in a smart Western coat comes through the doors, she starts forward.'),
-          L('bo', 'There. That one.'),
-          L('niece', 'Mother is the small one. By the pillar. In gray.')
+          R('Soldiers and sailors pass through the terminal, and Brave Orchid thinks of her son, who is serving in Vietnam. Now [[she holds up his ship as well as the plane|c_ship]], and her head begins to ache.'),
+          R('When the passengers start to come through, she sees a young woman in Western clothes and decides that this is her sister. Her niece corrects her: her mother [[will look much older|c_young]].'),
+          R('Then a small, thin woman comes through, with grey hair in a knot, a grey wool suit and pearls. Brave Orchid is startled. Each sister is shocked at [[how old the other has become|c_old]], and all the way to Stockton in the car they keep exclaiming over it.', { show: ['arrived', 'bags'] }),
+          SEEN('young')
         ],
-        hint: 'Where you look is one of the few things you control in this story. The picture follows your attention.',
-        choices: [
-          { id: 'coat', label: 'Look at the woman in the smart coat', focus: 'coat', log: 'Looked where Brave Orchid was looking.',
-            reply: [N('The woman in the coat walks past them into someone else’s arms. Brave Orchid follows her with her eyes a moment longer than she needs to, as if the mistake might still correct itself.')] },
-          { id: 'pillar', label: 'Look at the small woman by the pillar', focus: 'mo', show: ['arrived'], log: 'Looked at the small woman by the pillar.',
-            reply: [N('She is thin, with gray hair in a knot, a gray wool suit and a string of pearls. She holds her handbag in front of her with both hands, the way people hold a ticket they have been told not to lose. She is looking up at the ceiling, which is very high, and her lips are moving, as if she is counting the lights.')] }
-        ],
-        next: 'a3'
-      },
-      a3: {
-        focus: 'mo', show: ['arrived'],
-        steps: [
-          N('Then the sisters are in front of each other, and for a moment neither of them says anything at all.'),
-          L('bo', 'You’re old. When did you get so old?'),
-          L('mo', 'You have Mother’s face now. Exactly hers. I nearly called you Mother.'),
-          L('bo', 'Nonsense. I look the same as ever.'),
-          N('They hold each other by the forearms, at arm’s length, the better to inspect the damage. Moon Orchid’s daughter laughs and cries at the same time and then apologizes for doing both.')
-        ],
-        next: 'a4'
-      },
-      a4: {
-        focus: 'mo', show: ['arrived', 'bags'],
-        steps: [
-          N('Moon Orchid turns to take in the hall: the glass, the silver chair legs, the strangers in pale raincoats crossing it in every direction at once.')
-        ],
-        displace: {
-          line: L('mo', 'Everyone here walks as if they’ve been told the building is about to—'),
-          over: L('bo', 'Your bags. Which ones are yours? The car is outside, it’s two hours to Stockton, and she hasn’t eaten.'),
-          account: { who: 'bo', text: 'She arrived tired, so we took her straight home.' },
-          explain: 'Brave Orchid’s version has gone to the top of the page. That is how this moment will be told. Moon Orchid’s sentence is still here, unfinished, and “What was said” keeps both.'
+        account: { who: 'niece', text: 'Her mother would look much older than that.' },
+        reading: {
+          id: 'young', prompt: 'Brave Orchid claims a young stranger as her sister. What does the mistake tell you?',
+          options: [
+            { k: 'time', label: 'Time', sub: 'Decades have passed; anyone would misremember.', text: 'True as far as it goes, and the book gives both sisters the same shock. But only one of them claimed a stranger. Brave Orchid was not just unsure; she was certain, and wrong, and needed her niece to correct her. The error has a direction: toward the sister who fits the picture.' },
+            { k: 'plan', label: 'A plan', sub: 'She is looking for a sister young enough for what she has planned.', text: 'Brave Orchid has already arranged the marriage that brought Moon Orchid over and will spend the chapter preparing her to reclaim a husband. A young woman in Western clothes looks like someone who could do that. The text does not say she reasoned like this; that link is yours. But the chapter supports it: from here on, Brave Orchid keeps seeing the sister the plan requires.' },
+            { k: 'unseen', label: 'Not seen', sub: 'The first thing America does to her is fail to recognize her.', text: 'This is the reading the chapter builds toward. At the airport her own sister does not know her; in Los Angeles her husband will not recognize her either. Notice who supplies the correction here: her daughter, the one person present who knows her as she now is. Notice, too, that it is a correction, not a recognition. Brave Orchid has to be told.', tier: 'annotation' },
+            { k: 'open', label: 'Cannot be said', sub: 'One glance at an airport proves nothing.', text: 'A fair caution. One misidentification in a crowd is a small thing. The chapter does not make much of it either; it moves straight on. It is the pattern that follows that will give it weight, which is why this game has started a list called *Seen as*.' }
+          ]
         },
-        choices: [
-          { id: 'finish', label: 'Ask Moon Orchid how everyone walks', focus: 'mo', log: 'Asked her to finish her sentence.',
-            reply: [L('mo', '…as if the building is about to leave without them.'),
-              N('Her daughter laughs. Even Brave Orchid makes a short sound through her nose, which in her counts as laughter, before she goes back to counting suitcases.')],
-            account: { who: 'mo', text: 'Everyone here walks as if the building is about to leave without them.' },
-            set: s => { s.f.joke = 'finished'; } },
-          { id: 'bags', label: 'Help find her bags', focus: 'bo', log: 'Helped with the bags while her sentence went unfinished.',
-            reply: [N('There are four suitcases and a cardboard box tied with string, all of them hers. By the time the last one is found, the sentence she began has gone, and nobody remembers she was about to say anything.')],
-            set: s => { s.f.joke = 'dropped'; } },
-          { id: 'wait', kind: 'wait', label: 'Wait', focus: 'mo', log: 'Waited. She finished the sentence to herself.',
-            reply: [N('No one asks. Moon Orchid watches a man run for a gate with his coat flying out behind him, and finishes the sentence anyway, quietly, mostly to herself.'),
-              L('mo', '…about to leave without them.'),
-              N('Nobody hears it but you. It does not get into the version of the day that the family will tell.')],
-            set: s => { s.f.joke = 'to-you'; } }
-        ],
-        next: { scene: 'drive' }
-      }
+        next: { scene: 'gifts' } }
     }
   };
 
-  scenes.drive = {
-    mv: 'I', title: 'The Drive', place: 'The valley road to Stockton', art: 'car', first: 'd1',
+  scenes.gifts = {
+    mv: 'II', title: 'Presents', place: 'Stockton · Brave Orchid’s house', art: 'living', first: 'g1', show: ['gifts'],
     beats: {
-      d1: {
-        focus: 'mo',
+      g1: { focus: 'mo',
         steps: [
-          N('Brave Orchid’s eldest son drives. The valley is flat and gold and goes on longer than seems reasonable. Moon Orchid keeps the cardboard box on her lap, though there is room in the trunk, because the presents are in it.'),
-          L('mo', 'In Hong Kong my window looked at the harbor. Here the whole window is sky.'),
-          L('bo', 'Wait until you see the laundry. No windows at all. Very sensible.'),
-          N('Her daughter, in the back seat beside her, translates the road signs that nobody asked her to translate, out of nerves.')
+          R('At the house, Brave Orchid wants to begin with a ceremony for luck. Moon Orchid wants to begin with her presents, and has everyone open them first. Among them are paper cutouts of [[Fa Mu Lan|c_famulan]], the woman warrior. The children start playing with theirs at once, in front of the giver, which their mother privately thinks greedy.'),
+          R('For her sister Moon Orchid has brought a silk dress lined with wool, which Brave Orchid thinks impractical. For the girls, [[jade bracelets, which their mother forbids|c_bracelets]]. Brave Orchid finds the whole display frivolous and extravagant, and worries that so much giving will draw the envy of [[jealous gods|c_gods]].')
         ],
-        next: 'd2'
-      },
-      d2: {
-        focus: 'bo',
+        margin: ['c_chin'],
+        next: 'g2' },
+      g2: { focus: 'bo',
         steps: [
-          N('Brave Orchid turns all the way round in the front seat, so that she can see her sister properly.'),
-          L('bo', 'Your husband lives in Los Angeles. A big house, I hear. A doctor. You will go to him and tell him who you are.')
+          R('The luck ceremony happens anyway. The children are fed candy, because [[a beginning must be sweet|c_sweet]], and they do not want to eat it.'),
+          R('Afterwards Brave Orchid takes the presents she considers [[useful|c_useful]] and stores them in the back bedroom. That is where Moon Orchid will stay, until a permanent plan has been made for her.')
         ],
-        displace: {
-          line: L('mo', 'I have only just arrived.'),
-          over: L('bo', 'She needs a little rest. Then we go.'),
-          account: { who: 'bo', text: 'She would rest a few days, and then we would go to Los Angeles.' }
+        margin: ['c_wong'],
+        word: {
+          id: 'gifts', prompt: 'How will the household remember what Moon Orchid brought?',
+          options: [
+            { k: 'bo', label: '“Extravagant things nobody needed.”', sub: 'Brave Orchid’s judgment', account: { who: 'bo', text: 'Frivolous presents, too many of them, and nothing useful.' },
+              text: 'This is the version the house actually adopts: the useful items go into storage, and the rest are judged frivolous. Keep in mind who is doing the sorting. A guest’s gifts are her way of arriving with something to offer. Brave Orchid’s categories, useful and useless, are about to be applied to the guest herself.' },
+            { k: 'mo', label: '“A present for each person.”', sub: 'What the gifts were to her', account: { who: 'mo', text: 'She had chosen something for each of us.' },
+              text: 'This keeps her intention in the account. Notice that the book never gives Moon Orchid a sentence explaining her gifts. Her meaning has to be inferred from what she did: she insisted on giving before anything else happened. If you keep this version, you are reading her through her actions, because the household recorded only its verdict.' }
+          ]
         },
-        margin: [
-          { tier: 'context', by: 'Evelyn Nakano Glenn, 1983', text: 'Moon Orchid and her husband have lived apart for about thirty years: he in America, she in Hong Kong, kept by the money he sends. The sociologist Evelyn Nakano Glenn called this arrangement the “split household.” For generations, exclusion laws let Chinese men work in the United States while making it very hard for their wives to follow, and families were held together by remittances across an ocean. The book makes this husband’s silence his own choice. But it is an old shape, and Moon Orchid has lived her whole adult life inside it.' }
-        ],
-        choices: [
-          { id: 'when', label: 'Ask when they mean to leave', focus: 'bo', log: 'Asked when they would leave. It became a date.',
-            reply: [L('bo', 'When her daughter goes back to Los Angeles, we go with her. Next week. The week after.'),
-              N('It sounds like a date now. Moon Orchid looks out at a field of something low and green, and does not correct it.')],
-            account: { who: 'bo', text: 'It was agreed: when her daughter went back to Los Angeles, we would all go together.' },
-            set: s => { s.f.plan = 'dated'; } },
-          { id: 'want', label: 'Ask Moon Orchid whether she wants to go', focus: 'mo', log: 'Asked her whether she wanted to go. Her answer was taken as a yes.',
-            reply: [N('Everyone in the car waits for her answer, which is a lot of people waiting for one answer.'),
-              L('mo', 'I want to see your house first. The children’s rooms. Where you buy your vegetables.', { wish: 'market' }),
-              L('bo', 'Of course you’ll see the house. Then Los Angeles.'),
-              N('It is not a yes. It is not quite a no. Brave Orchid hears a yes.')],
-            account: { who: 'bo', text: 'She said she would go, once she had seen the house.' },
-            set: s => { s.f.plan = 'asked'; } },
-          { id: 'box', label: 'Ask what is in the box', focus: 'mo', log: 'Turned the talk to the presents. Los Angeles was left for later.',
-            reply: [L('mo', 'Something for each of you. A dress for your mother—for you. I keep forgetting you are not Mother.'),
-              N('She lifts the lid an inch to make sure nothing has escaped. Brave Orchid says the trunk would have been perfectly safe. The question of Los Angeles stays folded in the front seat, like something that will be taken out again later.')],
-            account: { who: 'none', text: 'Nothing was settled in the car.' },
-            set: s => { s.f.plan = 'open'; } }
-        ],
-        next: { scene: 'morning' }
-      }
-    }
-  };
-
-  /* ============================================================ II · A PLACE IN THE HOUSEHOLD */
-  scenes.morning = {
-    mv: 'II', title: 'The Cupboard', place: 'Stockton · the kitchen, first morning', art: 'kitchen', first: 'm1',
-    beats: {
-      m1: {
-        focus: 'mo',
-        steps: [
-          N('The house is low and long, with a lawn that someone waters every evening whether it needs it or not. Brave Orchid and her husband leave for the laundry at six. By the time Moon Orchid comes into the kitchen in her suit and pearls, the coffee is cold and the house belongs to the grown children, who are not sure what to do with an aunt.'),
-          N('She opens the cupboard. Cups with handles and cups without; a cup from a gas station with a cartoon sun on it, grinning; and at the back, a thin white one with a blue rim and a chip so small you would have to know it was there.')
-        ],
-        choices: [
-          { id: 'sun', label: 'Hand her the gas-station cup', focus: 'mo', show: ['cup-sun'], log: 'Handed her the cup with the grinning sun.',
-            reply: [N('She turns it round to see the sun from every side.'),
-              L('mo', 'He looks very pleased with himself.'),
-              N('She drinks her tea from it with great seriousness, and from then on it is hers.')],
-            set: s => { s.f.cup = 'sun'; } },
-          { id: 'wait', kind: 'wait', label: 'Wait while she chooses', focus: 'mo', show: ['cup-white'], log: 'Waited while she chose a cup.',
-            reply: [N('She takes down the thin white cup from the back, the one nobody uses, and holds it to the window to see the light come through the rim. Then she rinses it, though it is clean, and sets it by the sink as if it has been assigned to her.')],
-            set: s => { s.f.cup = 'white'; } },
-          { id: 'good', label: 'Find her the good teacups', focus: 'son', show: ['cup-white'], log: 'Offered her the guest cups.',
-            reply: [L('son', 'Mom keeps the good ones in the dining room. For guests.', EN),
-              N('Moon Orchid looks at the guest cups in their glass cabinet and decides not to be a guest. She goes back to the cupboard and takes down the thin white cup from the very back.')],
-            set: s => { s.f.cup = 'white'; s.f.guestCups = true; } }
-        ],
-        next: { scene: 'household' }
-      }
-    }
-  };
-
-  scenes.household = {
-    mv: 'II', title: 'A Place in the Household', place: 'Stockton', art: 'house', first: 'h1', hub: true,
-    beats: {
-      h1: {
-        focus: 'mo',
-        steps: [
-          s => N(!s.done.length
-            ? 'The days fall into a shape quickly, the way days do in a house with a business attached. Brave Orchid is at the laundry from six. Her grown children come and go. Moon Orchid has to find a place in it, or be given one.'
-            : 'Later that week.')
-        ],
-        choices: [
-          { id: 'children', label: 'Stay at the house with the children', when: s => !s.done.includes('children'), next: { scene: 'children' }, log: 'Stayed at the house with the children.' },
-          { id: 'laundry', label: 'Go with her to the laundry', when: s => !s.done.includes('laundry'), next: { scene: 'laundry' }, log: 'Went with her to the laundry.' },
-          { id: 'evenings', label: 'The evenings', when: s => s.done.includes('children') && s.done.includes('laundry'), next: { scene: 'evenings' }, log: 'Stayed for the evenings.' }
-        ]
-      }
+        next: { scene: 'children' } }
     }
   };
 
   scenes.children = {
-    mv: 'II', title: 'The Children', place: 'Stockton · the living room', art: 'living', first: 'c1', returnTo: 'household',
+    mv: 'II', title: 'The Children', place: 'Stockton · Brave Orchid’s house', art: 'living', first: 'c1',
     beats: {
-      c1: {
-        focus: 'mo',
+      c1: { focus: 'mo',
         steps: [
-          N('Moon Orchid has decided that the way to learn her sister’s children is to watch them closely and say what she sees. Out loud. As it happens.'),
-          L('mo', 'Now she is reading. A thick book with no pictures. Now she turns the page. She reads very fast. Now she is frowning at me.'),
-          L('daughter', 'She’s doing it again.', EN),
-          L('son', 'Just let her. She’s jet-lagged.', EN),
-          N('The eldest daughter is home from college, studying at the dining table. The eldest son is making a sandwich with an energy that suggests he would like to be somewhere else.')
+          R('Moon Orchid studies her sister’s grown children closely, recalling what she knows of their habits [[from her sister’s letters|c_letters]]. She follows them about and [[says aloud what each of them is doing, as they do it|c_narrate]]. They find it maddening.'),
+          R('She watches them study, and cook with machines she has never used. She notices that they look adults straight in the eye, accept compliments, eat meat half-raw and [[smell of milk|c_milk]], and privately thinks them savage. Next to [[the two babies her sister lost in China|c_babies]], these living children seem sullen to her.'),
+          SEEN('narrate')
         ],
-        next: 'c2'
-      },
-      c2: {
-        focus: 'mo',
+        account: { who: 'children', text: 'Aunt would not stop describing us.' },
+        next: 'c2' },
+      c2: { focus: 'mo',
         steps: [
-          L('mo', 'In your mother’s letters you were the one who hid under the bed when visitors came. You still sit with your back to the wall.'),
-          N('The eldest daughter, who does sit with her back to the wall, closes her book.')
+          R('And yet, when Brave Orchid scolds the children for their manners and their clothes, [[it is Moon Orchid who defends them|c_defends]].')
         ],
-        displace: {
-          line: L('mo', 'Your mother wrote that you keep a notebook and won’t show anyone. Is it—'),
-          over: L('daughter', 'She’s bored. Somebody should take her to the laundry so she has something to do.', EN),
-          account: { who: 'daughter', text: 'Aunt was bored, so we found her something to do.' }
+        reading: {
+          id: 'narrate', prompt: 'Moon Orchid narrates the children to their faces. What is she doing?',
+          options: [
+            { k: 'symptom', label: 'An early sign', sub: 'Odd behavior that foreshadows her breakdown.', text: 'This is the family’s retrospective way of reading her, and the danger of it is that everything she did becomes evidence once the ending is known. Nothing in the text marks this as illness. It marks it as irritating. If you read it as a symptom, you are reading the first half of the chapter from the asylum backwards.' },
+            { k: 'learning', label: 'Learning them', sub: 'A newcomer making sense of strangers out loud.', text: 'The text supports this. She is checking the young people against her sister’s letters, the only account of them she has. Speaking what she sees is how she fixes it. It looks odd because she does in public what everyone else does privately.' },
+            { k: 'gaze', label: 'Looking back', sub: 'For once she is the one describing, not the one described.', text: 'This is the only scene in the chapter in which Moon Orchid holds the narrative and other people are its objects. Robert G. Lee (1991) reads the climax of the chapter as a matter of looking: her husband’s American way of seeing her is what silences her. Here, early, the direction is reversed, and the people being looked at do not like it.', tier: 'criticism', by: 'Lee, 1991' },
+            { k: 'open', label: 'Cannot be said', sub: 'The book gives the habit, not the reason.', text: 'Fair. Kingston reports the behavior and the irritation and never explains the motive. Notice that the irritation is recorded and the motive is not. The account of this scene, as the family would tell it, is the account of how she annoyed them.' }
+          ]
         },
-        choices: [
-          { id: 'letters', label: 'Ask Moon Orchid what else the letters said', focus: 'mo', log: 'Asked her what else the letters said.',
-            reply: [L('mo', 'That you were too thin. That you wrote things down and hid them. That your mother is proud of you and would never say so to your face.'),
-              N('The eldest daughter is quiet for a moment. Then she takes out the notebook she has been pretending not to have and turns it so her aunt can see a page, though Moon Orchid cannot read English.'),
-              L('mo', 'Such small writing. You must have a great deal to say.')],
-            account: { who: 'mo', text: 'Aunt knew things about us from Mother’s letters that we didn’t know she knew.' },
-            set: s => { s.f.knows = 'daughter'; } },
-          { id: 'drive', label: 'Offer to drive her to the laundry', focus: 'son', log: 'Offered to take her to the laundry. The morning was solved.',
-            reply: [N('It is a kind offer, and it solves the problem of the morning. Moon Orchid puts on her coat. In the car she says the streets here are very wide and that no one is walking on them, and asks where everyone is.'),
-              L('son', 'At work.', EN),
-              N('It answers the question without answering it.')],
-            set: s => { s.f.knows = 'son'; } },
-          { id: 'wait', kind: 'wait', label: 'Let her continue', focus: 'mo', log: 'Let her continue. She kept narrating until they laughed.',
-            reply: [L('mo', 'Now she is putting her book away. Now she is pretending to look for something. Now she is smiling, a little, though she would rather not.'),
-              L('daughter', 'I’m not smiling.', EN),
-              L('mo', 'Now she says she is not smiling.'),
-              N('Nobody translates this, and nobody needs to. The eldest son laughs so hard he has to put the sandwich down.')],
-            account: { who: 'mo', text: 'Aunt narrated us until we laughed.' },
-            set: s => { s.f.knows = 'both'; s.f.laughed = true; } }
-        ],
-        next: 'c3'
-      },
-      c3: {
-        focus: 'mo',
-        steps: [
-          N('Later, while the eldest son washes up, Moon Orchid stands in the kitchen doorway holding her handbag, though she is not going anywhere.'),
-          L('mo', 'Your mother says there is a Chinatown here. On Saturday, will someone take me? I want to see what they sell, and who is selling it.', { wish: 'saturday' }),
-          N('The question is addressed to the room. The room is mostly occupied with a frying pan.')
-        ],
-        choices: [
-          { id: 'daughter', label: 'Let the eldest daughter answer', when: s => s.f.knows === 'daughter' || s.f.knows === 'both', focus: 'daughter',
-            log: 'Left room for the eldest daughter to answer.',
-            reply: [L('daughter', 'Saturday morning. I’ll take you. We’ll go before it gets hot.'),
-              N('She writes it on the calendar by the telephone, in English, under a dentist’s appointment.')],
-            wish: { id: 'saturday', status: 'Promised by the eldest daughter, and written on the calendar.' },
-            set: s => { s.f.helper = 'daughter'; } },
-          { id: 'son', label: 'Ask the eldest son to take her', focus: 'son', log: 'Asked the eldest son to take her.',
-            reply: [L('son', 'Saturday? Sure. I mean, probably. If Mom doesn’t need the car.', EN),
-              N('Moon Orchid thanks him as if he has said yes.')],
-            wish: { id: 'saturday', status: 'Half-promised by the eldest son, if the car is free.' },
-            set: s => { s.f.helper = 'son'; } },
-          { id: 'mother', label: 'Say that Brave Orchid will take her', focus: 'son', log: 'Passed her request on to Brave Orchid.',
-            reply: [L('son', 'Mom’ll take you. She goes all the time.', EN),
-              N('This is true, and it means the request now belongs to Brave Orchid, who is at the laundry and has not heard it.')],
-            wish: { id: 'saturday', status: 'Passed on to Brave Orchid, who was not there to hear it.' },
-            set: s => { s.f.helper = 'none'; } }
-        ],
-        next: { scene: 'household' }
-      }
+        next: { scene: 'laundry' } }
     }
   };
 
   scenes.laundry = {
-    mv: 'II', title: 'The Laundry', place: 'Stockton · the family laundry', art: 'laundry', first: 'l1', returnTo: 'household',
+    mv: 'II', title: 'The Laundry', place: 'Stockton · the family laundry, and Chinatown', art: 'laundry', first: 'l1',
     beats: {
-      l1: {
-        focus: 'bo',
+      l1: { focus: 'bo',
         steps: [
-          N('The laundry is one long room: steam presses like great padded jaws, a sorting table, and shelves of finished bundles in brown paper, each tied with string and tagged with a paper ticket. The tubes overhead buzz. The heat rises from the machines and stays.'),
-          N('Brave Orchid has been here since six. She hands her sister a shirt and shows her the iron.'),
-          L('bo', 'Collar first. Then cuffs. Then the back, then the front. Then the next one.')
+          R('Brave Orchid and her husband open [[the laundry|c_laundry]] at six in the morning. She also walks her sister and her niece through Chinatown.'),
+          R('Moon Orchid looks at the Chinese people in the street and [[calls them Americans|c_americans]]. Brave Orchid thinks this is silly. They are overseas Chinese.')
         ],
-        next: 'l2'
-      },
-      l2: {
-        focus: 'mo', show: ['ironing'],
-        steps: [
-          N('Moon Orchid irons the collar with great care and great slowness, telling the shirt about its owner as she goes: a tall man, careful with money, who has had this shirt since before he married. She stops to tell her sister so. The iron stays where it is.'),
-          N('There is a smell, and then a brown iron-shaped mark on a white back.'),
-          L('bo', 'Aiya. Give it here.')
-        ],
-        next: 'l3'
-      },
-      l3: {
-        focus: 'mo', show: ['burned'],
-        steps: [],
-        displace: {
-          line: L('mo', 'The heat gets into my head. Let me fold instead. I am good at folding. In Hong Kong I folded everything my—'),
-          over: L('bo', 'She can’t manage the iron. She can sit. She’ll learn tomorrow.'),
-          account: { who: 'bo', text: 'She couldn’t manage the iron, so she sat on a crate and watched.' }
+        margin: ['c_chua'],
+        word: {
+          id: 'americans', prompt: 'Which word does the account keep for the people in Chinatown?',
+          options: [
+            { k: 'mo', label: '“Americans”', sub: 'Moon Orchid’s word', account: { who: 'mo', text: 'In Chinatown, she called the Chinese people Americans.' },
+              text: 'Her word describes what she sees: people at home in this country, in a way she is not. From Hong Kong, the diaspora looks American. It is also, from the woman who will soon be told she cannot belong here, an accurate observation about who belongs.' },
+            { k: 'bo', label: '“Overseas Chinese”', sub: 'Brave Orchid’s word', account: { who: 'bo', text: 'They are overseas Chinese, whatever she called them.' },
+              text: 'Her word insists that being Chinese survives emigration, and it is the word of someone who has spent decades here holding on to that. It is also the word with authority in this house. Notice which sister gets to settle what the people in the street are: the one who has lived here long enough to own the definitions.' }
+          ]
         },
-        margin: [
-          { tier: 'criticism', by: 'Sau-ling Cynthia Wong, 1993', text: 'Sau-ling Cynthia Wong reads Asian American writing through a tension she calls Necessity and Extravagance: on one side survival, thrift and use; on the other, play, pleasure and expression that serve no purpose. The laundry is a room built by Necessity, and the household measures everyone in it by use. Moon Orchid’s talk, her stories about the owners of shirts, belong to the other column. In this house that makes her look useless, not unwell.' }
-        ],
-        choices: [
-          { id: 'towels', label: 'Bring her the stack of clean towels', focus: 'mo', show: ['towels'], log: 'Brought her the towels she asked for.',
-            reply: [N('Moon Orchid folds the towels in thirds and then in half, smoothing each one twice, and builds a pile so square it might have been cut with a knife. It is not fast. It is very good.'),
-              L('bo', 'Too slow.'),
-              L('father', 'Look at that pile.'),
-              N('Brave Orchid looks, and says nothing, which is as close as she comes to agreeing.')],
-            account: { who: 'mo', text: 'She asked to fold, and she folded the towels better than any of us.' },
-            set: s => { s.f.task = 'towels'; } },
-          { id: 'crate', label: 'Set out a crate in the shade by the door', focus: 'mo', show: ['crate'], log: 'Set out the crate. She sat and watched.',
-            reply: [N('It is the coolest place in the room. Moon Orchid sits with her handbag on her knees and watches the street through the window, where LAUNDRY is painted in letters that read backwards from inside. She reads it from the wrong side, slowly, the way you read a word in a country you are only visiting.')],
-            set: s => { s.f.task = 'crate'; } },
-          { id: 'wait', kind: 'wait', label: 'Wait', focus: 'mo', show: ['tickets'], log: 'Waited. She found her own work.',
-            reply: [L('mo', 'I could do the tickets. Numbers I can read. Numbers are the same in every country.'),
-              N('Brave Orchid considers this for the length of one shirt. Then she pushes the box of tickets across the table.')],
-            account: { who: 'mo', text: 'She offered to sort the tickets, and the tickets got sorted.' },
-            set: s => { s.f.task = 'tickets'; } }
-        ],
-        next: 'l4'
-      },
-      l4: {
-        focus: 'mo',
+        next: 'l2' },
+      l2: { focus: 'mo', show: ['ironing'],
         steps: [
-          N('In the late afternoon the presses hiss less often. A customer comes in for his bundle, and while Brave Orchid finds it, Moon Orchid studies him openly: his hat, his shoes, the way he counts his change twice.'),
-          L('mo', 'That ghost does his own mending. Look at his cuff.'),
-          N('When he has gone, Brave Orchid admits that he does do his own mending, very badly, and the two sisters laugh: the same laugh, which neither of them has heard in thirty years.'),
-          s => L('mo', s.f.task === 'crate' ? 'Tomorrow I will come again. I will bring my own crate.' : 'Tomorrow I will come again and do the ' + (s.f.task === 'tickets' ? 'tickets' : 'towels') + '. And the day after.', { wish: 'tomorrow' })
+          R('In the laundry, Moon Orchid tries the ironing and [[scorches a shirt|c_scorch]]. She is sent to rest.', { show: ['burned'] }),
+          R('She would like someone to take her back to Chinatown. Brave Orchid keeps working, and [[sets out a crate for her to sit on|c_crate]].', { wish: 'chinatown', wishText: 'Company back to Chinatown.', wishStatus: 'Not given. Her sister went on working and set out a crate.' }),
+          SEEN('crate')
         ],
-        margin: [
-          { tier: 'annotation', by: '', text: 'In this family’s speech, the non-Chinese Americans around them are “ghosts”: the mail ghost, the taxi ghost, the man who does his own mending. Moon Orchid, newly arrived, reverses the map; the book has her call the Chinese people in Chinatown “Americans.” Who looks fully real depends on who is looking, and the person in this room who is hardest to see is the one doing the looking.' }
+        next: 'l3' },
+      l3: { focus: 'mo', show: ['crate', 'towels'],
+        steps: [
+          R('Later Brave Orchid does take her to Chinatown, where her friends joke about blackmailing the husband, or beating him up. Moon Orchid treats it as a joke, and [[plays mahjong|c_mahjong]].'),
+          R('After that, in the late afternoons, when the laundry has cooled, [[she folds towels|c_towels]]. Brave Orchid finds her slow.')
         ],
-        choices: [
-          { id: 'yes', label: 'Tell her it will be waiting', focus: 'bo', log: 'Told her the work would be waiting.',
-            reply: [L('bo', 'Come at three. Not earlier. Earlier is too hot for you.'),
-              N('It is an arrangement. It is small, and it is hers, and it has a time.')],
-            wish: { id: 'tomorrow', status: 'Taken up: three o’clock, every afternoon.' },
-            set: s => { s.f.three = true; } },
-          { id: 'wait', kind: 'wait', label: 'Wait', focus: 'bo', log: 'Waited. Brave Orchid went on with the tickets.',
-            reply: [N('Brave Orchid is already writing up the day’s tickets. The plan hangs in the steam for a while and settles nowhere.')],
-            wish: { id: 'tomorrow', status: 'Said aloud. No one answered.' } }
-        ],
-        next: { scene: 'household' }
-      }
+        reading: {
+          id: 'laundry', prompt: 'Brave Orchid finds her sister slow. What is the laundry measuring?',
+          options: [
+            { k: 'use', label: 'Usefulness', sub: 'A person is worth what she can do.', tier: 'criticism', by: 'Wong, 1993', text: 'This is Sau-ling Cynthia Wong’s Necessity at work. The laundry was built for survival, and the household values everyone in it by output. By that measure Moon Orchid fails, and the chapter lets you feel how quickly failing at a job slides into being a kind of person.' },
+            { k: 'class', label: 'A different life', sub: 'She has never worked; her sister always has.', text: 'The text supports this plainly. Moon Orchid has lived for thirty years on her husband’s remittances in Hong Kong. Brave Orchid trained as a doctor and now irons from six in the morning. The laundry measures the gap between two lives the same family produced, and treats the result as a fact about Moon Orchid’s nature.' },
+            { k: 'age', label: 'Age', sub: 'She is past the age of learning a hard trade.', text: 'Possible, but notice that her sister is older and works the presses all day. Age alone does not explain it. If you reach for age, ask why it is her age, and not Brave Orchid’s, that the scene seems to count.' },
+            { k: 'open', label: 'Cannot be said', sub: 'The book records the verdict, not a measure.', text: 'Fair. The book gives you the scorched shirt, the crate, the towels and the judgment that she is slow. What the judgment leaves out is the folded towels themselves: the work she did manage, on the terms she could manage it.' }
+          ]
+        },
+        next: { scene: 'evenings' } }
     }
   };
 
   scenes.evenings = {
-    mv: 'II', title: 'Evenings', place: 'Stockton · the dinner table', art: 'house', first: 'e1',
+    mv: 'II', title: 'Not Yet', place: 'Stockton · the weeks after', art: 'kitchen', first: 'e1',
     beats: {
-      e1: {
-        focus: 'bo',
+      e1: { focus: 'bo',
         steps: [
-          N('Every evening, over the rice, Brave Orchid asks her sister whether she is ready. Every evening Moon Orchid says not yet.'),
-          s => s.f.plan === 'dated'
-            ? N('“The trip we agreed on,” Brave Orchid calls it now, at dinner, in front of everyone. Nobody at the table can remember agreeing to anything, but the phrase has been said so often that it has become a fact about the family. (In “What was said” you can find the car, and the question that made it a date.)')
-            : s.f.plan === 'asked'
-              ? N('“After she has seen the house,” Brave Orchid reminds everyone. Moon Orchid has seen the house. She has seen every room in it twice.')
-              : N('Nothing was settled in the car, so it is settled at dinner instead, a little more each night, by the person who talks the most.'),
-          s => s.wishes.saturday && s.f.helper === 'daughter'
-            ? N('On Saturday morning the eldest daughter takes her aunt to Chinatown before it gets hot. It is the first thing in America that has happened exactly when Moon Orchid was told it would.')
-            : s.wishes.saturday && s.f.helper === 'son'
-              ? N('On Saturday Brave Orchid needs the car.')
-              : s.wishes.saturday ? N('Saturday comes and goes. No one remembers that anyone asked.') : null,
-          s => s.wishes.market && !s.wishes.saturday ? N('She has still not seen where her sister buys vegetables.') : null
+          R('Every day [[Brave Orchid asks her sister whether she is ready|c_ready]] to go to her husband, and every day Moon Orchid says no.', { wish: 'notyet', wishText: 'Not yet.', wishStatus: 'Said every day. It held until her daughter had to go home.' }),
+          R('For [[about thirty years|c_glenn]] the husband has sent Moon Orchid money, and never once asked her to come to him.')
         ],
-        next: { scene: 'previewEnd' }
-      }
+        next: 'e2' },
+      e2: { focus: 'bo',
+        steps: [
+          R('Then Moon Orchid’s daughter has to go back to Los Angeles, and Brave Orchid decides they will all go with her.'),
+          R('Moon Orchid has read that it is [[against the law|c_bigamy]] for an American man to have more than one wife. Brave Orchid says the law does not matter.')
+        ],
+        margin: ['c_fricker'],
+        word: {
+          id: 'law', prompt: 'Moon Orchid has the law right. What goes into the account of that evening?',
+          options: [
+            { k: 'bo', label: '“The law doesn’t matter.”', sub: 'Brave Orchid’s ruling', account: { who: 'bo', text: 'The law did not matter; she was his wife.' },
+              text: 'This is what happens in the book: the ruling stands and the trip goes ahead. Mark the moment. In Los Angeles the husband will use exactly the argument Moon Orchid raised here, and it will be decisive. Her knowledge was right, and it was not allowed to count.' },
+            { k: 'mo', label: '“She knew it was against the law.”', sub: 'What Moon Orchid knew', account: { who: 'mo', text: 'She knew, before anyone left, that the law was on his side.' },
+              text: 'Keeping her knowledge in the account changes what the trip to Los Angeles looks like: not a frightened woman pushed into a confrontation she did not understand, but a woman who understood it better than the person pushing her. The book gives you the evidence for this version. The household did not keep it.' }
+          ]
+        },
+        next: { scene: 'previewEnd' } }
     }
   };
 
-  /* end of the first preview; Movement III will replace this */
   scenes.previewEnd = {
-    mv: 'III', title: 'The Rehearsal', place: 'Preview ends here', art: 'house', first: 'p1', end: true,
+    mv: 'III', title: 'The Rehearsal', place: 'Next', art: 'kitchen', first: 'p1', end: true,
     beats: {
-      p1: {
-        focus: 'mo',
+      p1: { focus: 'bo',
         steps: [
-          N('Then Moon Orchid’s daughter says she has to go back to Los Angeles, and Brave Orchid says, Good, we will all go, and pulls a chair up to the kitchen table to explain to her sister exactly what she will say to her husband.'),
-          N('This is where the first preview stops. Movement III, the rehearsal, comes next.')
-        ]
-      }
+          R('After dinner, Brave Orchid begins to coach her sister in what she must say to her husband.'),
+          N('The first preview ends here. Movement III follows the coaching as the book gives it: the claim to be first wife, the advice to dye her hair and take a job, and Moon Orchid’s own suggestion that the second wife could stay and help with the housework. Then the drive to Los Angeles.')
+        ] }
     }
   };
 
   UH.MO = {
-    who: WHO, movements: MOVEMENTS, scenes, start: 'arrivals',
+    who: WHO, movements: MOVEMENTS, scenes, clues, seen, start: 'arrivals',
     title: 'Before She Answers',
     sub: 'Moon Orchid · from Maxine Hong Kingston’s The Woman Warrior (1976)',
-    notice: 'An interpretive adaptation. Some paths depart from the book.',
-    contentNote: 'This chapter includes abandonment, psychological distress, institutionalization and death. Distress is shown with restraint, never as a puzzle or a twist.',
+    notice: 'A close reading of “At the Western Palace.” Events are retold from the book; nothing is invented.',
+    contentNote: 'This chapter includes abandonment, psychological distress, institutionalization and death.',
     howTo: [
-      'You are listening to a family story, told and retold. You cannot change what anyone feels. You can choose where you look, ask, wait, or help.',
-      'At the top of the page is the account: how each moment will be told afterwards. Sometimes someone else’s version takes the place of Moon Orchid’s words.',
-      '“What was said” keeps every line in order, including the ones that were set aside, and what you did.'
-    ],
-    sourceNote: 'Events are retold in this game’s own words. No sentence of Kingston’s is quoted, and every line of dialogue is written for this chapter.'
+      'Each passage marked Retold is an event from the book, put in this game’s words. The Woman Warrior is still in copyright, so Kingston’s sentences are not quoted; speech is reported, never invented.',
+      'Underlined phrases open notes, marked by kind: annotation (this game’s reading), context (history outside the book), criticism (a named critic, paraphrased).',
+      'At key moments you choose a reading, or choose whose word the account keeps. The analysis follows your choice. Under the picture is the account: how each moment is being told. “Seen as” collects how she is seen, set against what the text shows.'
+    ]
   };
 })();

@@ -190,3 +190,71 @@ html:has(.view-mo), body:has(.view-mo) { background: var(--mo-paper); }
 @media (prefers-reduced-motion: reduce) {
   .view-mo *, .mo-card { animation: none !important; transition: none !important; }
 }
+
+/* ------------------------------------------------ the reading apparatus (same key as Bertha's chapter, in daylight) */
+.view-mo { --tier-retold: #3f6f5b; --tier-annotation: #574d44; --tier-context: #7a5232; --tier-criticism: #34557a; --tier-conjecture: #7a5232; }
+.mo-tier { font-family: var(--mo-sans); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tier-annotation); }
+.mo-tier[data-tier="retold"] { color: var(--tier-retold); }
+.mo-tier[data-tier="context"] { color: var(--tier-context); }
+.mo-tier[data-tier="criticism"] { color: var(--tier-criticism); }
+.mo-tier[data-tier="conjecture"] { color: var(--tier-conjecture); }
+.mo-key { display: flex; flex-wrap: wrap; gap: 0.5rem 1.2rem; margin-top: 0.6rem; }
+.mo-key .mo-tier { padding-left: 0.6rem; border-left: 3px solid currentColor; }
+.mo-blk { display: grid; gap: 0.7rem; }
+.mo-slips { display: grid; gap: 0.7rem; }
+.mo-slips:empty { display: none; }
+.mo-retold { margin: 0; padding: 0.15rem 0 0.15rem 1rem; border-left: 3px solid var(--tier-retold); }
+.mo-retold figcaption { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: baseline; margin-bottom: 0.25rem; }
+.mo-cite { font-family: var(--mo-sans); font-size: 0.74rem; color: var(--mo-ink-2); }
+.mo-retold-t p, .mo-narr p { margin: 0; font-size: 1.13rem; line-height: 1.62; }
+.mo-retold-t p + p, .mo-narr p + p { margin-top: 0.7rem; }
+.mo-narr p { font-family: var(--mo-sans); font-size: 0.95rem; color: var(--mo-ink-2); }
+.mo-clue { appearance: none; border: 0; padding: 0; margin: 0; background: none; font: inherit !important; color: inherit; cursor: pointer; text-align: inherit; border-bottom: 1.5px dotted var(--mo-tob); line-height: inherit; }
+.mo-clue:hover, .mo-clue.on { background: rgba(239, 207, 126, 0.35); }
+.mo-clue.seen { border-bottom-style: solid; border-bottom-color: rgba(122, 82, 50, 0.45); }
+.mo-slip { position: relative; padding: 0.85rem 2.4rem 0.95rem 1rem; border-radius: 10px; background: var(--mo-card); border: 1px solid var(--mo-rule); border-left: 4px solid var(--tier-annotation); box-shadow: 0 6px 16px -10px rgba(60, 40, 20, 0.3); animation: moArrive .35s cubic-bezier(.2, .7, .2, 1) both; outline: none; }
+.mo-slip[data-tier="context"] { border-left-color: var(--tier-context); }
+.mo-slip[data-tier="criticism"] { border-left-color: var(--tier-criticism); background: #f6f8fa; }
+.mo-slip[data-tier="conjecture"] { border-left-style: dashed; }
+.mo-slip-cap { margin: 0 0 0.35rem; display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: baseline; }
+.mo-slip-by { font-family: var(--mo-sans); font-size: 0.78rem; color: var(--mo-ink-2); }
+.mo-slip-t p { margin: 0; font-size: 1.02rem; line-height: 1.58; }
+.mo-slip-t p + p { margin-top: 0.6rem; }
+.mo-slip-x { position: absolute; top: 0.4rem; right: 0.4rem; width: 2rem; height: 2rem; border-radius: 50%; border: 0; background: none; cursor: pointer; font-size: 1.2rem; color: var(--mo-ink-2); }
+.mo-slip-x:hover { background: var(--mo-paper-2); }
+.mo-margin { display: grid; gap: 0.4rem; }
+.mo-margin-btn { justify-self: start; appearance: none; border: 1px dashed #cdbfa6; background: transparent; border-radius: 999px; padding: 0.4rem 0.9rem; min-height: 2.4rem; cursor: pointer; display: inline-flex; flex-wrap: wrap; gap: 0.5rem; align-items: baseline; }
+.mo-margin-btn:hover { background: var(--mo-card); border-style: solid; }
+.mo-margin-by { font-family: var(--mo-sans); font-size: 0.8rem; color: var(--mo-ink); }
+.mo-margin-more { font-family: var(--mo-sans); font-size: 0.78rem; color: var(--mo-ink-2); }
+.mo-margin-body { margin: 0; padding: 0; border: 0; background: none; }
+
+.mo-seen { padding: 0.8rem 0.9rem 0.9rem; border-radius: 12px; background: #eef3f5; border: 1px solid #cfdde4; }
+.mo-seen-cap { margin: 0 0 0.6rem; display: flex; justify-content: space-between; gap: 1rem; font-family: var(--mo-sans); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #3c5a6c; }
+.mo-seen-panes { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+.mo-pane { display: grid; gap: 0.25rem; align-content: start; padding: 0.6rem 0.7rem; border-radius: 8px; background: #fff; }
+.mo-pane.as { background: #f7f1e6; }
+.mo-pane-k { font-family: var(--mo-sans); font-size: 0.72rem; font-weight: 600; color: var(--mo-ink-2); }
+.mo-pane-t { font-size: 1rem; line-height: 1.45; }
+.mo-pane.as .mo-pane-t { font-style: italic; }
+
+.mo-reading { padding: 1rem 1.1rem 1.1rem; border-radius: 14px; background: var(--mo-card); border: 1px solid var(--mo-rule); display: grid; gap: 0.7rem; }
+.mo-reading.is-word { background: #fbf6ec; border-color: #e3d3b8; }
+.mo-reading-k { margin: 0; font-family: var(--mo-sans); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mo-tob); }
+.mo-reading-q { margin: 0; font-size: 1.22rem; line-height: 1.38; }
+.mo-choice { display: grid; gap: 0.15rem; }
+.mo-choice-l { font-family: var(--mo-serif); font-size: 1.1rem; }
+.mo-choice-s { font-family: var(--mo-sans); font-size: 0.86rem; color: var(--mo-ink-2); line-height: 1.4; }
+.mo-reading-pick { margin: 0; display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center; }
+.mo-stamp { display: inline-block; padding: 0.25rem 0.7rem; border: 2px solid #a3352a; border-radius: 4px; font-family: var(--mo-sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #a3352a; transform: rotate(-2deg); }
+.mo-stamp.thump { animation: moThump .35s cubic-bezier(.3, 1.6, .5, 1) both; }
+@keyframes moThump { from { transform: scale(1.5) rotate(-8deg); opacity: 0; } to { transform: rotate(-2deg); opacity: 1; } }
+.mo-reading-sub { font-family: var(--mo-sans); font-size: 0.86rem; color: var(--mo-ink-2); }
+.mo-others { border-top: 1px dashed var(--mo-rule); padding-top: 0.6rem; }
+.mo-others summary { cursor: pointer; font-family: var(--mo-sans); font-size: 0.86rem; font-weight: 500; min-height: 2rem; display: flex; align-items: center; }
+.mo-other { display: grid; gap: 0.4rem; margin-top: 0.7rem; }
+.mo-other-h { margin: 0; font-family: var(--mo-sans); font-size: 0.86rem; color: var(--mo-ink-2); }
+.mo-other-h b { color: var(--mo-ink); font-weight: 600; }
+.mo-drawer-scene { margin: 1rem 0 0.4rem; font-family: var(--mo-sans); font-size: 0.82rem; font-weight: 500; color: var(--mo-ink); }
+.mo-drawer .mo-seen { margin-bottom: 0.7rem; }
+@media (max-width: 560px) { .mo-seen-panes { grid-template-columns: 1fr; } }

@@ -300,6 +300,10 @@
     // dining table where the eldest daughter studies
     b += `<g transform="translate(560 690)">${shadowE(220, 170, 260, 18)}<path d="M0,0 L440,0 L470,40 L-30,40Z" fill="#a37b52"/><path d="M10,40 L20,170 M430,40 L420,170" stroke="${P.tob2}" stroke-width="10"/>
       <rect x="160" y="-20" width="90" height="20" fill="#f3eee3"/><rect x="170" y="-34" width="70" height="14" fill="${P.rust}"/><rect x="290" y="-12" width="60" height="12" fill="${P.jade2}"/></g>`;
+    // the presents from Hong Kong: paper, a folded silk dress, green paper cutouts of a warrior
+    b += `<g data-on="gifts" transform="translate(560 690)"><path d="M40,-6 L120,-6 L126,-30 L46,-30Z" fill="#d6e4dc"/><path d="M52,-30 L114,-30" stroke="#9dbfae" stroke-width="3"/>
+      ${[0, 1, 2].map(i => `<g transform="translate(${300 + i * 34} -6)"><path d="M0,0 L4,-30 L-2,-38 L6,-48 L12,-40 L10,-30 L20,-34 L14,-22 L16,0Z" fill="#5d8a76"/><circle cx="7" cy="-52" r="6" fill="#5d8a76"/><path d="M12,-46 L30,-64" stroke="#5d8a76" stroke-width="2.5"/></g>`).join('')}
+      <rect x="400" y="-24" width="40" height="18" fill="#b5654a"/><path d="M420,-24 L420,-6" stroke="#f1d58a" stroke-width="3"/></g>`;
     b += chair(500, 830, '#b08a5e', 1.1);
     b += person('daughter', 540, 820, { pose: 'sit', s: 0.9, book: '#f3eee3', on: '', who: 'daughter' });
     // the eldest son in the kitchen doorway with his sandwich
