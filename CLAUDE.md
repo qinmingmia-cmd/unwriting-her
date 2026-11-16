@@ -20,6 +20,7 @@ After Toni Morrison's *Playing in the Dark*: the madwoman serves as a mirror of 
 - Dark and gold, candlelit, with textures. The fonts are IM Fell English, Old Standard TT, Spectral and Courier Prime. Subtle colour in the imagery is fine.
 - Professional, not childish. No handwriting font in the UI. A script hand (Pinyon Script) is used only for objects that are genuinely handwritten, such as letters, notes and cards.
 - Women are drawn as sketched silhouettes with no face. No public-domain portraits or photos.
+- **Art direction going forward:** the prototypes' drawings were kept deliberately simple while the interactions were being tested. Future scenes should be far more detailed: layered shading, paper, ink and plaster textures, light falloff, period-accurate furniture and fabric, more objects per room, and consistent perspective. The author will send reference photos; use them for mood, period detail and composition, but don't trace or copy someone else's artwork.
 - Previous rejections: a colourful "kindergarten" bookshelf, Reenie Beanie, and the style of a reference video.
 
 ## Layout of this branch (`drafts`)
