@@ -165,6 +165,11 @@
     // the arrivals board, hung from the ceiling
     b += `<g><path d="M200,0 L200,128 M640,0 L640,128" stroke="#4e4a42" stroke-width="5"/><rect x="150" y="128" width="540" height="300" rx="6" fill="#3a3530"/><rect x="164" y="142" width="512" height="44" fill="#4a443e"/><text x="186" y="173" font-family="'Work Sans', Arial, sans-serif" font-size="22" font-weight="600" letter-spacing="6" fill="${P.sun}">ARRIVALS</text>
       ${flap(186, 202, 'HONOLULU  ON TIME')}${flap(186, 244, 'TOKYO     DELAYED')}${flap(186, 286, 'HONG KONG LANDED')}${flap(186, 328, 'MANILA    ON TIME')}${flap(186, 370, 'SYDNEY    1925   ')}</g>`;
+    // a clock over the doors, signs, a newsstand and a bin
+    b += clock(1375, 330, 30);
+    b += `<g transform="translate(700 130)"><rect width="300" height="44" fill="${P.jade2}"/><text x="150" y="30" text-anchor="middle" font-family="'Work Sans', Arial, sans-serif" font-size="20" font-weight="600" letter-spacing="4" fill="#f3eee3">BAGGAGE CLAIM  →</text></g>`;
+    b += `<g transform="translate(860 640)"><rect width="150" height="120" fill="#9c7a52"/><rect y="-16" width="150" height="20" fill="#b8473a"/>${[0, 1, 2, 3].map(i => `<rect x="${10 + i * 34}" y="16" width="28" height="40" fill="${['#f3eee3', '#e9dcb4', '#d6e4dc', '#f3eee3'][i]}"/>`).join('')}<rect x="10" y="66" width="130" height="40" fill="#7b5c40"/></g>`;
+    b += `<g transform="translate(1000 800)"><path d="M0,0 L40,0 L36,60 L4,60Z" fill="${P.steel}"/><ellipse cx="20" cy="0" rx="20" ry="5" fill="#9a9c98"/></g>`;
     // seats
     b += `<g>${[0, 1, 2, 3, 4].map(i => chair(70 + i * 74, 830, i % 2 ? P.tob : P.jade)).join('')}<rect x="54" y="890" width="380" height="8" fill="${P.chrome}"/></g>`;
     b += `<g transform="translate(222 820)"><path d="M0,0 L40,0 L36,-56 L4,-56Z" fill="#d8bf8f"/><path d="M50,0 L86,0 L83,-44 L52,-44Z" fill="#cfb27e"/><path d="M-60,6 C-50,-14 -10,-14 0,6Z" fill="#b7d0c1"/></g>`;
@@ -240,8 +245,12 @@
     // wall telephone and calendar
     b += `<g transform="translate(1320 260)"><rect x="0" y="0" width="70" height="120" rx="10" fill="${P.mustard}"/><rect x="-6" y="-14" width="82" height="30" rx="14" fill="#b38d3c"/><circle cx="35" cy="66" r="24" fill="#e9dcb4"/><path d="M35,120 C35,170 10,170 10,230" stroke="#3a3530" stroke-width="3" fill="none"/></g>`;
     b += `<g transform="translate(1160 200)"><rect x="0" y="0" width="120" height="150" fill="#fbf8f0"/><rect x="0" y="0" width="120" height="34" fill="${P.rust}"/>${[...Array(20)].map((_, i) => `<rect x="${8 + (i % 5) * 22}" y="${44 + Math.floor(i / 5) * 24}" width="18" height="18" fill="#efe8d8"/>`).join('')}</g>`;
+    // the rice cooker, a fruit bowl, a dish rack
+    b += `<g transform="translate(580 470)"><path d="M0,0 L70,0 L66,-50 L4,-50Z" fill="#e9e4da"/><ellipse cx="35" cy="-50" rx="34" ry="8" fill="#d8d3c8"/><rect x="28" y="-62" width="14" height="8" rx="3" fill="#9a9c98"/></g>`;
+    b += `<g transform="translate(1080 470)"><path d="M0,0 L110,0 L104,-40 L6,-40Z" fill="#c9cdc8" opacity=".9"/>${[0, 1, 2, 3].map(i => `<ellipse cx="${20 + i * 24}" cy="-40" rx="10" ry="28" fill="#f6f2e8" stroke="#c9c6bb"/>`).join('')}</g>`;
     // floor and table
     b += R(0, 640, 1600, 360, 'url(#mo-lino)');
+    b += `<g transform="translate(700 750)"><ellipse cx="0" cy="0" rx="70" ry="18" fill="#f3eee3"/><circle cx="-24" cy="-14" r="18" fill="#e3a14f"/><circle cx="10" cy="-18" r="17" fill="#c8b84a"/><circle cx="34" cy="-10" r="15" fill="#b8473a"/></g>`;
     b += `<g transform="translate(300 760)">${shadowE(380, 230, 420, 26)}<path d="M0,0 L760,0 L800,60 L-40,60Z" fill="url(#mo-check)"/><path d="M-40,60 L800,60 L800,80 L-40,80Z" fill="#a9c4b5"/><path d="M20,80 L30,230 M740,80 L730,230" stroke="${P.chrome}" stroke-width="10"/></g>`;
     // the people
     b += person('son', 1180, 900, { s: 1.04, flip: true, arm: 'down' });
@@ -304,6 +313,10 @@
     b += `<g data-on="gifts" transform="translate(560 690)"><path d="M40,-6 L120,-6 L126,-30 L46,-30Z" fill="#d6e4dc"/><path d="M52,-30 L114,-30" stroke="#9dbfae" stroke-width="3"/>
       ${[0, 1, 2].map(i => `<g transform="translate(${300 + i * 34} -6)"><path d="M0,0 L4,-30 L-2,-38 L6,-48 L12,-40 L10,-30 L20,-34 L14,-22 L16,0Z" fill="#5d8a76"/><circle cx="7" cy="-52" r="6" fill="#5d8a76"/><path d="M12,-46 L30,-64" stroke="#5d8a76" stroke-width="2.5"/></g>`).join('')}
       <rect x="400" y="-24" width="40" height="18" fill="#b5654a"/><path d="M420,-24 L420,-6" stroke="#f1d58a" stroke-width="3"/></g>`;
+    // a sofa under the photographs, a standing lamp, a plant, a rug
+    b += `<g transform="translate(180 600)">${shadowE(160, 140, 200, 14)}<rect x="0" y="40" width="320" height="70" rx="12" fill="#7ea38f"/><rect x="0" y="0" width="320" height="56" rx="14" fill="#8db19c"/><rect x="-14" y="20" width="30" height="96" rx="10" fill="#6f957f"/><rect x="304" y="20" width="30" height="96" rx="10" fill="#6f957f"/><path d="M20,110 L14,140 M300,110 L306,140" stroke="${P.tob2}" stroke-width="6"/><rect x="200" y="14" width="70" height="40" rx="8" fill="#e9dcb4"/></g>`;
+    b += lamp(1260, 760, 320, true) + plant(1180, 770, 0.9);
+    b += `<ellipse cx="760" cy="900" rx="420" ry="70" fill="#b5654a" opacity=".35"/><ellipse cx="760" cy="900" rx="360" ry="54" fill="none" stroke="#f1d58a" stroke-width="4" opacity=".5"/>`;
     b += chair(500, 830, '#b08a5e', 1.1);
     b += person('daughter', 540, 820, { pose: 'sit', s: 0.9, book: '#f3eee3', on: '', who: 'daughter' });
     // the eldest son in the kitchen doorway with his sandwich
@@ -347,6 +360,11 @@
       <g data-on="burned"><path d="M96,-16 L126,-16 C132,-16 134,-12 134,-10 L96,-10Z" fill="#7a5232" opacity=".8"/></g>
       <g data-on="towels">${[0, 1, 2, 3, 4, 5].map(i => `<rect x="${250}" y="${-16 - i * 12}" width="100" height="12" fill="${i % 2 ? '#f6f1e2' : '#e9f0ea'}"/>`).join('')}</g>
       <g data-on="tickets"><rect x="250" y="-34" width="90" height="34" fill="${P.tob}"/>${[0, 1, 2, 3].map(i => `<rect x="${258 + i * 20}" y="-46" width="14" height="22" fill="#fbf8f0"/>`).join('')}</g></g>`;
+    // steam pipes along the ceiling, a rack of finished shirts on hangers, string and spools, a wall calendar
+    b += `<path d="M0,96 L1600,96 M0,112 L1600,112" stroke="#9aa8a4" stroke-width="8"/>${[200, 520, 840].map(x => `<rect x="${x}" y="90" width="18" height="28" fill="#7b8a86"/>`).join('')}`;
+    b += `<g transform="translate(560 430)"><path d="M0,0 L420,0" stroke="#5c6a66" stroke-width="6"/>${[...Array(9)].map((_, i) => `<g transform="translate(${20 + i * 46} 0)"><path d="M0,0 L0,10 M-14,22 L0,10 L14,22" stroke="#5c6a66" stroke-width="2.4" fill="none"/><path d="M-20,22 L20,22 L24,96 L-24,96Z" fill="${i % 3 ? '#fbfaf6' : '#e3ebee'}"/><path d="M-8,22 L0,34 L8,22" fill="#e0e0d8"/></g>`).join('')}</g>`;
+    b += `<g transform="translate(1000 640)"><rect x="0" y="-60" width="30" height="40" rx="6" fill="#e9e4da"/><rect x="40" y="-52" width="24" height="32" rx="6" fill="#d8ccb2"/><path d="M15,-60 C30,-90 60,-80 70,-110" stroke="#c9b48a" stroke-width="2" fill="none"/></g>`;
+    b += `<g transform="translate(1180 30)"><rect width="100" height="70" fill="#fbf8f0"/><rect width="100" height="18" fill="${P.rust}"/>${[...Array(12)].map((_, i) => `<rect x="${8 + (i % 6) * 15}" y="${26 + Math.floor(i / 6) * 18}" width="11" height="12" fill="#efe8d8"/>`).join('')}</g>`;
     // the counter with its bell and ticket box, front right
     b += `<g transform="translate(1080 700)"><rect x="0" y="0" width="420" height="30" fill="#9c7a52"/><rect x="10" y="30" width="400" height="260" fill="${P.jade2}"/><rect x="30" y="54" width="360" height="210" fill="none" stroke="#4c7563" stroke-width="3"/><path d="M340,0 C340,-24 380,-24 380,0Z" fill="${P.chrome}"/><circle cx="360" cy="-26" r="4" fill="${P.chrome}"/><rect x="40" y="-34" width="90" height="34" fill="${P.tob}"/></g>`;
     // the crate by the door
@@ -359,5 +377,200 @@
     return wrap(b, 'The family laundry: two steam presses, shelves of finished bundles in brown paper with tickets, jade tile, fluorescent tubes, and a shop window with LAUNDRY painted backwards');
   }
 
-  UH.MOart = { airport, car, kitchen, house, living, laundry };
+  /* ------------------------------------------------------------ shared detail */
+  const plant = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})">${shadowE(0, 0, 34, 6)}<path d="M-24,0 L24,0 L30,-50 L-30,-50Z" fill="${P.rust}"/><path d="M-30,-50 L30,-50 L30,-58 L-30,-58Z" fill="#a4553c"/>${[[-40, -150, -10], [0, -190, 0], [36, -150, 10], [-60, -110, -30], [56, -104, 30], [18, -140, 6], [-20, -170, -4]].map(([dx, dy, r]) => `<path d="M0,-58 C${dx * 0.3},${(dy - 58) / 2} ${dx},${dy + 20} ${dx},${dy}" stroke="#5d7e4f" stroke-width="4" fill="none"/><ellipse cx="${dx}" cy="${dy}" rx="20" ry="9" transform="rotate(${r - 30} ${dx} ${dy})" fill="${['#6f9561', '#5d8a56', '#7ea36b'][Math.abs(dx) % 3]}"/>`).join('')}</g>`;
+  const lamp = (x, y, h = 300, on = true) => `<g transform="translate(${x} ${y})">${on ? `<ellipse cx="0" cy="${-h + 30}" rx="140" ry="110" fill="url(#mo-pool)" opacity=".55"/>` : ''}<rect x="-3" y="${-h + 40}" width="6" height="${h - 40}" fill="#4a3a2a"/><ellipse cx="0" cy="0" rx="34" ry="7" fill="#4a3a2a"/><path d="M-46,${-h + 50} L46,${-h + 50} L30,${-h - 10} L-30,${-h - 10}Z" fill="${on ? '#f2deb0' : '#d9cdb4'}"/><path d="M-46,${-h + 50} L46,${-h + 50}" stroke="#c9b48a" stroke-width="3"/></g>`;
+  const clock = (x, y, r = 40) => `<g transform="translate(${x} ${y})"><circle r="${r}" fill="#fbf8f0" stroke="#4e4a42" stroke-width="5"/>${[...Array(12)].map((_, i) => `<path d="M0,${-r + 6} L0,${-r + 12}" stroke="#4e4a42" stroke-width="2.4" transform="rotate(${i * 30})"/>`).join('')}<path d="M0,0 L0,${-r * 0.55}" stroke="#2a2420" stroke-width="4"/><path d="M0,0 L${r * 0.5},${r * 0.2}" stroke="#2a2420" stroke-width="3"/></g>`;
+  const sedan = (x, y, s = 1, c = '#5d8a76', flip = false) => `<g transform="translate(${x} ${y}) scale(${flip ? -s : s} ${s})">${shadowE(0, 6, 300, 16)}
+    <path d="M-290,-30 C-290,-60 -270,-74 -230,-78 L-150,-82 C-110,-140 -60,-150 20,-150 L120,-150 C170,-150 200,-120 230,-84 L270,-78 C296,-72 304,-56 302,-30 L300,-10 L-288,-10Z" fill="${c}"/>
+    <path d="M-140,-84 C-104,-136 -60,-142 10,-142 L20,-84Z" fill="#c3d7e2"/><path d="M34,-84 L34,-142 L114,-142 C150,-142 176,-118 206,-84Z" fill="#c3d7e2"/>
+    <path d="M-140,-84 C-104,-136 -60,-142 10,-142" stroke="#fff" stroke-width="3" opacity=".5" fill="none"/>
+    <path d="M-290,-40 L302,-40" stroke="${P.chrome}" stroke-width="7"/><rect x="-300" y="-30" width="34" height="18" rx="4" fill="${P.chrome}"/><rect x="270" y="-30" width="38" height="18" rx="4" fill="${P.chrome}"/>
+    <circle cx="-180" cy="-10" r="40" fill="#2a2723"/><circle cx="-180" cy="-10" r="20" fill="${P.chrome}"/><circle cx="190" cy="-10" r="40" fill="#2a2723"/><circle cx="190" cy="-10" r="20" fill="${P.chrome}"/>
+    <path d="M-30,-60 L-10,-60" stroke="${P.chrome}" stroke-width="4"/><path d="M90,-60 L110,-60" stroke="${P.chrome}" stroke-width="4"/></g>`;
+  const palm = (x, y, h = 420, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})"><path d="M0,0 C6,-${h * 0.4} -6,-${h * 0.7} 4,-${h}" stroke="#8a7458" stroke-width="12" fill="none"/>${[-70, -40, -10, 20, 50, 80, 110, 150, 190, 230].map(a => `<path d="M4,-${h} q${Math.cos(a * Math.PI / 180) * 70},${Math.sin(a * Math.PI / 180) * 30 - 20} ${Math.cos(a * Math.PI / 180) * 120},${Math.sin(a * Math.PI / 180) * 60 + 20}" stroke="#6f8a52" stroke-width="7" fill="none" stroke-linecap="round"/>`).join('')}</g>`;
+  Object.assign(LOOK, {
+    husband: { coat: '#262a30', coat2: '#1d2025', skirt: '#262a30', hair: '#141210', legs: '#262a30', man: true, slim: 1.06, h: 1.08 },
+    recep: { coat: '#f2c9cc', coat2: '#e2aeb3', skirt: '#f7f2ee', hair: '#5a3a28', legs: '#efe2d6', bob: true, slim: 0.9, h: 1, dress: true },
+    gown: { coat: '#cfdccb', coat2: '#b6c8b2', skirt: '#cfdccb', hair: '#7d7770', legs: '#d8cbb6', bun: true, slim: 0.9, h: 0.92, dress: true },
+    narrator: { coat: '#cbbf9f', coat2: '#b3a684', skirt: '#4a4a55', hair: P.hair, legs: '#c8b8a2', long: true, slim: 0.9, h: 1 }
+  });
+
+  /* ============================================================ DINNER: the plan, after dinner */
+  function dinner() {
+    let b = '';
+    b += R(0, 0, 1600, 1000, '#d9caa6');
+    b += R(0, 0, 1600, 640, '#e2d3b0');
+    // night window
+    b += `<rect x="1080" y="150" width="380" height="290" fill="#27324a"/><circle cx="1380" cy="210" r="22" fill="#e9e3c9" opacity=".85"/>${[[1130, 260], [1210, 300], [1300, 240], [1420, 320]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2" fill="#e9e3c9"/>`).join('')}<path d="M1080,400 C1180,380 1300,392 1460,370 L1460,440 L1080,440Z" fill="#1d2738"/><rect x="1070" y="140" width="400" height="310" fill="none" stroke="#f3ebd8" stroke-width="18"/><rect x="1262" y="140" width="10" height="310" fill="#f3ebd8"/>`;
+    // calendar, shelf with thermos and tea tin
+    b += `<g transform="translate(160 170)"><rect width="120" height="150" fill="#fbf8f0"/><rect width="120" height="34" fill="${P.rust}"/>${[...Array(20)].map((_, i) => `<rect x="${8 + (i % 5) * 22}" y="${44 + Math.floor(i / 5) * 24}" width="18" height="18" fill="#efe8d8"/>`).join('')}</g>`;
+    b += `<rect x="380" y="250" width="420" height="14" fill="#9c7a52"/><rect x="400" y="190" width="40" height="60" rx="8" fill="#c94f3c"/><rect x="404" y="180" width="32" height="14" rx="4" fill="#e9e4da"/><rect x="470" y="206" width="50" height="44" fill="#5d8a76"/><rect x="540" y="214" width="34" height="36" rx="4" fill="#f1d58a"/><path d="M600,250 L600,200 L640,200 L640,250" fill="#e9e4da"/>`;
+    // the hanging lamp and its pool of light
+    b += `<path d="M800,0 L800,250" stroke="#4a3a2a" stroke-width="4"/><path d="M720,320 L880,320 L840,250 L760,250Z" fill="#f2deb0"/><ellipse cx="800" cy="560" rx="560" ry="300" fill="url(#mo-pool)" opacity=".6"/>`;
+    // floor
+    b += R(0, 640, 1600, 360, 'url(#mo-lino)');
+    // the table, covered in dishes
+    b += `<g transform="translate(330 640)">${shadowE(470, 250, 520, 30)}<path d="M0,0 L940,0 L990,90 L-50,90Z" fill="url(#mo-check)"/><path d="M-50,90 L990,90 L990,112 L-50,112Z" fill="#a9c4b5"/><path d="M30,112 L40,260 M910,112 L900,260" stroke="${P.chrome}" stroke-width="10"/>
+      ${[[120, 40], [300, 30], [520, 46], [700, 34], [850, 44]].map(([x, y]) => `<ellipse cx="${x}" cy="${y}" rx="44" ry="14" fill="#f6f2e8"/><ellipse cx="${x}" cy="${y - 4}" rx="30" ry="9" fill="${['#c9a46e', '#7ea36b', '#b5654a', '#e9dcb4', '#9a7a56'][x % 5]}"/>`).join('')}
+      ${[[200, 60], [420, 66], [620, 60], [780, 70]].map(([x, y]) => `<path d="M${x - 22},${y - 14} C${x - 22},${y + 10} ${x + 22},${y + 10} ${x + 22},${y - 14}Z" fill="#fbfaf6"/><path d="M${x - 22},${y - 12} L${x + 22},${y - 12}" stroke="#6f93ad" stroke-width="2"/><path d="M${x + 26},${y - 30} L${x + 60},${y}" stroke="#a37b52" stroke-width="3"/>`).join('')}
+      <path d="M470,20 C470,-14 530,-14 530,20Z" fill="#e9e4da"/><path d="M500,-14 L500,-28" stroke="#c9c6bb" stroke-width="4"/></g>`;
+    b += chair(160, 820, '#b08a5e', 1.1) + chair(1290, 820, '#b08a5e', 1.1);
+    // around the table: Brave Orchid standing, her sister seated, the niece at the end
+    b += person('mo', 420, 680, { pose: 'sit', s: 0.95, look: 'mo' });
+    b += person('niece', 1260, 690, { pose: 'sit', s: 0.92, flip: true, look: 'niece' });
+    b += person('bo', 860, 940, { arm: 'point', s: 1.08, flip: true });
+    return wrap(b, 'A kitchen table at night under a hanging lamp, covered in dishes; Brave Orchid on her feet explaining, her sister and her niece seated');
+  }
+
+  /* ============================================================ ROAD: south to Los Angeles */
+  function road() {
+    let b = '';
+    b += `<rect width="1600" height="1000" fill="url(#mo-sky)"/><rect width="1600" height="560" fill="#f2e2c0" opacity=".35"/>`;
+    // the city in haze, the old city hall tower
+    b += `<g fill="#b9c3c4" opacity=".85">${[[880, 330, 50, 200], [940, 360, 60, 170], [1010, 300, 46, 230], [1070, 380, 70, 150], [1150, 340, 52, 190], [1210, 390, 80, 140], [800, 380, 60, 150]].map(([x, y, w, h]) => `<rect x="${x}" y="${y}" width="${w}" height="${h}"/>`).join('')}<path d="M1005,300 L1033,240 L1061,300Z"/><rect x="1028" y="210" width="10" height="34"/></g>`;
+    b += `<path d="M0,500 C300,470 600,500 900,480 C1200,460 1400,490 1600,470 L1600,560 L0,560Z" fill="#c9b98f"/>`;
+    // freeway in perspective
+    b += `<path d="M0,560 L1600,560 L1600,1000 L0,1000Z" fill="#b7a27a"/><path d="M640,560 L960,560 L1500,1000 L100,1000Z" fill="#8f8a80"/><path d="M800,560 L800,600 M800,640 L800,700 M800,750 L800,840 M800,900 L800,1000" stroke="#f3eee3" stroke-width="10"/><path d="M700,560 L330,1000 M900,560 L1270,1000" stroke="#d9d3c4" stroke-width="5"/>`;
+    b += palm(220, 640, 380, 1) + palm(380, 600, 300, 0.8) + palm(1340, 630, 360, 0.95) + palm(1480, 660, 420, 1.05) + palm(560, 575, 160, 0.6) + palm(1090, 575, 160, 0.6);
+    // the family's car, from behind
+    b += `<g transform="translate(800 860)">${shadowE(0, 40, 260, 20)}<path d="M-230,30 L-230,-60 C-220,-110 -180,-150 -110,-160 L110,-160 C180,-150 220,-110 230,-60 L230,30Z" fill="#5d8a76"/><path d="M-160,-70 C-150,-120 -120,-140 -80,-144 L80,-144 C120,-140 150,-120 160,-70Z" fill="#c3d7e2"/>
+      <g class="fig" data-who="bo"><ellipse class="fig-light" cx="70" cy="-70" rx="70" ry="30" fill="url(#mo-pool)"/><circle cx="70" cy="-100" r="24" fill="${P.hair}"/><circle cx="56" cy="-116" r="10" fill="${P.hair}"/><circle cx="86" cy="-118" r="11" fill="${P.hair}"/></g>
+      <g class="fig" data-who="son"><circle cx="-70" cy="-100" r="22" fill="${P.hair}"/></g>
+      <g class="fig" data-who="mo"><ellipse class="fig-light" cx="0" cy="-60" rx="60" ry="24" fill="url(#mo-pool)"/><circle cx="10" cy="-84" r="18" fill="#857f78"/><circle cx="10" cy="-80" r="8" fill="#a39d95"/></g>
+      <rect x="-230" y="-10" width="460" height="20" fill="${P.chrome}"/><rect x="-210" y="-36" width="50" height="22" rx="4" fill="#b8473a"/><rect x="160" y="-36" width="50" height="22" rx="4" fill="#b8473a"/><rect x="-50" y="-30" width="100" height="22" fill="#f3eee3"/><circle cx="-170" cy="40" r="34" fill="#2a2723"/><circle cx="170" cy="40" r="34" fill="#2a2723"/></g>`;
+    b += sedan(1260, 760, 0.45, '#c9a24a') + sedan(380, 720, 0.38, '#b8473a', true);
+    return wrap(b, 'A freeway into Los Angeles in hazy sun, palm trees on both sides, the city towers ahead; the family’s green sedan from behind with three heads in it');
+  }
+
+  /* ============================================================ TOWER: the glass building */
+  function tower() {
+    let b = '';
+    b += `<rect width="1600" height="1000" fill="url(#mo-sky)"/>`;
+    // the building of glass and chrome
+    b += `<g><rect x="520" y="-20" width="720" height="820" fill="#9fb6c1"/>${[...Array(12)].map((_, i) => `<rect x="${540 + i * 58}" y="-20" width="8" height="820" fill="${P.chrome}"/>`).join('')}${[...Array(14)].map((_, i) => `<rect x="520" y="${30 + i * 56}" width="720" height="6" fill="${P.chrome}"/>`).join('')}
+      <path d="M520,-20 L900,-20 L520,560Z" fill="#fff" opacity=".18"/><path d="M1000,-20 L1240,-20 L1240,420Z" fill="#fff" opacity=".1"/>
+      ${[[600, 140], [714, 252], [886, 84], [1060, 364], [656, 476], [1120, 196]].map(([x, y]) => `<rect x="${x}" y="${y}" width="50" height="50" fill="#e9eef0" opacity=".55"/>`).join('')}
+      <rect x="1240" y="80" width="200" height="720" fill="#c8bfae"/>${[...Array(12)].map((_, i) => `<rect x="1262" y="${110 + i * 56}" width="156" height="26" fill="#a9b8bd"/>`).join('')}
+      <rect x="120" y="160" width="400" height="640" fill="#d9cdb5"/>${[...Array(10)].map((_, i) => [0, 1, 2, 3].map(j => `<rect x="${150 + j * 92}" y="${190 + i * 58}" width="60" height="34" fill="#b9c3c4"/>`).join('')).join('')}</g>`;
+    // the entrance and the directory board
+    b += `<rect x="760" y="620" width="240" height="180" fill="#2f3b42"/><rect x="772" y="632" width="104" height="168" fill="#9fb6c1"/><rect x="884" y="632" width="104" height="168" fill="#9fb6c1"/><rect x="700" y="596" width="360" height="26" fill="${P.chrome}"/>
+      <g transform="translate(1040 640)"><rect width="110" height="150" fill="#2b2723"/>${[...Array(9)].map((_, i) => `<rect x="12" y="${14 + i * 14}" width="${50 + (i * 23) % 36}" height="5" fill="#f3eee3" opacity=".8"/>`).join('')}</g>`;
+    // sidewalk and street
+    b += `<rect y="800" width="1600" height="60" fill="#d9d3c4"/><rect y="860" width="1600" height="140" fill="#8f8a80"/><path d="M0,930 L1600,930" stroke="#f3eee3" stroke-width="5" stroke-dasharray="60 50"/>`;
+    b += palm(120, 806, 420, 1) + palm(1480, 806, 460, 1.05);
+    // the green sedan at the curb, the two sisters in the back
+    b += sedan(560, 930, 0.95, '#5d8a76');
+    b += `<g class="fig" data-who="mo"><ellipse class="fig-light" cx="470" cy="830" rx="110" ry="40" fill="url(#mo-pool)"/><circle cx="470" cy="830" r="18" fill="#857f78"/><path d="M448,860 C450,840 490,840 492,860Z" fill="${P.gray}"/></g>`;
+    b += `<circle cx="560" cy="826" r="20" fill="${P.hair}"/>`;
+    // Brave Orchid walking toward the doors
+    b += person('bo', 880, 860, { arm: 'down', s: 0.9, bagged: true });
+    b += person('son', 960, 860, { s: 0.92, on: 'son' });
+    return wrap(b, 'A downtown Los Angeles tower of glass and chrome; the family’s green sedan at the curb with two grey heads in the back; Brave Orchid walking toward the doors');
+  }
+
+  /* ============================================================ CURB: the car */
+  function curb() {
+    let b = '';
+    b += `<rect width="1600" height="1000" fill="#9fb6c1"/>${[...Array(16)].map((_, i) => `<rect x="${i * 104}" y="0" width="8" height="620" fill="${P.chrome}"/>`).join('')}${[...Array(8)].map((_, i) => `<rect x="0" y="${40 + i * 74}" width="1600" height="6" fill="${P.chrome}"/>`).join('')}<path d="M0,0 L600,0 L0,500Z" fill="#fff" opacity=".14"/>`;
+    b += `<rect y="620" width="1600" height="80" fill="#d9d3c4"/><rect y="700" width="1600" height="300" fill="#8f8a80"/>`;
+    // the car in cutaway: the front seat as a wall between him and them
+    b += `<g transform="translate(800 900)">${shadowE(0, 10, 700, 26)}
+      <path d="M-700,-60 C-700,-120 -660,-150 -580,-156 L-420,-164 C-330,-330 -180,-350 0,-350 L240,-350 C350,-350 420,-290 480,-170 L600,-160 C670,-150 700,-120 700,-60 L700,-10 L-700,-10Z" fill="#5d8a76"/>
+      <path d="M-400,-170 C-320,-320 -190,-334 -40,-334 L-30,-170Z" fill="#c3d7e2" opacity=".6"/><path d="M0,-170 L0,-334 L230,-334 C330,-334 390,-280 450,-170Z" fill="#c3d7e2" opacity=".6"/>
+      <path d="M-640,-150 L640,-150 L640,-30 L-640,-30Z" fill="#7b5c40"/>
+      <path d="M-20,-290 L40,-290 L40,-40 L-20,-40Z" fill="#5c3d25"/><path d="M-20,-290 C-20,-310 40,-310 40,-290" fill="#5c3d25"/>
+      <path d="M-560,-240 L-500,-240 L-500,-40 L-560,-40Z" fill="#5c3d25"/>
+      <path d="M-700,-20 L700,-20" stroke="${P.chrome}" stroke-width="10"/>
+      <circle cx="-470" cy="-10" r="70" fill="#2a2723"/><circle cx="-470" cy="-10" r="34" fill="${P.chrome}"/><circle cx="480" cy="-10" r="70" fill="#2a2723"/><circle cx="480" cy="-10" r="34" fill="${P.chrome}"/></g>`;
+    // the two sisters in the back seat, the husband in front, turned half toward them
+    b += person('mo', 330, 768, { pose: 'sit', s: 1.12, look: 'mo' });
+    b += person('bo', 560, 768, { pose: 'sit', s: 1.16, look: 'bo' });
+    b += `<path d="M780,600 L846,600 L846,880 L780,880Z" fill="#5c3d25"/><path d="M780,600 C780,576 846,576 846,600" fill="#6b4a2f"/>`;
+    b += `<g data-on="husband">${person('husband', 1010, 768, { pose: 'sit', s: 1.2, flip: true, look: 'husband' })}</g>`;
+    // the son on the pavement
+    b += person('son', 1460, 700, { s: 0.92, flip: true });
+    return wrap(b, 'The green sedan at the curb in front of the glass tower, drawn in cutaway: the two old sisters in the back seat, the husband in a dark suit in the front, the high seat-back between them');
+  }
+
+  /* ============================================================ APARTMENT: Los Angeles, the windows covered */
+  function apartment() {
+    let b = '';
+    b += R(0, 0, 1600, 1000, '#a8a08d');
+    b += R(0, 0, 1600, 660, '#b7ae98');
+    // windows covered with blankets and newspaper
+    b += `<g><rect x="240" y="160" width="320" height="300" fill="#f2e2b0"/><rect x="240" y="160" width="320" height="300" fill="#6f6553"/>${[...Array(6)].map((_, i) => `<rect x="${250 + (i % 3) * 102}" y="${172 + Math.floor(i / 3) * 140}" width="96" height="132" fill="#d9d1bd" transform="rotate(${(i % 2 ? 2 : -2)} ${298 + (i % 3) * 102} ${238 + Math.floor(i / 3) * 140})"/>`).join('')}${[...Array(18)].map((_, i) => `<path d="M${262 + (i % 3) * 102},${190 + Math.floor(i / 3) * 22} l70,0" stroke="#8d8573" stroke-width="2"/>`).join('')}
+      <rect x="230" y="150" width="340" height="320" fill="none" stroke="#e7dfcc" stroke-width="14"/>
+      <rect x="900" y="150" width="380" height="320" fill="#4d5a5f"/><path d="M900,150 L1280,150 L1280,470 L900,470Z" fill="#7d6b5a"/><path d="M900,150 C980,260 1000,360 960,470 M1280,150 C1200,260 1180,360 1220,470" stroke="#5c4c3c" stroke-width="5" fill="none"/>
+      <rect x="1084" y="150" width="12" height="320" fill="#f2e2b0" opacity=".85"/><rect x="890" y="140" width="400" height="340" fill="none" stroke="#e7dfcc" stroke-width="14"/></g>`;
+    b += `<path d="M1084,470 L1096,470 L1200,1000 L1020,1000Z" fill="#f2e2b0" opacity=".35"/>`;
+    // the telephone on its table, the receiver off
+    b += `<g transform="translate(640 700)"><rect x="0" y="0" width="160" height="16" fill="#6e5536"/><path d="M14,16 L20,180 M146,16 L140,180" stroke="#6e5536" stroke-width="8"/><rect x="40" y="-40" width="80" height="40" rx="10" fill="#2b2723"/><path d="M90,-40 C120,-60 160,-30 170,20" stroke="#2b2723" stroke-width="3" fill="none"/><rect x="150" y="18" width="50" height="16" rx="7" fill="#2b2723" transform="rotate(20 175 26)"/></g>`;
+    // unwritten letters: a pad and envelopes, untouched
+    b += `<g transform="translate(980 760)"><rect width="200" height="12" fill="#6e5536"/><rect x="20" y="-10" width="70" height="10" fill="#efe6d2"/><rect x="100" y="-14" width="60" height="14" fill="#e9dfc6"/><path d="M100,-14 L130,-4 L160,-14" stroke="#c9b48a" fill="none"/></g>`;
+    b += R(0, 660, 1600, 340, '#8d8270');
+    // Moon Orchid seated in the dim room, her daughter at the doorway
+    b += chair(380, 840, '#6b5f4c', 1.1);
+    b += person('mo', 420, 830, { pose: 'sit', s: 0.88, look: 'mo' });
+    b += `<rect x="1380" y="260" width="160" height="400" fill="#d4c9b0"/>`;
+    b += person('niece', 1460, 660, { s: 0.92, flip: true });
+    b += `<rect width="1600" height="1000" fill="#1d1a16" opacity=".2" pointer-events="none"/>`;
+    return wrap(b, 'A dim apartment in Los Angeles: one window papered over, the other covered with a blanket, a telephone with its receiver off, a pad of letter paper untouched; Moon Orchid sitting alone, her daughter in the doorway');
+  }
+
+  /* ============================================================ NIGHT: the house in Stockton, lights out */
+  function night() {
+    let b = '';
+    b += `<rect width="1600" height="1000" fill="#1f2638"/>${[[200, 120], [420, 80], [700, 150], [980, 90], [1240, 140], [1480, 70], [1100, 40]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2.4" fill="#e9e3c9"/>`).join('')}`;
+    b += `<path d="M0,520 C200,480 420,500 640,470 C860,440 1100,480 1340,450 C1460,436 1540,446 1600,440 L1600,640 L0,640Z" fill="#26304a"/>`;
+    b += R(0, 640, 1600, 360, '#1d2a2a');
+    b += `<g transform="translate(160 330)"><path d="M-60,140 L520,40 L1300,40 L1400,140Z" fill="#3a3f4f"/><rect x="760" y="-20" width="70" height="90" fill="#2e3240"/><rect x="0" y="156" width="1300" height="300" fill="#4a4a50"/><rect x="0" y="140" width="1400" height="16" fill="#33363f"/>
+      <rect x="40" y="230" width="330" height="226" fill="#38302a"/><rect x="500" y="220" width="300" height="130" fill="#14161c"/><rect x="494" y="214" width="312" height="142" fill="none" stroke="#5a5a62" stroke-width="10"/>
+      <rect x="860" y="196" width="88" height="260" fill="#2f3e3a"/><rect x="1000" y="230" width="230" height="120" fill="#14161c"/><rect x="994" y="224" width="242" height="132" fill="none" stroke="#5a5a62" stroke-width="10"/>
+      <g class="fig" data-who="mo"><ellipse class="fig-light" cx="1115" cy="290" rx="80" ry="50" fill="url(#mo-pool)" opacity=".5"/><path d="M1100,350 C1098,320 1104,300 1115,292 C1126,300 1132,320 1130,350Z" fill="#6f6c67"/><circle cx="1115" cy="284" r="11" fill="#857f78"/></g></g>`;
+    b += `<g transform="translate(1440 820)"><path d="M0,0 C-10,-180 10,-340 -6,-560" stroke="#8d8a80" stroke-width="22" fill="none"/>${[[-120, -560, 120], [40, -620, 110], [-60, -700, 90], [90, -480, 90]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#2e3a33"/>`).join('')}</g>`;
+    b += `<ellipse cx="1060" cy="260" rx="140" ry="30" fill="#e9e3c9" opacity=".06"/>`;
+    return wrap(b, 'The house in Stockton at night with every light turned off; a small figure at a dark window');
+  }
+
+  /* ============================================================ ASYLUM: the day room */
+  function asylum() {
+    let b = '';
+    b += R(0, 0, 1600, 1000, '#c9d8c3');
+    b += R(0, 0, 1600, 300, '#dfe8da');
+    b += R(0, 300, 1600, 360, '#b6c8b2');
+    b += `<rect x="0" y="296" width="1600" height="8" fill="#9db29a"/>`;
+    // tall windows with wire glass
+    b += `${[180, 620, 1060].map(x => `<rect x="${x}" y="80" width="300" height="420" fill="#e9f0ee"/>${[...Array(9)].map((_, i) => `<path d="M${x},${100 + i * 46} L${x + 300},${100 + i * 46}" stroke="#c3d0cc" stroke-width="1.6"/>`).join('')}${[...Array(6)].map((_, i) => `<path d="M${x + 25 + i * 50},80 L${x + 25 + i * 50},500" stroke="#c3d0cc" stroke-width="1.6"/>`).join('')}<rect x="${x}" y="80" width="300" height="420" fill="none" stroke="#f3f5f0" stroke-width="14"/><rect x="${x + 146}" y="80" width="8" height="420" fill="#f3f5f0"/>`).join('')}`;
+    b += `${[180, 620, 1060].map(x => `<path d="M${x},660 L${x + 300},660 L${x + 440},1000 L${x + 100},1000Z" fill="#f4f7ef" opacity=".5"/>`).join('')}`;
+    b += clock(1500, 160, 44);
+    b += R(0, 660, 1600, 340, 'url(#mo-lino)');
+    b += `<rect x="0" y="660" width="1600" height="340" fill="#c9d8c3" opacity=".35"/>`;
+    // chairs along the wall, women in pale gowns
+    b += `${[120, 300, 760, 960, 1360].map(x => chair(x, 840, '#9fb3a9', 1.05)).join('')}`;
+    b += person('x', 160, 830, { pose: 'sit', s: 0.84, look: 'gown', who: 'others' });
+    b += person('x', 1000, 830, { pose: 'sit', s: 0.84, look: 'gown', who: 'others', flip: false });
+    b += person('x', 1400, 830, { pose: 'sit', s: 0.84, look: 'gown', who: 'others', flip: true });
+    b += person('mo', 340, 830, { pose: 'sit', s: 0.82, look: 'gown', who: 'mo' });
+    // Brave Orchid visiting, with a bag
+    b += person('bo', 620, 930, { s: 0.98, flip: true, bagged: true });
+    return wrap(b, 'A day room in a state hospital: pale green walls, tall wire-glass windows, chairs along the wall, women in pale gowns; Brave Orchid visiting with a bag');
+  }
+
+  /* ============================================================ TELLING: the narrator's desk */
+  function telling() {
+    let b = '';
+    b += R(0, 0, 1600, 1000, '#ece6d9');
+    b += `<g fill="none" stroke="#6e6658" stroke-width="2.4" stroke-linecap="round">
+      <path d="M280,680 L1320,680 L1380,760 L220,760Z"/><path d="M260,760 L270,980 M1340,760 L1330,980"/>
+      <path d="M560,670 L860,640 L900,700 L600,730Z"/><path d="M590,690 L860,664 M596,706 L866,680 M602,722 L780,704"/>
+      <path d="M940,676 L1000,560"/><path d="M1090,676 C1090,560 1250,560 1250,676"/><path d="M1170,560 L1170,300"/><path d="M1100,300 L1240,300 L1210,240 L1130,240Z"/>
+      <path d="M380,640 L470,640 L470,560 L380,560Z"/><path d="M394,576 L456,576 M394,592 L456,592 M394,608 L440,608"/>
+      <path d="M200,160 L520,160 L520,480 L200,480Z"/><path d="M360,160 L360,480 M200,320 L520,320"/></g>`;
+    b += `<g class="fig" data-who="narrator"><ellipse class="fig-light" cx="760" cy="760" rx="240" ry="50" fill="url(#mo-pool)"/><g fill="none" stroke="#2a2420" stroke-width="3" stroke-linecap="round"><path d="M700,660 C690,560 710,500 760,480 C810,500 830,560 820,660"/><circle cx="760" cy="444" r="34"/><path d="M730,430 C720,470 726,520 740,560 M790,430 C800,470 794,520 780,560"/><path d="M800,560 C840,600 860,630 880,660"/></g></g>`;
+    b += `<g opacity=".55">${[[1440, 300, 0.5], [1500, 420, 0.42], [120, 300, 0.48]].map(([x, y, s]) => `<g transform="translate(${x} ${y}) scale(${s})" fill="none" stroke="#8d8a80" stroke-width="5"><path d="M-30,0 C-36,-80 -24,-150 0,-170 C24,-150 36,-80 30,0Z"/><circle cx="0" cy="-196" r="24"/></g>`).join('')}</g>`;
+    return wrap(b, 'A bare line drawing: a writing desk with a lamp and loose pages, the narrator writing; faint outlines of three women in the margins');
+  }
+
+  UH.MOart = { airport, car, kitchen, house, living, laundry, dinner, road, tower, curb, apartment, night, asylum, telling };
 })();

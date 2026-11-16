@@ -271,3 +271,13 @@ html:has(.view-mo), body:has(.view-mo) { background: var(--mo-paper); }
 .mo-essay-h { margin: 1.4rem 0 0; font-family: var(--mo-sans); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mo-jade); }
 .mo-essay-body > p.mo-essay-note { font-family: var(--mo-sans); font-size: 0.92rem; line-height: 1.5; color: var(--mo-ink-2); padding: 0.7rem 0.9rem; border-radius: 10px; background: #f0e7d6; }
 .mo-essay-foot { margin-top: 2.4rem; }
+
+.mo-sofar { margin-top: 0.9rem; padding: 0.6rem 0.8rem; border-radius: 10px; background: var(--mo-paper-2); border-left: 3px double var(--mo-tob); }
+.mo-sofar-k { margin: 0; font-family: var(--mo-sans); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mo-tob); }
+.mo-sofar-t { margin: 0.2rem 0 0; font-style: italic; font-size: 1rem; line-height: 1.4; }
+.mo-sofar-by { margin: 0.1rem 0 0; font-family: var(--mo-sans); font-size: 0.74rem; color: var(--mo-ink-2); }
+.mo-plans li.refused .mo-plan-s { color: var(--mo-tob); }
+.mo-plans li.granted { background: #e3efe7; }
+.mo-stage[data-mv="III"] .mo-art-in svg { filter: saturate(0.85); }
+.mo-stage[data-mv="IV"] .mo-art-in svg { filter: saturate(0.55) brightness(0.97); }
+.mo-stage[data-mv="V"] .mo-art-in svg { filter: saturate(0.2) contrast(0.95); }

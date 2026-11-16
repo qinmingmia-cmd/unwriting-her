@@ -5,7 +5,7 @@
 (function () {
   'use strict';
   const UH = window.UH;
-  const KEY = 'unwriting-her:moon-orchid:v2', V = 2;
+  const KEY = 'unwriting-her:moon-orchid:v3', V = 3;
   const reduce = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const fresh = () => ({ v: V, scene: 'entry', trail: [], account: {}, said: [], wishes: {}, readings: {}, seenIds: [], opened: [], done: [], tags: {}, focus: null, order: [] });
@@ -159,7 +159,8 @@
     sceneHead = el('header', { class: 'mo-scene-head' },
       el('p', { class: 'mo-kicker', text: `Movement ${C.movements[sc.mv].n} · ${C.movements[sc.mv].title}` }),
       el('h2', { class: 'mo-scene-title', text: sc.title, tabindex: '-1' }),
-      el('p', { class: 'mo-place', text: sc.place }));
+      el('p', { class: 'mo-place', text: sc.place }),
+      soFar());
     flowEl = el('div', { class: 'mo-flow' });
     ctlEl = el('div', { class: 'mo-ctl' });
     drawer = el('aside', { class: 'mo-drawer', id: 'mo-said', 'aria-label': 'The record', hidden: true, tabindex: '-1' });
@@ -191,6 +192,12 @@
         const ids = s.seenIds.filter(id => C.seen[id]);
         body.append(el('p', { class: 'mo-essay-note', text: `You collected ${ids.length} of ${Object.keys(C.seen).length} so far. Each sets how she was seen against what the text shows.` }));
         ids.forEach(id => body.append(stepNode({ t: 'seen', id })));
+      } else if (x.wishes) {
+        const ws = Object.values(s.wishes), got = ws.filter(w => w.granted).length;
+        if (ws.length) {
+          body.append(el('p', { class: 'mo-essay-note', text: `She asked for ${ws.length} ${ws.length === 1 ? 'thing' : 'things'} in the course of the chapter. ${got === 0 ? 'None was granted.' : got === 1 ? 'One was granted: after the car, to stay at her daughter’s home.' : got + ' were granted.'}` }));
+          body.append(el('ul', { class: 'mo-plans' }, ws.map(w => el('li', { class: w.granted ? 'granted' : 'refused' }, el('p', { class: 'mo-plan-t', text: w.text }), el('p', { class: 'mo-plan-s', text: w.status })))));
+        }
       } else if (x.count) {
         const all = Object.values(s.account), hers = all.filter(a => a.who === 'mo').length;
         body.append(el('p', { class: 'mo-essay-note', text: !all.length ? 'No moment in your reading has been put into words yet.'
@@ -209,6 +216,21 @@
     window.scrollTo(0, 0);
     const h = root.querySelector('.mo-essay-t'); if (h) h.focus({ preventScroll: true });
   }
+
+  /* ---------- the thread between scenes: how the last scene is being told */
+  function soFar() {
+    const i = s.order.indexOf(s.scene);
+    for (let j = i - 1; j >= 0; j--) {
+      const prev = s.order[j], a = s.account[prev];
+      if (!a || !C.scenes[prev]) continue;
+      return el('div', { class: 'mo-sofar' },
+        el('p', { class: 'mo-sofar-k', text: 'Carried from ' + C.scenes[prev].title }),
+        el('p', { class: 'mo-sofar-t', text: a.who === 'none' ? a.text : '“' + a.text + '”' }),
+        el('p', { class: 'mo-sofar-by', text: termsOf(a.who) }));
+    }
+    return null;
+  }
+  const termsOf = w => w === 'none' ? 'In no one’s words' : w === 'mo' ? 'Kept in her terms' : who(w) + '’s terms';
 
   /* ---------- art */
   function applyArt() {
@@ -229,8 +251,8 @@
     accountEl.append(el('p', { class: 'mo-account-k', text: 'As it will be told' }));
     if (!a) { accountEl.append(el('p', { class: 'mo-account-t empty', text: 'Nothing here has been put into words yet.' })); return; }
     accountEl.append(
-      el('p', { class: 'mo-account-t' + (animate && !reduce() ? ' arriving' : ''), 'data-who': a.who, text: '“' + a.text + '”' }),
-      el('p', { class: 'mo-account-by', text: a.who === 'mo' ? 'Kept in her terms' : who(a.who) + '’s terms' }));
+      el('p', { class: 'mo-account-t' + (animate && !reduce() ? ' arriving' : ''), 'data-who': a.who, text: a.who === 'none' ? a.text : '“' + a.text + '”' }),
+      el('p', { class: 'mo-account-by', text: termsOf(a.who) }));
     const was = s.said.filter(x => x.k === 'account' && x.sc === s.scene).slice(0, -1);
     if (was.length) accountEl.append(el('div', { class: 'mo-account-was' }, el('p', { class: 'mo-account-k', text: 'Replaced' }),
       ...was.reverse().map(x => el('p', {}, el('s', { text: '“' + x.text + '”' }), el('span', { text: x.who === 'mo' ? ' · her terms' : ' · ' + who(x.who) })))));
@@ -351,7 +373,7 @@
     s.trail.push(item);
     item.r.forEach(st => {
       if (st.show) tag(st.show);
-      if (st.wish && !s.wishes[st.wish]) s.wishes[st.wish] = { text: st.wishText, status: st.wishStatus, sc: s.scene };
+      if (st.wish && !s.wishes[st.wish]) s.wishes[st.wish] = { text: st.wishText, status: st.wishStatus, granted: !!st.granted, sc: s.scene };
       if (st.t === 'seen' && !s.seenIds.includes(st.id)) s.seenIds.push(st.id);
       if (st.t === 'r') s.said.push({ k: 'event', sc: s.scene, text: plain(st.text) });
     });
@@ -431,7 +453,7 @@
     const wishes = Object.values(s.wishes);
     if (wishes.length) {
       drawer.append(el('h3', { class: 'mo-drawer-sc', text: 'What she asked for' }));
-      drawer.append(el('ul', { class: 'mo-plans' }, wishes.map(w => el('li', {}, el('p', { class: 'mo-plan-t', text: w.text }), el('p', { class: 'mo-plan-s', text: w.status })))));
+      drawer.append(el('ul', { class: 'mo-plans' }, wishes.map(w => el('li', { class: w.granted ? 'granted' : 'refused' }, el('p', { class: 'mo-plan-t', text: w.text }), el('p', { class: 'mo-plan-s', text: w.status })))));
     }
     const groups = [];
     s.said.forEach(x => { if (x.k === 'event') return; let g = groups.find(g => g.sc === x.sc); if (!g) groups.push(g = { sc: x.sc, items: [] }); g.items.push(x); });
@@ -441,7 +463,7 @@
       drawer.append(el('p', { class: 'mo-drawer-scene', text: sc.title + ' · ' + sc.place }));
       const ol = el('ol', { class: 'mo-said' });
       g.items.forEach(x => {
-        if (x.k === 'account') ol.append(el('li', { class: 'said-account', 'data-who': x.who }, el('span', { class: 'said-who', text: 'The account became, in ' + (x.who === 'mo' ? 'her terms' : who(x.who) + '’s terms') }), el('span', { class: 'said-t', text: x.text })));
+        if (x.k === 'account') ol.append(el('li', { class: 'said-account', 'data-who': x.who }, el('span', { class: 'said-who', text: 'The account became · ' + termsOf(x.who) }), el('span', { class: 'said-t', text: x.text })));
         if (x.k === 'reading' || x.k === 'word') ol.append(el('li', { class: 'said-you' }, el('span', { class: 'said-who', text: x.k === 'word' ? 'You kept the word' : 'Your reading' }), el('span', { class: 'said-t', text: x.label + ' · ' + x.q })));
       });
       drawer.append(ol);

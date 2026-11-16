@@ -23,7 +23,7 @@ def run(tag, picks, w=1440, h=900, shots=True, reduced=False):
                 pg.locator('.mo-card').first.click(); pg.wait_for_timeout(700)
         settle()
         picks = list(picks); steps = 0; n = 0
-        while steps < 120:
+        while steps < 220:
             steps += 1
             sc = pg.evaluate('UH._mo.state.scene')
             # open every note in the newest beat, and its margin notes
@@ -35,23 +35,20 @@ def run(tag, picks, w=1440, h=900, shots=True, reduced=False):
             mg = beat.locator('.mo-margin-btn[aria-expanded="false"]')
             for i in range(mg.count()):
                 beat.locator('.mo-margin-btn[aria-expanded="false"]').first.click(); pg.wait_for_timeout(60)
-            if pg.locator('.mo-end').count():
-                shot('end')
-                pg.get_by_role('button', name='Read the closing thesis').click(); pg.wait_for_timeout(500)
-                if not pg.locator('.mo-essay').count(): errors.append(f'[{tag}] thesis did not open')
+            if pg.locator('.mo-essay').count():
                 shot('thesis', full=True); break
             ch = pg.locator('.mo-choice')
             if ch.count():
                 n += 1
                 idx = picks.pop(0) if picks else 0
-                if n in (1, 3, 5): shot(f'{n:02d}-{sc}-q')
+                if n in (1, 3, 8, 9, 10, 12): shot(f'{n:02d}-{sc}-q')
                 ch.nth(idx % ch.count()).click(); pg.wait_for_timeout(300)
-                if n in (1, 3, 5): shot(f'{n:02d}-{sc}-a')
+                if n in (1, 3, 8, 9, 10, 12): shot(f'{n:02d}-{sc}-a')
                 o = pg.locator('.mo-others summary').last
                 if o.count(): o.click(); pg.wait_for_timeout(80)
                 continue
             if pg.locator('.mo-continue').count():
-                if steps in (2, 6): shot(f's{steps:02d}-{sc}', full=False)
+                shot(f'c-{sc}-{steps:03d}', full=False) if tag == 'a' else None
                 pg.locator('.mo-continue').click(); pg.wait_for_timeout(250); settle(); continue
             errors.append(f'[{tag}] stuck at {sc}'); shot('stuck'); break
         st = pg.evaluate('JSON.stringify({readings: UH._mo.state.readings, account: UH._mo.state.account, seen: UH._mo.state.seenIds, opened: UH._mo.state.opened.length, done: UH._mo.state.done})')
@@ -72,9 +69,9 @@ def run(tag, picks, w=1440, h=900, shots=True, reduced=False):
         if not pg.locator('.view-story').count(): errors.append(f'[{tag}] bertha did not open')
         b.close()
 
-A = [2, 1, 2, 0, 0, 1]
-B = [0, 0, 0, 1, 1, 0]
-Cc = [3, 1, 3, 0, 3, 1]
+A = [2, 1, 1, 3, 0, 0, 1, 0, 2, 1, 1, 1, 2]
+B = [0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0]
+Cc = [3, 1, 0, 4, 1, 3, 0, 3, 1, 3, 3, 3, 1]
 which = sys.argv[1:] or ['a', 'b', 'c', 'phone']
 if 'a' in which: run('a', A)
 if 'b' in which: run('b', B, shots=True)
