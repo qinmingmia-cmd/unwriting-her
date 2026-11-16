@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Unwriting Her</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="An interactive literary investigation into the women written as mad.">
@@ -5,6 +10,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=IM+Fell+English:ital@0;1&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Work+Sans:wght@400;500;600&display=swap">
 <style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+[hidden]{display:none!important}
+
 /* Layout: one reading column whose measure tightens in the attic and widens in the margin;
    the Record is a ledger drawn in from the right edge. A single candlelit look, chosen on purpose. */
 :root {
@@ -210,7 +219,7 @@ em { font-style: italic; }
 
 /* the glass */
 .glass { border: 1px solid #36404a; background: linear-gradient(90deg, rgba(170, 195, 219, 0.03), rgba(170, 195, 219, 0.07) 50%, rgba(170, 195, 219, 0.03)); padding: 0.8rem 0.9rem 0.9rem; }
-.glass-cap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.2rem 0.8rem; margin: 0 0 0.6rem; font-family: var(--f-label); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--glass); opacity: 0.85; }
+.glass-cap { display: flex; justify-content: space-between; gap: 0.8rem; margin: 0 0 0.6rem; font-family: var(--f-label); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--glass); opacity: 0.85; }
 .glass-panes { display: grid; grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr); gap: 0.9rem; align-items: start; }
 .glass-line { align-self: stretch; background: linear-gradient(180deg, transparent, var(--glass), transparent); opacity: 0.7; }
 .pane { display: grid; gap: 0.15rem; min-width: 0; }
@@ -402,98 +411,6 @@ button.wcard:hover { border-color: var(--tallow); }
 .page .ex-reveal.flash { animation: flash 1.2s ease; }
 @keyframes flash { 0% { background: rgba(220, 174, 103, 0.14); } 100% { background: transparent; } }
 
-
-/* ---------------------------------------------------------------- roles, rooms and the casebook */
-.role-chip { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; padding: 0.22rem 0.6rem; border: 1px solid rgba(220, 174, 103, 0.45); border-radius: 1rem; font-family: var(--f-label); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tallow); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.explore { display: grid; gap: 0.8rem; margin-top: 2.2rem; padding: 1.1rem 1.2rem 1.2rem; border: 1px solid var(--rule); background: var(--soot-2); }
-.explore[hidden] { display: none; }
-.explore-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
-.explore-count, .explore-done { margin: 0; font-family: var(--f-label); font-size: 0.72rem; color: var(--dim); font-variant-numeric: tabular-nums; }
-.explore .ex-btn { border-color: #4a3d30; }
-.explore .ex-btn:hover { border-color: var(--tallow); color: var(--tallow); }
-.ex-reveal.flash { animation: flash 1.2s ease; }
-@keyframes flash { 0% { background: rgba(220, 174, 103, 0.14); } 100% { background: transparent; } }
-.cap { align-items: baseline; }
-.pin-btn, .close-btn { appearance: none; margin-left: auto; padding: 0.1rem 0.45rem; border: 1px solid var(--rule); border-radius: 2px; background: none; cursor: pointer; font-family: var(--f-label); font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim); }
-.close-btn + .pin-btn { margin-left: 0; }
-.pin-btn:hover, .close-btn:hover { color: var(--tallow); border-color: var(--tallow); }
-.pin-btn.on { color: var(--tallow); border-color: rgba(220, 174, 103, 0.6); background: rgba(220, 174, 103, 0.08); }
-.close-btn { color: var(--glass); border-color: #36404a; }
-.close-btn[aria-pressed="true"] { background: rgba(170, 195, 219, 0.08); }
-mark.close { background: none; color: var(--glass); border-bottom: 1px solid var(--glass); padding: 0 0.05em; }
-.close-notes { list-style: none; margin: 0.8rem 0 0; padding: 0.8rem 0 0; border-top: 1px dotted #36404a; display: grid; gap: 0.45rem; font-size: 0.95rem; color: var(--faded); }
-.close-notes li { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 0.6rem; align-items: baseline; }
-.close-notes mark.close { justify-self: start; font-family: var(--f-display); font-style: italic; font-size: 1.05rem; }
-.check, .crossx, .cite { display: grid; gap: 0.7rem; padding: 1rem 1.1rem 1.1rem; border: 1px dashed #36404a; }
-.check-k { margin: 0; font-family: var(--f-label); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--glass); }
-.check-claim { margin: 0; font-family: var(--f-text); font-size: 1.12rem; line-height: 1.5; }
-.check-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.check-verdict { margin: 0; font-family: var(--f-display); font-style: italic; font-size: 1.2rem; }
-.check-verdict.ok { color: var(--glass); }
-.check-verdict.miss { color: var(--tallow); }
-.cross-qs { display: grid; gap: 0.5rem; }
-.cross-silence { margin: 0; font-family: var(--f-text); font-style: italic; color: var(--faded); }
-.cite-list { display: grid; gap: 0.45rem; margin-top: 0.4rem; }
-.cite-card { appearance: none; display: grid; gap: 0.2rem; text-align: left; padding: 0.6rem 0.75rem; background: transparent; border: 1px solid var(--rule); border-radius: 2px; cursor: pointer; }
-.cite-card:hover { border-color: var(--tallow); }
-.cite-card.on { border-color: var(--tallow); background: rgba(220, 174, 103, 0.08); }
-.cite-who { font-family: var(--f-label); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--dim); }
-.cite-card.on .cite-who { color: var(--tallow); }
-.cite-text { font-family: var(--f-text); font-size: 0.98rem; line-height: 1.45; color: var(--vellum); }
-.cite-more summary { cursor: pointer; font-family: var(--f-label); font-size: 0.74rem; color: var(--faded); }
-.glass-puzzle .pane.other.fog .pane-t { color: var(--dim); font-style: italic; font-family: var(--f-voice); font-size: 0.95rem; }
-.glass-opts { display: grid; gap: 0.4rem; margin-top: 0.8rem; }
-.glass-opt { appearance: none; text-align: left; padding: 0.5rem 0.7rem; background: transparent; border: 1px solid #36404a; border-radius: 2px; cursor: pointer; font-size: 1.05rem; }
-.glass-opt:hover:not(:disabled) { border-color: var(--glass); background: rgba(170, 195, 219, 0.06); }
-.glass-opt.wrong { opacity: 0.4; cursor: default; text-decoration: line-through; text-decoration-color: var(--wax); }
-.glass.clear { animation: clearGlass 1.4s ease both; }
-@keyframes clearGlass { from { filter: blur(3px); opacity: 0.4; } to { filter: none; opacity: 1; } }
-.glass.found { border-color: rgba(220, 174, 103, 0.55); }
-.plain-list { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.45rem; font-family: var(--f-text); font-size: 1.05rem; }
-.acts li.erased .act-t > span:first-child { text-decoration: line-through; text-decoration-color: var(--wax); color: var(--dim); }
-.act-gone { display: block; margin-top: 0.2rem; font-family: var(--f-label); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--wax); }
-.w-limit { grid-column: 1 / -1; display: flex; align-items: center; gap: 0.6rem; margin: 0; font-family: var(--f-label); font-size: 0.76rem; color: var(--tallow); }
-.candle-dot { width: 0.4rem; height: 0.8rem; border-radius: 50% 50% 45% 45%; background: radial-gradient(circle at 50% 70%, #fff3d6, var(--tallow) 60%, rgba(220, 174, 103, 0)); animation: flicker 3s ease-in-out infinite; }
-.wcard.closed { cursor: default; opacity: 0.45; background: transparent; }
-.wcard.night { border-color: rgba(170, 195, 219, 0.45); }
-.wcard.night .w-status { color: var(--glass); }
-.case-card { display: grid; gap: 0.4rem; padding: 0.7rem 0.8rem; border: 1px solid var(--rule); }
-.case-card.sel { border-color: var(--tallow); }
-.case-text { margin: 0; font-family: var(--f-text); font-size: 0.98rem; line-height: 1.5; }
-.case-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-.pair-builder { display: grid; gap: 0.6rem; margin-top: 0.6rem; padding: 0.9rem; border: 1px solid #36404a; background: rgba(170, 195, 219, 0.03); }
-.hand-input.small { min-height: 3.5rem; font-size: 1.05rem; padding: 0.6rem 0.8rem; }
-.pair-note { margin: 0.6rem 0 0; font-size: 1.05rem; }
-.margin-pair { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 1.2rem; align-items: start; }
-.margin-note { padding-left: 1rem; border-left: 1px solid var(--glass); }
-.margin-note p { margin: 0.4rem 0 0; font-size: 1.3rem; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; }
-@media (max-width: 700px) {
-  .margin-pair { grid-template-columns: minmax(0, 1fr); }
-  .close-notes li { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; }
-  .role-chip { font-size: 0.6rem; padding: 0.18rem 0.45rem; }
-  .bar { gap: 0.4rem; }
-  .bar .wordmark { font-size: 1rem; }
-  .bar-actions { flex: none; gap: 0; }
-  .bar-btn { padding: 0.4rem 0.4rem; }
-}
-
-
-/* ---------------------------------------------------------------- the page unfolds; the room answers */
-.reveal-next { appearance: none; justify-self: start; margin-top: 0.2rem; padding: 0.5rem 0.2rem; border: 0; background: none; cursor: pointer; font-family: var(--f-display); font-size: 1.4rem; letter-spacing: 0.3em; color: var(--tallow); animation: breathe 2.6s ease-in-out infinite; }
-.reveal-next:hover, .reveal-next:focus-visible { color: var(--vellum); }
-@keyframes breathe { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
-.gate-btn { appearance: none; display: inline-flex; align-items: center; gap: 0.75rem; justify-self: start; margin-top: 0.4rem; padding: 0.7rem 1.1rem 0.7rem 0.9rem; border: 1px solid rgba(220, 174, 103, 0.55); border-radius: 2px; background: rgba(220, 174, 103, 0.06); cursor: pointer; font-family: var(--f-display); font-style: italic; font-size: 1.2rem; color: var(--tallow); transition: background .25s, border-color .25s; }
-.gate-btn:hover, .gate-btn:focus-visible { background: rgba(220, 174, 103, 0.14); border-color: var(--tallow); }
-.gate-glyph { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--tallow); box-shadow: 0 0 10px 3px rgba(220, 174, 103, 0.5); animation: breathe 2s ease-in-out infinite; }
-.stage-dir { margin: 0; font-family: var(--f-display); font-style: italic; font-size: 1.08rem; color: var(--dim); }
-.stage-dir::before { content: "— "; }
-.blk.unfold { animation: unfold 0.9s cubic-bezier(.2, .7, .2, 1) both; }
-@keyframes unfold { from { opacity: 0; transform: translateY(6px); filter: blur(3px); } to { opacity: 1; transform: none; filter: none; } }
-.hot.beckon { animation: beckon 2.4s ease-in-out infinite; }
-@keyframes beckon { 0%, 100% { filter: none; } 50% { filter: brightness(1.9) drop-shadow(0 0 14px rgba(220, 174, 103, 0.75)); } }
-.hot.beckon:hover, .hot.beckon:focus-visible { animation: none; filter: brightness(2) drop-shadow(0 0 16px rgba(220, 174, 103, 0.9)); }
-.page { cursor: default; }
-
 /* ---------------------------------------------------------------- record */
 .scrim { position: fixed; inset: 0; z-index: 40; background: rgba(8, 6, 5, 0.6); }
 .drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 50; width: min(30rem, 100%); display: flex; flex-direction: column; background: var(--soot-2); border-left: 1px solid var(--rule); transform: translateX(100%); visibility: hidden; transition: transform 0.35s cubic-bezier(.2, .7, .2, 1), visibility 0s linear 0.35s; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); padding-right: env(safe-area-inset-right, 0px); box-shadow: -30px 0 60px rgba(0, 0, 0, 0.45); }
@@ -557,7 +474,7 @@ mark.close { background: none; color: var(--glass); border-bottom: 1px solid var
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-delay: 0ms !important; transition-duration: 0.001ms !important; }
   .struckline::after { width: 104%; }
-  .door-light, .case-glow, .spine-flame, .candle-dot, .ghost, .reveal-next, .gate-glyph, .hot.beckon { animation: none; }
+  .door-light, .case-glow, .spine-flame { animation: none; }
 }
 /* Before She Answers. Sunlit displacement: warm off-white, faded jade, tobacco, institutional green, the pale blue of glass.
    Everything is scoped under .view-mo so the rest of the site keeps its candlelight. */
@@ -844,6 +761,9 @@ html:has(.view-mo), body:has(.view-mo) { background: var(--mo-paper); }
 .mo-stage[data-mv="V"] .mo-art-in svg { filter: saturate(0.2) contrast(0.95); }
 
 </style>
+</head>
+<body>
+
 
 <div id="app"></div>
 
@@ -875,8 +795,7 @@ window.addEventListener('DOMContentLoaded', function () {
   function fresh(story) {
     return { scene: story.start, beat: 0, visited: [story.start], heard: [], opened: [], expanded: [], examined: [],
       readings: {}, role: null, finding: null, name: null, voice: { mode: null, text: '', tiles: [], draft: '' },
-      struck: [], record: [], reflections: [], flags: [], ending: null,
-      pinned: [], pairs: [], cited: [], explored: {}, crossx: {}, checks: {}, erased: [], closeOpen: [], glassTried: {}, marginNote: '', revealed: {} };
+      struck: [], record: [], reflections: [], flags: [], ending: null };
   }
   function normalise(s, story) {
     const f = fresh(story);
@@ -962,8 +881,7 @@ window.addEventListener('DOMContentLoaded', function () {
   function save() { if (cur) { store.runs[cur.story.id] = cur.s; } persist(); }
   const helpers = {
     hear: id => { if (!cur.s.heard.includes(id)) cur.s.heard.push(id); },
-    flag: f => { if (!cur.s.flags.includes(f)) cur.s.flags.push(f); },
-    erase: k => { if (!cur.s.erased.includes(k)) cur.s.erased.push(k); }
+    flag: f => { if (!cur.s.flags.includes(f)) cur.s.flags.push(f); }
   };
 
   /* ------------------------------------------------------------ record */
@@ -1059,7 +977,7 @@ window.addEventListener('DOMContentLoaded', function () {
   }
 
   /* ============================================================ STORY */
-  let storyRoot, main, placeEl, roleEl, recBtn, menuEl, drawer, scrim, exploreEl = null;
+  let storyRoot, main, placeEl, recBtn, menuEl, drawer, scrim;
   let stageEl = null, artEl = null, canvasEl = null, panelEl = null, pagerEl = null;
   let viewI = 0;            // which page of the current scene is on screen
   const isEssay = () => !!cur.story.scenes[cur.s.scene].essay;
@@ -1067,7 +985,7 @@ window.addEventListener('DOMContentLoaded', function () {
   function openStory(id) {
     const story = UH.stories[id];
     if (!story) return showHub();
-    if (story.mount) {            // a chapter with its own engine (see chapters/)
+    if (story.mount) {            // a chapter with its own engine (chapters/)
       view = 'chapter'; cur = null; stopMotes();
       app.innerHTML = '';
       story.mount(app, { navigate });
@@ -1089,7 +1007,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
   function buildChrome() {
     placeEl = el('span', { class: 'bar-place' });
-    roleEl = el('span', { class: 'role-chip', hidden: true });
     recBtn = el('button', { class: 'bar-btn', type: 'button', 'aria-controls': 'record', 'aria-expanded': 'false', onclick: () => toggleDrawer(true) },
       'Record ', el('span', { class: 'rec-count', text: String(cur.s.record.length) }));
     const menuBtn = el('button', { class: 'bar-btn', type: 'button', 'aria-expanded': 'false', 'aria-controls': 'story-menu' }, 'Menu');
@@ -1110,7 +1027,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     const bar = el('header', { class: 'bar' },
       el('button', { class: 'wordmark', type: 'button', onclick: () => navigate('reading-room'), title: 'Return to the Reading Room' }, 'Unwriting Her'),
-      placeEl, roleEl,
+      placeEl,
       el('div', { class: 'bar-actions' }, recBtn, el('div', { class: 'menu-wrap' }, menuBtn, menuEl))
     );
     storyRoot = el('div', { class: 'story-root' });
@@ -1149,7 +1066,7 @@ window.addEventListener('DOMContentLoaded', function () {
     stopMotes();
     if (sc.essay) {
       // the thesis keeps its own page: one long column that grows as you read on
-      stageEl = artEl = canvasEl = panelEl = pagerEl = exploreEl = null;
+      stageEl = artEl = canvasEl = panelEl = pagerEl = null;
       main = el('main', { class: 'story essay', id: 'story', 'data-measure': sc.measure || 'normal' });
       storyRoot.append(main);
       for (let i = 0; i <= s.beat; i++) main.append(renderBeat(sc, i, i === s.beat));
@@ -1159,21 +1076,16 @@ window.addEventListener('DOMContentLoaded', function () {
       const artWrap = el('div', { class: 'art-wrap' }, artEl, canvasEl);
       main = el('div', { class: 'page' });
       pagerEl = el('nav', { class: 'pager', 'aria-label': 'Pages' });
-      exploreEl = el('section', { class: 'explore', 'aria-label': 'In this room' });
-      panelEl = el('main', { class: 'panel', id: 'story', 'data-measure': sc.measure || 'normal' }, sceneHead(sc), main, exploreEl, pagerEl);
+      panelEl = el('main', { class: 'panel', id: 'story', 'data-measure': sc.measure || 'normal' }, sceneHead(sc), main, pagerEl);
       stageEl = el('div', { class: 'stage', 'data-scene': s.scene }, artWrap, panelEl);
       storyRoot.append(stageEl);
-      renderPage();
       renderArt();
-      renderExplore();
+      renderPage();
       startMotes(sc.motes || 'dust');
     }
     updateRecCount();
   }
-  function updateRecCount() {
-    const c = document.querySelector('.rec-count'); if (c) c.textContent = cur.s.record.length;
-    if (roleEl) { const txt = cur.story.roleChip ? cur.story.roleChip(cur.s) : null; roleEl.hidden = !txt; roleEl.textContent = txt || ''; }
-  }
+  function updateRecCount() { const c = document.querySelector('.rec-count'); if (c) c.textContent = cur.s.record.length; }
 
   function renderArt() {
     if (!artEl) return;
@@ -1181,17 +1093,6 @@ window.addEventListener('DOMContentLoaded', function () {
     const sc = story.scenes[s.scene];
     const draw = UH.art && sc.art && UH.art[sc.art];
     artEl.innerHTML = draw ? draw(s, s.beat) : '';
-    const b = sc.beats[s.beat];
-    const live = new Set();
-    if (pendingGate && viewI === s.beat) live.add(pendingGate);
-    const fullyShown = !main.querySelector('.reveal-next, .gate-btn');
-    if (fullyShown && viewI === s.beat) (b.examine || []).forEach(x => live.add(x.id));
-    const witnessesHere = fullyShown && b.blocks.some(x => x && x.t === 'witnesses');
-    artEl.querySelectorAll('.hot').forEach(h => {
-      const ok = h.dataset.go ? witnessesHere : live.has(h.dataset.ex);
-      if (!ok) { h.classList.remove('hot'); h.removeAttribute('tabindex'); h.removeAttribute('role'); }
-      else if (h.dataset.ex === pendingGate || (h.dataset.ex && !s.examined.includes(h.dataset.ex))) h.classList.add('beckon');
-    });
     stageEl.dataset.beat = String(viewI);
     stageEl.dataset.art = sc.art || '';
   }
@@ -1200,7 +1101,6 @@ window.addEventListener('DOMContentLoaded', function () {
     const { story, s } = cur;
     const sc = story.scenes[s.scene];
     main.innerHTML = '';
-    pendingGate = null;
     if (viewI < s.beat) {
       main.append(el('p', { class: 'reread' }, 'You are rereading an earlier page. ',
         el('button', { type: 'button', class: 'linkish', onclick: () => { viewI = s.beat; renderPage(true); renderArt(); } }, 'Back to where you were →')));
@@ -1285,39 +1185,10 @@ window.addEventListener('DOMContentLoaded', function () {
     scrollToPanel();
   }
 
-  function revealNext(gate) {
-    const { story, s } = cur;
-    const sc = story.scenes[s.scene];
-    if (!sc || sc.essay || viewI !== s.beat) return;
-    const key = revealKey(s.beat);
-    const items = sc.beats[s.beat].blocks.map(raw => typeof raw === 'function' ? raw(s) : raw).filter(Boolean);
-    const at = s.revealed[key] || 0;
-    if (at >= items.length) return;
-    const next = items[at];
-    if (next.t === 'gate' && !gate) return;
-    if (next.t === 'gate') {
-      const ex = (s.explored[s.scene] = s.explored[s.scene] || []);
-      if (!ex.includes(next.hot)) ex.push(next.hot);
-      if (next.flag) helpers.flag(next.flag);
-      if (next.flag === 'keys') showToast('You know where the keys are kept.');
-    }
-    s.revealed[key] = at + 1;
-    save();
-    pendingGate = null;
-    const nb = refreshBeat();
-    updateRecCount();
-    const blocks = nb.querySelectorAll(':scope > .blk');
-    const last = blocks[blocks.length - 1];
-    if (last && !reduceMotion) last.classList.add('unfold');
-    const cue = nb.querySelector('.reveal-next, .gate-btn') || nb.querySelector('.choices, .reading, .examine');
-    (cue || last || nb).scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest' });
-  }
-
   function refreshBeat() {
     const { story, s } = cur;
     const sc = story.scenes[s.scene];
     const old = main.querySelector(`.beat[data-i="${s.beat}"]`);
-    pendingGate = null;
     const nb = renderBeat(sc, s.beat, true);
     if (old) old.replaceWith(nb); else main.append(nb);
     if (!sc.essay) { renderArt(); renderPager(); }
@@ -1332,68 +1203,28 @@ window.addEventListener('DOMContentLoaded', function () {
     if (c.to) return go(c.to);
   }
 
-  /* things to look at in a room: listed under the page, and clickable in the picture */
-  const exploredHere = () => (cur.s.explored[cur.s.scene] = cur.s.explored[cur.s.scene] || []);
-  function renderExplore() {
-    if (!exploreEl) return;
-    const { story, s } = cur;
-    const sc = story.scenes[s.scene];
-    exploreEl.innerHTML = '';
-    const items = (sc.explore || []).filter(x => !x.when || x.when(s));
-    exploreEl.hidden = !items.length;
-    if (!items.length) return;
-    const done = exploredHere();
-    const left = items.filter(x => !done.includes(x.id));
-    exploreEl.append(el('div', { class: 'explore-head' },
-      el('p', { class: 'ex-label', text: 'In this room' }),
-      el('p', { class: 'explore-count', text: `${done.length} of ${items.length} looked at` })));
-    if (left.length) exploreEl.append(el('div', { class: 'ex-list' }, left.map(x => el('button', { type: 'button', class: 'ex-btn', onclick: () => doExplore(x) }, x.label))));
-    else exploreEl.append(el('p', { class: 'explore-done', text: 'You have looked at everything in this room.' }));
-    const reveals = el('div', { class: 'ex-reveals' });
-    done.forEach(id => {
-      const x = items.find(e => e.id === id);
-      if (!x) return;
-      const r = el('div', { class: 'ex-reveal', 'data-ex-reveal': x.id }, el('h3', { class: 'ex-title', text: x.label }));
-      x.blocks.forEach((blk, k) => { const nd = renderBlock(blk, `${s.scene}.room.${x.id}.${k}`, true); if (nd) r.append(nd); });
-      reveals.append(r);
-    });
-    exploreEl.append(reveals);
-  }
-  function doExplore(x) {
-    const { s } = cur;
-    const done = exploredHere();
-    if (!done.includes(x.id)) {
-      done.push(x.id);
-      if (x.flag) helpers.flag(x.flag);
-      save();
-      renderExplore(); renderArt(); updateRecCount();
-      if (x.flag === 'keys') showToast('You know where the keys are kept.');
-    }
-    const r = exploreEl && exploreEl.querySelector(`[data-ex-reveal="${x.id}"]`);
-    if (r) { if (!reduceMotion) { r.classList.remove('flash'); void r.offsetWidth; r.classList.add('flash'); } r.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest' }); }
-  }
-
   /* hotspots in the art */
   function handleHot(h) {
     const { story, s } = cur;
     const sc = story.scenes[s.scene];
     const b = sc.beats[s.beat];
-    if (h.dataset.ex && h.dataset.ex === pendingGate) return revealNext(true);
-    const room = h.dataset.ex && (sc.explore || []).find(x => x.id === h.dataset.ex && (!x.when || x.when(s)));
-    if (room) return doExplore(room);
     if (h.dataset.ex) {
       const x = b.examine && b.examine.find(e => e.id === h.dataset.ex);
-      if (!x) { showToast('Nothing more to find there tonight.'); return; }
-      if (viewI !== s.beat) return;
+      if (!x || viewI !== s.beat) return;
       if (!s.examined.includes(x.id)) doExamine(x);
       else { const r = main.querySelector(`[data-ex-reveal="${x.id}"]`); if (r) { r.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' }); r.classList.remove('flash'); void r.offsetWidth; r.classList.add('flash'); } }
       return;
     }
     if (h.dataset.go) {
       const hasWitnesses = b.blocks.some(x => x && x.t === 'witnesses');
-      const w = story.witnesses.find(x => x.scene === h.dataset.go);
-      if (hasWitnesses && w) callWitness(w);
+      if (hasWitnesses && story.scenes[h.dataset.go]) go(h.dataset.go);
       return;
+    }
+    if (h.dataset.hotd) { showToast(s.beat >= 1 ? 'The door is locked. The laugh came from behind it.' : 'A small black door, shut like the others.'); return; }
+    if (h.dataset.mirror) {
+      if (s.flags.includes('mirror-turned')) s.flags = s.flags.filter(f => f !== 'mirror-turned'); else s.flags.push('mirror-turned');
+      save(); renderArt();
+      showToast(s.flags.includes('mirror-turned') ? 'Something moves in the glass. It is only the light.' : 'The glass is dark again.');
     }
   }
 
@@ -1438,30 +1269,21 @@ window.addEventListener('DOMContentLoaded', function () {
     const tag = (e.target.tagName || '').toLowerCase();
     if (tag === 'textarea' || tag === 'input') return;
     if (e.key === 'ArrowLeft' && viewI > 0) turnTo(viewI - 1);
-    if (e.key === 'ArrowRight' || (e.key === ' ' && (tag === 'body' || tag === 'main'))) {
-      if (main && main.querySelector('.reveal-next')) { e.preventDefault(); revealNext(false); return; }
-      if (e.key === ' ') return;
+    if (e.key === 'ArrowRight') {
       if (viewI < cur.s.beat) turnTo(viewI + 1);
       else { const btn = main && main.querySelector('.continue'); if (btn) btn.click(); }
     }
   });
 
   /* ------------------------------------------------------------ beats */
-  let pendingGate = null;
-  const revealKey = i => `${cur.s.scene}.${i}`;
   function renderBeat(sc, i, current) {
     const { s } = cur;
     const b = sc.beats[i];
     const sec = el('section', { class: 'beat', 'data-i': i });
     let k = 0;
-    const items = b.blocks.map((raw, j) => ({ blk: typeof raw === 'function' ? raw(s) : raw, j })).filter(x => x.blk);
-    let shown = items.length;
-    if (current && !sc.essay) {
-      const key = revealKey(i);
-      if (s.revealed[key] === undefined) s.revealed[key] = items.length && items[0].blk.t === 'gate' ? 0 : 1;
-      shown = Math.min(items.length, s.revealed[key]);
-    }
-    items.slice(0, shown).forEach(({ blk, j }) => {
+    b.blocks.forEach((raw, j) => {
+      const blk = typeof raw === 'function' ? raw(s) : raw;
+      if (!blk) return;
       const node = renderBlock(blk, `${s.scene}.${i}.${j}`, current);
       if (!node) return;
       node.style.setProperty('--k', k++);
@@ -1473,16 +1295,6 @@ window.addEventListener('DOMContentLoaded', function () {
         sec.append(holder);
       }
     });
-    if (shown < items.length) {
-      const next = items[shown].blk;
-      if (next.t === 'gate') {
-        pendingGate = next.hot;
-        sec.append(el('button', { type: 'button', class: 'gate-btn', 'data-gate': next.hot }, el('span', { class: 'gate-glyph', 'aria-hidden': 'true' }), next.prompt));
-      } else {
-        sec.append(el('button', { type: 'button', class: 'reveal-next', 'aria-label': 'Continue reading' }, el('span', { 'aria-hidden': 'true', text: '· · ·' })));
-      }
-      return sec;
-    }
     if (b.examine) sec.append(renderExamine(b, current, `${s.scene}.${i}`));
     if (b.reading) sec.append(renderReading(b.reading, current));
     if (current) { const c = renderControls(sc, b, i); if (c) sec.append(c); }
@@ -1505,16 +1317,9 @@ window.addEventListener('DOMContentLoaded', function () {
         return el('h3', { class: 'blk sub', text: interp(b.text, s, story) });
       case 'q': {
         addRecord({ id: rid, k: 'q', who: b.who, cite: b.cite, text: stripClues(b.text) });
-        const essay = story.scenes[s.scene] && story.scenes[s.scene].essay;
-        const closeOn = b.close && s.role === 'reader' && !essay;
-        const open = closeOn && s.closeOpen.includes(rid);
-        let html = rich(b.text, s, story, true);
-        if (open) html = markClose(html, b.close);
-        const cap = capFor(b.who, b.cite, 'text');
-        if (closeOn) cap.append(el('button', { type: 'button', class: 'close-btn', 'data-close-read': rid, 'aria-pressed': String(open) }, open ? 'Close reading on' : 'Read closely'));
-        const fig = el('figure', { class: 'blk quote' + (b.doc ? ' doc' : '') + (b.interrupt ? ' interrupt' : '') + (open ? ' close-open' : '') }, cap, el('blockquote', { html }));
-        if (open) fig.append(el('ul', { class: 'close-notes' }, b.close.map(c => el('li', {}, el('mark', { class: 'close', text: c.w }), el('span', { html: inline(c.n, s) })))));
-        return fig;
+        return el('figure', { class: 'blk quote' + (b.doc ? ' doc' : '') + (b.interrupt ? ' interrupt' : '') },
+          capFor(b.who, b.cite, 'text'),
+          el('blockquote', { html: rich(b.text, s, story, true) }));
       }
       case 'note': {
         addRecord({ id: rid, k: 'g', tier: b.tier, by: b.by, text: b.text });
@@ -1522,24 +1327,16 @@ window.addEventListener('DOMContentLoaded', function () {
           el('p', { class: 'gloss-cap' }, el('span', { class: 'cap-tier', 'data-tier': b.tier, text: TIER[b.tier] }), b.by ? el('span', { text: b.by }) : null),
           el('div', { class: 'gloss-body', html: rich(b.text, s, story, false) }));
       }
-      case 'reflect': return renderGlassPuzzle(b.id, 'blk');
-      case 'gate': return el('p', { class: 'blk stage-dir', text: b.prompt + '.' });
-      case 'list': return el('ul', { class: 'blk plain-list' }, b.items.map(x => el('li', { html: inline(x, s) })));
-      case 'acts': return renderActs('blk');
-      case 'check': return renderCheck(b);
-      case 'crossx': return renderCross(b.w);
-      case 'cite': return renderCite();
-      case 'marginwrite': return renderMarginWrite();
-      case 'marginshow': return el('div', { class: 'blk margin-pair' },
-        el('figure', { class: 'quote' }, capFor('Mrs. Fairfax', 'Ch. XI', 'text'), el('blockquote', { html: inline('“Some of the servants, very likely,” she answered: “perhaps Grace Poole.”', s) })),
-        el('div', { class: 'margin-note' }, el('span', { class: 'cap-tier', 'data-tier': 'margin', text: 'Your hand, in the margin' }), el('p', { class: 'hand', text: s.marginNote })));
+      case 'reflect': {
+        addReflection(b.id);
+        return renderGlass(cur.story.reflections[b.id], 'blk');
+      }
       case 'mirror': {
         addRecord({ id: rid, k: 'q', who: b.who, cite: b.cite, text: b.text });
         const line = el('button', { type: 'button', class: 'mirror-line', 'aria-label': b.text + ' (shown reversed, as in a mirror; press to turn it round)' },
           el('span', { class: 'mirror-inner', html: inline(b.text, s) }));
         line.addEventListener('click', () => line.classList.toggle('flipped'));
-        const mcap = capFor(b.who, b.cite, 'text');
-        return el('figure', { class: 'blk quote mirror' }, mcap,
+        return el('figure', { class: 'blk quote mirror' }, capFor(b.who, b.cite, 'text'),
           el('blockquote', {}, line), el('p', { class: 'mirror-hint', text: 'In the glass. Press the line to turn it round.' }));
       }
       case 'witnesses': return renderWitnesses();
@@ -1557,140 +1354,6 @@ window.addEventListener('DOMContentLoaded', function () {
       case 'youglass': return el('div', { class: 'blk glass-list you' }, story.youGlass(s).map(r => renderGlass(r)));
       default: return null;
     }
-  }
-
-  /* ------------------------------------------------------------ reader's tools */
-  function markClose(html, words) {
-    return html.split(/(<[^>]+>)/).map(seg => {
-      if (seg.startsWith('<')) return seg;
-      words.forEach(c => {
-        const re = new RegExp('(^|[^\\p{L}])(' + reEsc(esc(c.w)) + ')(?=$|[^\\p{L}])', 'gu');
-        seg = seg.replace(re, '$1<mark class="close">$2</mark>');
-      });
-      return seg;
-    }).join('');
-  }
-  function renderCheck(b) {
-    const { story, s } = cur;
-    const done = b.id in s.checks;
-    const wrap = el('div', { class: 'blk check' }, el('p', { class: 'check-k', text: 'A reader’s check' }), el('p', { class: 'check-claim', text: b.claim }));
-    if (!done) {
-      const pick = ans => { s.checks[b.id] = ans === b.answer; save(); const nw = renderCheck(b); if (!reduceMotion) nw.classList.add('enter'); wrap.replaceWith(nw); };
-      wrap.append(el('div', { class: 'check-row' },
-        el('button', { type: 'button', class: 'btn', onclick: () => pick('text') }, 'It is in the text'),
-        el('button', { type: 'button', class: 'btn', onclick: () => pick('reading') }, 'It is my reading')));
-    } else {
-      const ok = s.checks[b.id];
-      wrap.append(el('p', { class: 'check-verdict ' + (ok ? 'ok' : 'miss'), text: ok ? 'You told the text from the reading.' : (b.answer === 'reading' ? 'That is a reading, not the text.' : 'That one is in the text.') }),
-        el('div', { class: 'gloss-body', html: rich(b.note, s, story, false) }));
-    }
-    return wrap;
-  }
-
-  /* ------------------------------------------------------------ judge's tools */
-  function renderCross(w) {
-    const { story, s } = cur;
-    const qs = (story.crossx || {})[w];
-    if (!qs) return null;
-    const wrap = el('div', { class: 'blk crossx' }, el('p', { class: 'check-k', text: 'Cross-examination · one question' }));
-    const asked = s.crossx[w];
-    if (asked === undefined) {
-      wrap.append(el('p', { class: 'check-claim', text: 'You may put one question to this witness. The witness can only answer in words the record already holds.' }));
-      wrap.append(el('div', { class: 'cross-qs' }, qs.map((q, i) => el('button', { type: 'button', class: 'reading-opt', onclick: () => {
-        s.crossx[w] = i; save(); const nw = renderCross(w); if (!reduceMotion) nw.classList.add('enter'); wrap.replaceWith(nw);
-      } }, el('span', { class: 'r-label', text: q.q })))));
-    } else {
-      const q = qs[asked];
-      wrap.append(el('p', { class: 'your-reading' }, el('span', { class: 'cap-tier', 'data-tier': 'margin', text: 'You asked' }), el('span', { class: 'hand', text: q.q })));
-      if (q.a) wrap.append(renderBlock(q.a, `cross.${w}`, true));
-      else wrap.append(el('p', { class: 'cross-silence', text: 'No answer. The record holds nothing this witness could say.' }));
-      if (q.n) wrap.append(el('aside', { class: 'gloss', 'data-tier': 'annotation' }, el('p', { class: 'gloss-cap' }, el('span', { class: 'cap-tier', 'data-tier': 'annotation', text: TIER.annotation })), el('div', { class: 'gloss-body', html: rich(q.n, s, story, false) })));
-    }
-    return wrap;
-  }
-  function renderCite() {
-    const { s } = cur;
-    const wrap = el('div', { class: 'blk cite' });
-    const quotes = s.record.filter(r => r.k === 'q');
-    const pinned = [];
-    const rest = quotes;
-    const need = s.role === 'judge' ? 2 : 0;
-    wrap.append(el('p', { class: 'check-k', text: `Evidence cited: ${s.cited.length} of 2` + (need ? '' : ' (optional)') }));
-    const card = r => {
-      const on = s.cited.includes(r.id);
-      return el('button', { type: 'button', class: 'cite-card' + (on ? ' on' : ''), 'aria-pressed': String(on), onclick: () => {
-        if (on) s.cited = s.cited.filter(x => x !== r.id);
-        else if (s.cited.length < 2) s.cited.push(r.id);
-        else { showToast('You can cite two fragments. Remove one first.'); return; }
-        save(); refreshBeat();
-      } }, el('span', { class: 'cite-who', text: r.who + ' · ' + r.cite }), el('span', { class: 'cite-text', text: trimText(r.text, 160) }));
-    };
-    const chosen = rest.filter(r => s.cited.includes(r.id));
-    if (chosen.length) wrap.append(el('div', { class: 'cite-list' }, chosen.map(card)));
-    const more = el('details', { class: 'cite-more' }, el('summary', { text: `Choose from the record (${rest.length} passages you have read)` }), el('div', { class: 'cite-list' }, rest.filter(r => !s.cited.includes(r.id)).map(card)));
-    if (s.role === 'judge' && s.cited.length < 2) more.open = true;
-    wrap.append(more);
-    return wrap;
-  }
-  const trimText = (t, n) => { t = String(t).replace(/\s+/g, ' ').trim(); return t.length > n ? t.slice(0, n - 1).replace(/\s+\S*$/, '') + '…' : t; };
-
-  /* ------------------------------------------------------------ rescuer's tools: what she did */
-  function renderActs(extra) {
-    const { story, s } = cur;
-    const list = el('ol', { class: 'acts' + (extra ? ' ' + extra : '') }, story.acts.map(a => {
-      const gone = s.erased.includes(a.k);
-      return el('li', { class: gone ? 'erased' : '' }, el('span', { class: 'act-ch', text: a.ch }),
-        el('span', { class: 'act-t' }, el('span', { html: inline(a.t, s) }), gone ? el('span', { class: 'act-gone', text: 'Prevented by you' }) : null));
-    }));
-    return list;
-  }
-
-  /* ------------------------------------------------------------ the margin (reader's ending) */
-  function renderMarginWrite() {
-    const { s } = cur;
-    const wrap = el('div', { class: 'blk write' });
-    const ta = el('textarea', { id: 'margin-note', class: 'hand-input', rows: '4', maxlength: '300', 'aria-label': 'Your note in the margin', placeholder: 'Write beside “perhaps Grace Poole”…' });
-    ta.value = s.marginNote || '';
-    const submit = el('button', { type: 'button', class: 'btn primary' }, 'Write it in the margin');
-    const sync = () => { submit.disabled = ta.value.trim().length < 2; };
-    ta.addEventListener('input', () => { s.marginNote = ta.value; sync(); save(); });
-    submit.addEventListener('click', () => {
-      if (ta.value.trim().length < 2) return;
-      s.marginNote = ta.value.trim(); helpers.flag('margin-written');
-      addRecord({ id: 'margin:ch11', k: 'g', tier: 'margin', text: s.marginNote });
-      save(); refreshBeat();
-      const c = main.querySelector('.continue'); if (c) c.focus();
-    });
-    sync();
-    wrap.append(ta, el('div', { class: 'tile-actions' }, submit));
-    return wrap;
-  }
-
-  /* ------------------------------------------------------------ the glass puzzle */
-  function renderGlassPuzzle(id, extra) {
-    const { story, s } = cur;
-    const r = story.reflections[id];
-    if (!r) return null;
-    if (s.reflections.includes(id)) return renderGlass(r, extra);
-    const tried = s.glassTried[id] || [];
-    const others = Object.keys(story.reflections).filter(k => k !== id);
-    const h = [...id].reduce((a, ch) => a + ch.charCodeAt(0), 0);
-    const decoys = [others[h % others.length], others[(h * 7 + 3) % others.length]].filter((v, i, a) => v && a.indexOf(v) === i && v !== id).slice(0, 2);
-    const opts = [id, ...decoys].sort((a, b) => ((h + a.length * 13) % 5) - ((h + b.length * 13) % 5));
-    const wrap = el('div', { class: 'glass glass-puzzle' + (extra ? ' ' + extra : '') },
-      el('p', { class: 'glass-cap' }, el('span', { text: 'In the glass · something is standing beside her' }), r.cite ? el('span', { text: r.cite }) : null),
-      el('div', { class: 'glass-panes' },
-        el('div', { class: 'pane her' }, el('span', { class: 'pane-k', text: 'Her' }), el('span', { class: 'pane-t', html: inline(r.her, s) })),
-        el('div', { class: 'glass-line', 'aria-hidden': 'true' }),
-        el('div', { class: 'pane other fog' }, el('span', { class: 'pane-k', text: 'Beside her' }), el('span', { class: 'pane-t', text: 'Who does this description make visible?' }))),
-      el('div', { class: 'glass-opts' }, opts.map(k => {
-        const bad = tried.includes(k);
-        return el('button', { type: 'button', class: 'glass-opt' + (bad ? ' wrong' : ''), disabled: bad, onclick: () => {
-          if (k === id) { addReflection(id); save(); const g = renderGlass(r, extra); if (!reduceMotion) g.classList.add('enter', 'clear'); wrap.replaceWith(g); }
-          else { s.glassTried[id] = tried.concat(k); save(); const nw = renderGlassPuzzle(id, extra); wrap.replaceWith(nw); showToast('That stands beside her elsewhere in the novel. Look again at this passage.'); }
-        } }, el('span', { class: 'hand', html: inline(story.reflections[k].other, s) }));
-      })));
-    return wrap;
   }
 
   function renderGlass(r, extra) {
@@ -1727,43 +1390,12 @@ window.addEventListener('DOMContentLoaded', function () {
     return g;
   }
 
-  function pinBtn(rid) {
-    const on = cur.s.pinned.includes(rid);
-    return el('button', { type: 'button', class: 'pin-btn' + (on ? ' on' : ''), 'data-pin': rid, 'aria-pressed': String(on), title: on ? 'Unpin from your casebook' : 'Pin to your casebook' }, on ? 'Pinned' : 'Pin');
-  }
   function onStoryClick(e) {
     const h = e.target.closest && e.target.closest('.hot');
     if (h) return handleHot(h);
-    if (e.target.closest('.gate-btn')) return revealNext(true);
-    if (e.target.closest('.reveal-next')) return revealNext(false);
-    const pin = e.target.closest('[data-pin]');
-    if (pin) {
-      const s = cur.s, id = pin.dataset.pin;
-      const on = s.pinned.includes(id);
-      s.pinned = on ? s.pinned.filter(x => x !== id) : s.pinned.concat(id);
-      save();
-      storyRoot.querySelectorAll(`[data-pin="${CSS.escape(id)}"]`).forEach(b => b.replaceWith(pinBtn(id)));
-      showToast(on ? 'Removed from your casebook.' : `Pinned. Your casebook holds ${s.pinned.length} ${s.pinned.length === 1 ? 'fragment' : 'fragments'}.`);
-      return;
-    }
-    const cr = e.target.closest('[data-close-read]');
-    if (cr) {
-      const s = cur.s, id = cr.dataset.closeRead;
-      s.closeOpen = s.closeOpen.includes(id) ? s.closeOpen.filter(x => x !== id) : s.closeOpen.concat(id);
-      save();
-      const fig = cr.closest('figure.blk');
-      const sc = cur.story.scenes[s.scene];
-      const blk = findBlock(sc, id);
-      if (fig && blk) { const nf = renderBlock(blk, id, true); nf.style.animation = 'none'; fig.replaceWith(nf); }
-      return;
-    }
     const close = e.target.closest('[data-close]');
     const clue = close ? storyRoot.querySelector(`.clue[data-clue="${close.dataset.close}"]`) : e.target.closest('.clue');
-    if (!clue) {
-      const quiet = e.target.closest('.page') && !e.target.closest('button, a, input, textarea, summary, details, .gloss, .clue');
-      if (quiet && main.querySelector('.reveal-next')) revealNext(false);
-      return;
-    }
+    if (!clue) return;
     const { story, s } = cur;
     const id = clue.dataset.clue;
     const beat = clue.closest('.beat');
@@ -1789,14 +1421,6 @@ window.addEventListener('DOMContentLoaded', function () {
       }
     }
     save();
-  }
-
-  function findBlock(sc, rid) {
-    const parts = rid.split('.');
-    const i = +parts[1], j = +parts[2];
-    if (parts.length === 3 && sc.beats[i]) { const raw = sc.beats[i].blocks[j]; return typeof raw === 'function' ? raw(cur.s) : raw; }
-    if (parts[1] === 'room') { const x = (sc.explore || []).find(e => e.id === parts[2]); return x && x.blocks[+parts[3]]; }
-    return null;
   }
 
   /* ------------------------------------------------------------ examine */
@@ -1825,9 +1449,7 @@ window.addEventListener('DOMContentLoaded', function () {
   function doExamine(x) {
     const { s } = cur;
     if (s.examined.includes(x.id)) return;
-    s.examined.push(x.id);
-    if (x.flag) helpers.flag(x.flag);
-    save();
+    s.examined.push(x.id); save();
     const nb = refreshBeat();
     const r = nb.querySelector(`[data-ex-reveal="${x.id}"]`);
     if (r) { if (!reduceMotion) r.classList.add('enter'); r.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest' }); }
@@ -1917,24 +1539,14 @@ window.addEventListener('DOMContentLoaded', function () {
   function renderWitnesses() {
     const { story, s } = cur;
     const grid = el('div', { class: 'blk witnesses' });
-    const limit = story.witnessLimit ? story.witnessLimit(s) : null;
-    if (limit) grid.append(el('p', { class: 'w-limit' }, el('span', { class: 'candle-dot', 'aria-hidden': 'true' }), `The candle allows ${Math.max(0, limit - s.heard.length)} more ${limit - s.heard.length === 1 ? 'witness' : 'witnesses'}.`));
     story.witnesses.forEach(w => {
       const heard = s.heard.includes(w.id);
-      const closed = limit && !heard && s.heard.length >= limit;
-      const night = !heard && story.enterWitness && story.enterWitness(s, w) !== w.scene;
-      if (closed) {
-        grid.append(el('div', { class: 'wcard closed', 'aria-disabled': 'true' },
-          el('span', { class: 'w-rel', text: w.rel }), el('span', { class: 'w-name', text: w.name }),
-          el('span', { class: 'w-status', text: 'The candle has burned down. Not heard.' })));
-        return;
-      }
-      grid.append(el('button', { type: 'button', class: 'wcard' + (heard ? ' heard' : '') + (night ? ' night' : ''), onclick: () => callWitness(w) },
+      grid.append(el('button', { type: 'button', class: 'wcard' + (heard ? ' heard' : ''), onclick: () => go(w.scene) },
         el('span', { class: 'w-rel', text: w.rel }),
         el('span', { class: 'w-name', text: w.name }),
         el('span', { class: 'w-row' }, el('span', { class: 'w-k', text: 'Access' }), el('span', { text: w.access })),
         el('span', { class: 'w-row' }, el('span', { class: 'w-k', text: 'Stake' }), el('span', { text: w.stake })),
-        el('span', { class: 'w-status', text: heard ? 'Heard' : (night ? 'You can arrive before it happens' : 'Not yet heard') })));
+        el('span', { class: 'w-status', text: heard ? 'Heard' : 'Not yet heard' })));
     });
     const mw = story.missingWitness;
     const txt = el('p', { class: 'w-missing-text', hidden: true, text: mw.text });
@@ -1943,13 +1555,6 @@ window.addEventListener('DOMContentLoaded', function () {
       el('span', { class: 'w-rel', text: mw.rel }),
       el('span', { class: 'w-name', text: mw.name }), why, txt));
     return grid;
-  }
-
-  function callWitness(w) {
-    const { story, s } = cur;
-    const limit = story.witnessLimit ? story.witnessLimit(s) : null;
-    if (limit && !s.heard.includes(w.id) && s.heard.length >= limit) { showToast('The candle has burned down. The court can hear no one else.'); return; }
-    go(story.enterWitness ? story.enterWitness(s, w) : w.scene);
   }
 
   /* ------------------------------------------------------------ voice: tiles */
@@ -2016,7 +1621,7 @@ window.addEventListener('DOMContentLoaded', function () {
     const { story, s } = cur;
     const wrap = el('div', { class: 'blk silence' });
     if (s.voice.mode === 'silence') {
-      const list = renderActs();
+      const list = el('ol', { class: 'acts' }, story.acts.map(([ch, t]) => el('li', {}, el('span', { class: 'act-ch', text: ch }), el('span', { class: 'act-t', html: inline(t, s) }))));
       wrap.append(el('p', { class: 'cap' }, el('span', { class: 'cap-tier', 'data-tier': 'text', text: 'Everything the novel lets her do' })), list, el('div', { class: 'narr', html: rich(story.silenceClose, s, story, false) }));
       return wrap;
     }
@@ -2088,57 +1693,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
   /* ============================================================ RECORD */
   let drawerTab = 'testimony';
-  let pairSel = { her: null, other: null };
-  function renderCasebook(body) {
-    const { story, s } = cur;
-    const quotes = s.record.filter(r => r.k === 'q');
-    const pinned = s.pinned.map(id => quotes.find(r => r.id === id)).filter(Boolean);
-    body.append(el('p', { class: 'drawer-lede', text: 'Fragments you pinned. To make a reading of your own, choose one that describes her and one that shows who stands beside her, and hold them up to the glass. A fragment can go on both sides.' }));
-    if (!pinned.length) { body.append(el('p', { class: 'empty', text: 'Nothing pinned yet. Use the Pin mark beside any quotation.' })); }
-    pinned.forEach(r => {
-      const isH = pairSel.her === r.id, isO = pairSel.other === r.id;
-      body.append(el('div', { class: 'case-card' + (isH || isO ? ' sel' : '') },
-        el('p', { class: 'cap' }, el('span', { text: r.cite }), el('span', { class: 'cap-who', text: r.who })),
-        el('p', { class: 'case-text', text: trimText(r.text, 220) }),
-        el('div', { class: 'case-row' },
-          el('button', { type: 'button', class: 'btn small' + (isH ? ' primary' : ' quiet'), 'aria-pressed': String(isH), onclick: () => { pairSel.her = isH ? null : r.id; renderDrawer(); } }, 'Said of her'),
-          el('button', { type: 'button', class: 'btn small' + (isO ? ' primary' : ' quiet'), 'aria-pressed': String(isO), onclick: () => { pairSel.other = isO ? null : r.id; renderDrawer(); } }, 'Beside her'),
-          el('button', { type: 'button', class: 'btn small quiet', onclick: () => { s.pinned = s.pinned.filter(x => x !== r.id); if (pairSel.her === r.id) pairSel.her = null; if (pairSel.other === r.id) pairSel.other = null; save(); renderDrawer(); const y = window.scrollY; renderStory(); window.scrollTo(0, y); } }, 'Unpin'))));
-    });
-    const H = pairSel.her && quotes.find(r => r.id === pairSel.her), O = pairSel.other && quotes.find(r => r.id === pairSel.other);
-    const note = el('textarea', { id: 'pair-note', class: 'hand-input small', rows: '2', maxlength: '240', placeholder: 'Optional: what does one make of the other?', 'aria-label': 'Your note on this pair' });
-    const hold = el('button', { type: 'button', class: 'btn primary', disabled: !(H && O), onclick: () => {
-      const hs = H.text.toLowerCase(), os = O.text.toLowerCase();
-      const found = Object.keys(story.reflections).find(k => { const m = story.reflections[k].match; return m && hs.includes(m.her) && os.includes(m.other); });
-      const reversed = !found && Object.keys(story.reflections).find(k => { const m = story.reflections[k].match; return m && os.includes(m.her) && hs.includes(m.other); });
-      s.pairs.push({ her: H.id, other: O.id, note: note.value.trim(), ref: found || null });
-      if (found) { const had = s.reflections.includes(found); addReflection(found); showToast(had ? 'The novel makes this comparison too. It is already in your glass.' : 'The novel makes this comparison too. A reflection appeared in the glass.'); }
-      else if (reversed) showToast('Saved as your reading. Try it the other way round as well.');
-      else showToast('Saved to your casebook as your own reading.');
-      pairSel = { her: null, other: null }; save(); renderDrawer();
-    } }, 'Hold them to the glass');
-    body.append(el('div', { class: 'pair-builder' },
-      el('p', { class: 'ex-label', text: 'The glass' }),
-      el('div', { class: 'glass-panes' },
-        el('div', { class: 'pane her' }, el('span', { class: 'pane-k', text: 'Said of her' }), el('span', { class: 'pane-t', text: H ? trimText(H.text, 90) : 'Choose a fragment' })),
-        el('div', { class: 'glass-line', 'aria-hidden': 'true' }),
-        el('div', { class: 'pane other' }, el('span', { class: 'pane-k', text: 'Beside her' }), el('span', { class: 'pane-t', text: O ? trimText(O.text, 90) : 'Choose a fragment' }))),
-      note, el('div', { class: 'tile-actions' }, hold)));
-    if (s.pairs.length) {
-      body.append(el('h3', { class: 'rec-who', text: 'Your pairs' }));
-      s.pairs.slice().reverse().forEach(pr => {
-        const a = quotes.find(r => r.id === pr.her), b = quotes.find(r => r.id === pr.other);
-        if (!a || !b) return;
-        body.append(el('div', { class: 'glass' + (pr.ref ? ' found' : '') },
-          el('p', { class: 'glass-cap' }, el('span', { text: pr.ref ? 'Found in the novel' : 'Your reading' }), el('span', { text: a.cite === b.cite ? a.cite : a.cite + ' · ' + b.cite })),
-          el('div', { class: 'glass-panes' },
-            el('div', { class: 'pane her' }, el('span', { class: 'pane-k', text: 'Her' }), el('span', { class: 'pane-t', text: trimText(a.text, 110) })),
-            el('div', { class: 'glass-line', 'aria-hidden': 'true' }),
-            el('div', { class: 'pane other' }, el('span', { class: 'pane-k', text: 'Beside her' }), el('span', { class: 'pane-t', text: trimText(b.text, 110) }))),
-          pr.note ? el('p', { class: 'hand pair-note', text: pr.note }) : null));
-      });
-    }
-  }
   function toggleDrawer(open, tab) {
     if (tab) drawerTab = tab;
     if (open) { renderDrawer(); drawer.classList.add('open'); scrim.hidden = false; recBtn.setAttribute('aria-expanded', 'true'); drawer.focus({ preventScroll: true }); }
@@ -2156,7 +1710,6 @@ window.addEventListener('DOMContentLoaded', function () {
       el('div', { class: 'drawer-head' }, el('h2', { text: 'The Record' }), el('button', { type: 'button', class: 'btn quiet small', onclick: () => toggleDrawer(false) }, 'Close')),
       tabRow, body);
 
-    if (drawerTab === 'casebook') renderCasebook(body);
     if (drawerTab === 'testimony') {
       const qs = s.record.filter(r => r.k === 'q');
       body.append(el('p', { class: 'drawer-lede', text: 'Every passage from the novel you have read, grouped by who is speaking.' }));
@@ -2277,8 +1830,6 @@ window.addEventListener('DOMContentLoaded', function () {
   const glow = (cx, cy, r, id = 'g-candle', cls = '') => `<circle class="${cls}" cx="${cx}" cy="${cy}" r="${r}" fill="url(#${id})" pointer-events="none"/>`;
   const flame = (x, y, s = 1) => `<g class="flame" transform="translate(${x} ${y}) scale(${s})"><path d="M0,-34 C9,-20 10,-8 0,0 C-10,-8 -9,-20 0,-34Z" fill="${TALLOW}" opacity=".95"/><path d="M0,-22 C4,-14 4,-6 0,-2 C-4,-6 -4,-14 0,-22Z" fill="#fff3d6" opacity=".8"/></g>`;
   const candle = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})"><rect x="-9" y="0" width="18" height="70" fill="#cfc2a6" opacity=".75"/><path d="M-26,72 h52 l-6,10 h-40z" fill="none" stroke="${INK}" stroke-width="2"/><line x1="0" y1="0" x2="0" y2="-6" stroke="#222" stroke-width="2"/>${flame(0, -4)}</g>`;
-  const seenX = (s, id) => !!(s && s.explored && (s.explored[s.scene] || []).includes(id));
-  const obj = (s, id, inner) => hot(id, `<g class="obj${seenX(s, id) ? ' seen' : ''}">${inner}</g>`);
   const hot = (id, inner, kind = 'ex') => kind === 'none' ? `<g>${inner}</g>` : `<g class="hot" data-${kind}="${id}" tabindex="0" role="button" aria-label="${id}">${inner}</g>`;
 
   /* -------------------------------------------------- corridor */
@@ -2290,7 +1841,7 @@ window.addEventListener('DOMContentLoaded', function () {
     const fw = [P(-1, -1, far), P(1, -1, far), P(1, 1.25, far), P(-1, 1.25, far)];
     b += `<polygon points="${poly(fw)}" fill="#0e0c0a" stroke="${INK}" stroke-width="1.2"/>`;
     const win = [P(-0.26, 0, far), P(0.26, 0, far), P(0.26, 0.78, far), P(-0.26, 0.78, far)];
-    b += glow(500, 440, 120, 'g-moon') + (opts.open ? `<polygon points="${poly(win)}" fill="#24303c" stroke="${GLASS}" stroke-width="1" opacity=".9"/>` : obj(s, 'window', `<polygon points="${poly(win)}" fill="#24303c" stroke="${GLASS}" stroke-width="1" opacity=".9"/>`));
+    b += glow(500, 440, 120, 'g-moon') + `<polygon points="${poly(win)}" fill="#24303c" stroke="${GLASS}" stroke-width="1" opacity=".9"/>`;
     b += `<line x1="500" y1="${f(win[0][1])}" x2="500" y2="${f(win[2][1])}" stroke="#0e0c0a" stroke-width="1.5"/>`;
     // floorboards
     [-0.6, -0.2, 0.2, 0.6].forEach(X => { const a = P(X, -1, near), c = P(X, -1, far); b += `<line x1="${f(a[0])}" y1="${f(a[1])}" x2="${f(c[0])}" y2="${f(c[1])}" stroke="${FAINT}" stroke-width="1"/>`; });
@@ -2308,9 +1859,8 @@ window.addEventListener('DOMContentLoaded', function () {
         if (opts.open) {
           const o = [P(X, -1, z), P(X - 0.42, -1, z + 0.05), P(X - 0.42, 0.55, z + 0.05), P(X, 0.55, z)];
           b += `<polygon points="${poly(d)}" fill="${TALLOW}" opacity=".35"/><polygon points="${poly([P(X, -1, z), P(X, -1, z + 0.45), P(0.1, -1, z + 0.2), P(0.2, -1, z - 0.4)])}" fill="${TALLOW}" opacity=".12"/><polygon points="${poly(o)}" fill="#0a0807" stroke="#4a3d30" stroke-width="1.3"/>`;
-        } else b += obj(s, 'door', shape + seam);
-      } else if (X === -1 && k === 0 && !opts.open) b += obj(s, 'doors', shape);
-      else b += shape;
+        } else b += hot('door', shape + seam, 'hotd');
+      } else b += shape;
       const kn = P(X, -0.2, z + (X < 0 ? 0.36 : 0.36));
       b += `<circle cx="${f(kn[0])}" cy="${f(kn[1])}" r="${f(18 / z)}" fill="#3a3028"/>`;
     }));
@@ -2325,8 +1875,7 @@ window.addEventListener('DOMContentLoaded', function () {
     let b = `<rect width="1000" height="1000" fill="url(#g-sky)"/>`;
     for (let i = 0; i < 70; i++) b += `<circle cx="${f(r() * 1000)}" cy="${f(r() * 520)}" r="${f(r() * 1.6 + 0.4)}" fill="#d9d3c4" opacity="${f(r() * 0.5 + 0.15)}"/>`;
     b += glow(760, 170, 160, 'g-moon') + `<circle cx="760" cy="170" r="34" fill="#cfd8df" opacity=".75"/>`;
-    const hills = `<path d="M0,610 C120,580 220,600 330,585 C450,568 560,600 680,590 C800,578 900,596 1000,585 L1000,700 L0,700Z" fill="#14130f"/>`;
-    b += opts.fire ? hills : obj(s, 'horizon', hills);
+    b += `<path d="M0,610 C120,580 220,600 330,585 C450,568 560,600 680,590 C800,578 900,596 1000,585 L1000,700 L0,700Z" fill="#14130f"/>`;
     b += `<path d="M0,640 C150,625 260,648 400,636 C560,622 700,650 1000,632 L1000,720 L0,720Z" fill="#100f0c"/>`;
     for (let i = 0; i < 9; i++) b += `<path d="M${f(-50 + i * 130)},${f(660 + i % 3 * 6)} Q${f(30 + i * 130)},${f(650 + i % 2 * 8)} ${f(110 + i * 130)},${f(668)}" stroke="${FAINT}" fill="none"/>`;
     // battlements
@@ -2339,7 +1888,8 @@ window.addEventListener('DOMContentLoaded', function () {
       b += glow(500, 1000, 700, 'g-fire', 'fireglow') + `<path d="M0,1000 L0,770 L1000,770 L1000,1000Z" fill="${WAX}" opacity=".1"/>`;
       b += `<path class="smoke" d="M300,720 C320,600 260,520 330,420 C380,350 340,260 400,180" stroke="#5a4d40" stroke-width="40" fill="none" opacity=".18" filter="url(#f-soft)"/>`;
     } else {
-      b += obj(s, 'trapdoor', `<polygon points="440,880 560,880 590,960 410,960" fill="#060504" stroke="${INK}" stroke-width="1.2"/><polygon class="trap-glow" points="440,880 560,880 590,960 410,960" fill="${TALLOW}" opacity="0"/>`);
+      b += `<polygon points="440,880 560,880 590,960 410,960" fill="#060504" stroke="${INK}" stroke-width="1.2"/>`;
+      b += `<polygon class="trap-glow" points="440,880 560,880 590,960 410,960" fill="${TALLOW}" opacity="0"/>`;
     }
     return svg(b, opts.fire ? 'The battlements against a sky lit by fire' : 'The flat lead roof at night, with battlements, fields and a dim sky-line');
   }
@@ -2373,7 +1923,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
   /* -------------------------------------------------- the room without a window */
   function room(s, beat, opts = {}) {
-    const seen = id => opts.inspect ? s.examined.includes(id) : seenX(s, id);
+    const seen = id => s.examined.includes(id);
     let b = `<rect width="1000" height="760" fill="#14100d"/><polygon points="0,760 1000,760 1000,1000 0,1000" fill="#0f0c0a"/>`;
     for (let i = -6; i <= 6; i++) b += `<line x1="${500 + i * 40}" y1="760" x2="${500 + i * 220}" y2="1000" stroke="${FAINT}" stroke-width=".9"/>`;
     b += `<line x1="0" y1="760" x2="1000" y2="760" stroke="${INK}" stroke-width="1.3"/>`;
@@ -2382,16 +1932,16 @@ window.addEventListener('DOMContentLoaded', function () {
     fire += glow(215, 720, 160, 'g-fire', 'fireglow') + `<path class="fire-tongue" d="M175,760 C180,710 205,700 200,660 C230,690 240,720 255,760Z" fill="#e39a4f" opacity=".75"/>`;
     let fender = `<line x1="105" y1="640" x2="325" y2="640" stroke="${INK}" stroke-width="4"/>`;
     for (let x = 110; x <= 320; x += 15) fender += `<line x1="${x}" y1="640" x2="${x}" y2="770" stroke="${INK}" stroke-width="3"/>`;
-    b += hot('fire', `<g class="obj${seen('fire') ? ' seen' : ''}">${fire}${fender}</g>`);
+    b += hot('fire', `<g class="obj${seen('fire') ? ' seen' : ''}">${fire}${fender}</g>`, opts.inspect ? 'ex' : 'none');
     // the lamp on its chain
     let lamp = `<line x1="520" y1="0" x2="520" y2="250" stroke="${INK}" stroke-width="2" stroke-dasharray="7 4"/><path d="M490,250 L550,250 L540,320 L500,320Z" fill="#2a231c" stroke="${INK}" stroke-width="1.5"/>`;
     lamp += glow(520, 300, 230) + `<ellipse cx="520" cy="300" rx="12" ry="16" fill="${TALLOW}" opacity=".8"/>`;
-    b += hot('lamp', `<g class="obj${seen('lamp') ? ' seen' : ''}">${lamp}</g>`);
+    b += hot('lamp', `<g class="obj${seen('lamp') ? ' seen' : ''}">${lamp}</g>`, opts.inspect ? 'ex' : 'none');
     // the tapestry, drawn back from a second door
     let tap = `<rect x="760" y="330" width="130" height="430" fill="#070605" stroke="#4a3d30" stroke-width="1.5"/><rect x="780" y="350" width="90" height="390" fill="none" stroke="${FAINT}"/>`;
     tap += `<path d="M700,180 L930,180 L930,190 C900,330 940,520 905,760 L870,760 C890,560 860,360 880,200 L760,200 C740,380 720,560 705,760 L690,760 C700,560 690,380 700,180Z" fill="#2b221a" stroke="#4a3d30"/>`;
     for (let x = 712; x < 760; x += 12) tap += `<path d="M${x},200 C${x - 4},400 ${x + 6},560 ${x - 2},760" stroke="#1d1813" fill="none" stroke-width="2"/>`;
-    b += hot('tapestry', `<g class="obj${seen('tapestry') ? ' seen' : ''}">${tap}</g>`);
+    b += hot('tapestry', `<g class="obj${seen('tapestry') ? ' seen' : ''}">${tap}</g>`, opts.inspect ? 'ex' : 'none');
     if (opts.inspect) {
       // the window that isn't there
       b += hot('window', `<g class="obj ghost${seen('window') ? ' seen' : ''}"><rect x="420" y="380" width="150" height="190" fill="#14100d" stroke="${GLASS}" stroke-width="1.5" stroke-dasharray="8 8" opacity=".55"/><line x1="495" y1="380" x2="495" y2="570" stroke="${GLASS}" stroke-dasharray="8 8" opacity=".35"/><line x1="420" y1="475" x2="570" y2="475" stroke="${GLASS}" stroke-dasharray="8 8" opacity=".35"/></g>`);
@@ -2412,23 +1962,23 @@ window.addEventListener('DOMContentLoaded', function () {
   }
 
   /* -------------------------------------------------- other interiors */
-  function bedside(s) {
+  function bedside() {
     let b = `<rect width="1000" height="740" fill="#13100d"/><rect y="740" width="1000" height="260" fill="#0e0b09"/><line x1="0" y1="740" x2="1000" y2="740" stroke="${INK}"/>`;
-    b += obj(s, 'innerdoor', `<rect x="640" y="230" width="190" height="510" fill="#070605" stroke="#4a3d30" stroke-width="1.5"/><path d="M600,200 L870,200 C850,400 880,600 860,740 L835,740 C850,560 830,380 845,220 L640,220 C620,400 615,600 610,740 L595,740 C605,560 595,380 600,200Z" fill="#2b221a" stroke="#4a3d30"/>`);
+    b += `<rect x="640" y="230" width="190" height="510" fill="#070605" stroke="#4a3d30" stroke-width="1.5"/><path d="M600,200 L870,200 C850,400 880,600 860,740 L835,740 C850,560 830,380 845,220 L640,220 C620,400 615,600 610,740 L595,740 C605,560 595,380 600,200Z" fill="#2b221a" stroke="#4a3d30"/>`;
     b += `<path d="M180,960 L180,700 Q180,640 240,640 L330,640 Q380,640 380,700 L380,800 L410,800 L410,960" fill="none" stroke="${INK}" stroke-width="6"/><line x1="160" y1="800" x2="420" y2="800" stroke="${INK}" stroke-width="6"/>`;
     b += `<rect x="440" y="700" width="170" height="14" fill="#1d1813" stroke="${INK}"/><line x1="455" y1="714" x2="455" y2="960" stroke="${INK}" stroke-width="5"/><line x1="595" y1="714" x2="595" y2="960" stroke="${INK}" stroke-width="5"/>`;
-    b += obj(s, 'basin', `<path d="M465,700 Q525,650 585,700Z" fill="#cfc2a6" opacity=".35" stroke="${INK}"/><ellipse cx="525" cy="684" rx="40" ry="8" fill="#5a1f19" opacity=".55"/><path d="M550,700 L556,620 Q575,600 590,620 L585,700" fill="none" stroke="${INK}" stroke-width="3"/>`);
+    b += `<path d="M465,700 Q525,650 585,700Z" fill="#cfc2a6" opacity=".35" stroke="${INK}"/><ellipse cx="525" cy="684" rx="40" ry="8" fill="#5a1f19" opacity=".55"/><path d="M550,700 L556,620 Q575,600 590,620 L585,700" fill="none" stroke="${INK}" stroke-width="3"/>`;
     b += glow(500, 600, 340) + candle(505, 560, 0.75);
     return svg(b, 'A chair beside a small table with a basin and a candle, and a door behind a tapestry', 0.86);
   }
-  function hearth(s) {
+  function hearth() {
     let b = `<rect width="1000" height="760" fill="#14100d"/><rect y="760" width="1000" height="240" fill="#0f0c0a"/><line x1="0" y1="760" x2="1000" y2="760" stroke="${INK}"/>`;
     b += `<rect x="260" y="380" width="480" height="380" fill="#0c0a08" stroke="${INK}" stroke-width="2"/><rect x="230" y="355" width="540" height="28" fill="#1a1511" stroke="${INK}" stroke-width="1.5"/><path d="M320,760 L320,520 Q500,440 680,520 L680,760Z" fill="#060504"/>`;
     b += glow(500, 720, 280, 'g-fire', 'fireglow') + `<path class="fire-tongue" d="M430,760 C440,700 470,690 465,640 C510,680 530,720 560,760Z" fill="#e39a4f" opacity=".75"/>`;
-    b += obj(s, 'saucepan', `<rect x="560" y="610" width="90" height="12" fill="${INK}"/><path d="M570,610 L578,560 L632,560 L640,610Z" fill="#2a231c" stroke="${INK}" stroke-width="2"/><line x1="640" y1="580" x2="700" y2="570" stroke="${INK}" stroke-width="4"/><path d="M590,550 C585,520 600,505 595,480" stroke="#7d725f" fill="none" opacity=".4"/>`);
-    b += obj(s, 'bottle', `<path d="M640,355 L640,300 Q640,290 650,285 L650,250 L666,250 L666,285 Q676,290 676,300 L676,355Z" fill="#22301f" stroke="${INK}" opacity=".85"/>`);
+    b += `<rect x="560" y="610" width="90" height="12" fill="${INK}"/><path d="M570,610 L578,560 L632,560 L640,610Z" fill="#2a231c" stroke="${INK}" stroke-width="2"/><line x1="640" y1="580" x2="700" y2="570" stroke="${INK}" stroke-width="4"/><path d="M590,550 C585,520 600,505 595,480" stroke="#7d725f" fill="none" opacity=".4"/>`;
+    b += `<path d="M640,355 L640,300 Q640,290 650,285 L650,250 L666,250 L666,285 Q676,290 676,300 L676,355Z" fill="#22301f" stroke="${INK}" opacity=".85"/>`;
     b += `<path d="M90,960 L90,720 Q90,680 130,680 L200,680 Q230,680 230,720 L230,820 L250,820 L250,960" fill="none" stroke="${INK}" stroke-width="5"/><line x1="80" y1="820" x2="260" y2="820" stroke="${INK}" stroke-width="5"/>`;
-    b += obj(s, 'keys', `<g transform="translate(120 640)"><circle r="16" fill="#0e0b09" stroke="${TALLOW}" stroke-width="2.5"/><line x1="12" y1="9" x2="48" y2="26" stroke="${TALLOW}" stroke-width="2.5"/><line x1="38" y1="21" x2="34" y2="32" stroke="${TALLOW}" stroke-width="2.5"/></g>`);
+    b += `<g transform="translate(120 640)"><circle r="12" fill="none" stroke="${TALLOW}" stroke-width="2.5"/><line x1="9" y1="7" x2="44" y2="24" stroke="${TALLOW}" stroke-width="2.5"/></g>`;
     return svg(b, 'A hearth with a saucepan on the hob, a bottle on the mantel, an empty chair and a ring of keys');
   }
   function bedroom(s) {
@@ -2440,17 +1990,17 @@ window.addEventListener('DOMContentLoaded', function () {
     m += `<path d="M290,190 L340,320" stroke="${GLASS}" stroke-width="2" opacity=".22"/><path d="M300,200 L330,280" stroke="${GLASS}" stroke-width="1" opacity=".3"/>`;
     m += `<ellipse class="reflection" cx="375" cy="400" rx="${flipped ? 70 : 0}" ry="${flipped ? 110 : 0}" fill="${GLASS}" opacity=".07" filter="url(#f-soft)"/>`;
     m += `<path d="M300,330 C330,300 420,300 450,330 C470,420 460,560 450,640 L300,640 C290,560 285,420 300,330Z" fill="#e6dccb" opacity=".06"/>`;
-    b += obj(s, 'mirror', m);
+    b += hot('mirror', m, 'mirror');
     b += `<rect x="230" y="700" width="290" height="16" fill="#1d1813" stroke="${INK}"/>`;
-    b += obj(s, 'cards', [0, 1, 2, 3].map(i => `<rect x="${262 + i * 30}" y="684" width="22" height="16" fill="#d8ccb2" opacity=".8" transform="rotate(${(i - 1.5) * 4} ${273 + i * 30} 692)"/>`).join(''));
     // the veil, rent in two parts, on the floor
-    b += obj(s, 'veil', `<path d="M280,880 C330,850 390,870 430,860 C420,900 370,930 300,925 C285,915 270,900 280,880Z" fill="#e8e1d2" opacity=".55"/><path d="M470,870 C520,845 600,860 640,880 C620,920 560,935 500,920 C480,905 465,890 470,870Z" fill="#e8e1d2" opacity=".5"/><path d="M425,868 L440,860 L432,880 L448,876" stroke="#e8e1d2" fill="none" opacity=".5"/>`);
+    b += `<path d="M280,880 C330,850 390,870 430,860 C420,900 370,930 300,925 C285,915 270,900 280,880Z" fill="#e8e1d2" opacity=".55"/><path d="M470,870 C520,845 600,860 640,880 C620,920 560,935 500,920 C480,905 465,890 470,870Z" fill="#e8e1d2" opacity=".5"/>`;
+    b += `<path d="M425,868 L440,860 L432,880 L448,876" stroke="#e8e1d2" fill="none" opacity=".5"/>`;
     // a candle, put out
     b += `<g transform="translate(150 640) scale(.75)"><rect x="-9" y="0" width="18" height="70" fill="#cfc2a6" opacity=".6"/><path d="M-26,72 h52 l-6,10 h-40z" fill="none" stroke="${INK}" stroke-width="2"/><path class="smoke" d="M0,-4 C10,-30 -12,-55 4,-90 C14,-110 -2,-130 6,-160" stroke="#9c907e" stroke-width="3" fill="none" opacity=".35"/></g>`;
     b += glow(380, 420, 380, 'g-moon');
     return svg(b, 'A tall dark mirror, a curtained bed, a snuffed candle, and a veil torn in two on the floor', 0.84);
   }
-  function church(s) {
+  function church() {
     let b = `<rect width="1000" height="1000" fill="#110e0b"/>`;
     const L = (X, Y, Z) => P(X, Y, Z, 480, 500, 430);
     [[-1.6, -1], [1.6, -1], [-1.6, 2], [1.6, 2]].forEach(([X, Y]) => { const a = L(X, Y, 0.7), c = L(X, Y, 8); b += `<line x1="${f(a[0])}" y1="${f(a[1])}" x2="${f(c[0])}" y2="${f(c[1])}" stroke="${INK}" stroke-width="1.3"/>`; });
@@ -2462,27 +2012,26 @@ window.addEventListener('DOMContentLoaded', function () {
       const p = [L(x0, -0.45, z), L(x1, -0.45, z), L(x1, -1, z), L(x0, -1, z)];
       b += `<polygon points="${poly(p)}" fill="#1a1511" stroke="#4a3d30" stroke-width="1"/>`;
     });
-    b += obj(s, 'paper', `<g transform="translate(500 720)"><line x1="0" y1="0" x2="0" y2="200" stroke="${INK}" stroke-width="6"/><path d="M-70,0 L70,0 L55,-30 L-55,-30Z" fill="#1d1813" stroke="${INK}"/><rect x="-46" y="-56" width="92" height="40" fill="#d8ccb2" opacity=".8" transform="rotate(-6)"/></g>`);
+    b += `<g transform="translate(500 720)"><line x1="0" y1="0" x2="0" y2="200" stroke="${INK}" stroke-width="6"/><path d="M-70,0 L70,0 L55,-30 L-55,-30Z" fill="#1d1813" stroke="${INK}"/><rect x="-46" y="-56" width="92" height="40" fill="#d8ccb2" opacity=".8" transform="rotate(-6)"/></g>`;
     b += glow(500, 680, 260);
     return svg(b, 'A church aisle between rows of pews, a lancet window, and a paper on the lectern');
   }
-  function inn(s) {
+  function inn() {
     let b = `<rect width="1000" height="1000" fill="url(#g-sky)"/>`;
-    let ruin = `<path d="M380,560 L380,420 L420,420 L420,390 L450,390 L450,420 L520,420 L520,380 L560,380 L560,420 L640,420 L640,395 L670,395 L670,420 L700,420 L700,560Z" fill="#0b0908" stroke="${INK}"/>`;
-    for (let x = 400; x < 690; x += 40) ruin += `<rect x="${x}" y="460" width="14" height="26" fill="#1e1915"/><rect x="${x}" y="505" width="14" height="26" fill="#1e1915"/>`;
-    b += obj(s, 'ruin', ruin);
+    b += `<path d="M380,560 L380,420 L420,420 L420,390 L450,390 L450,420 L520,420 L520,380 L560,380 L560,420 L640,420 L640,395 L670,395 L670,420 L700,420 L700,560Z" fill="#0b0908" stroke="${INK}"/>`;
+    for (let x = 400; x < 690; x += 40) b += `<rect x="${x}" y="460" width="14" height="26" fill="#1e1915"/><rect x="${x}" y="505" width="14" height="26" fill="#1e1915"/>`;
     b += `<path d="M330,560 C420,540 600,545 760,560 L1000,600 L1000,1000 L0,1000 L0,620Z" fill="#100e0b"/><path d="M520,560 C540,700 420,820 380,1000 L620,1000 C600,820 560,700 540,560Z" fill="#17130f"/>`;
     b += `<line x1="120" y1="80" x2="120" y2="900" stroke="${INK}" stroke-width="8"/><line x1="120" y1="140" x2="330" y2="140" stroke="${INK}" stroke-width="6"/><line x1="170" y1="140" x2="170" y2="180" stroke="${INK}" stroke-width="2"/><line x1="290" y1="140" x2="290" y2="180" stroke="${INK}" stroke-width="2"/>`;
-    b += obj(s, 'sign', `<g class="sign"><rect x="150" y="180" width="160" height="110" fill="#1d1813" stroke="${INK}" stroke-width="2"/><text x="230" y="225" text-anchor="middle" font-family="IM Fell English, serif" font-size="20" fill="#ab9f88">The</text><text x="230" y="252" text-anchor="middle" font-family="IM Fell English, serif" font-size="20" fill="#ab9f88">Rochester</text><text x="230" y="276" text-anchor="middle" font-family="IM Fell English, serif" font-size="20" fill="#ab9f88">Arms</text></g>`);
+    b += `<g class="sign"><rect x="150" y="180" width="160" height="110" fill="#1d1813" stroke="${INK}" stroke-width="2"/><text x="230" y="225" text-anchor="middle" font-family="IM Fell English, serif" font-size="20" fill="#ab9f88">The</text><text x="230" y="252" text-anchor="middle" font-family="IM Fell English, serif" font-size="20" fill="#ab9f88">Rochester</text><text x="230" y="276" text-anchor="middle" font-family="IM Fell English, serif" font-size="20" fill="#ab9f88">Arms</text></g>`;
     b += glow(860, 860, 260) + `<rect x="800" y="740" width="110" height="150" fill="${TALLOW}" opacity=".12" stroke="${INK}"/>`;
     return svg(b, 'An inn sign on a post, and on the hill beyond, the blackened shell of a house', 0.82);
   }
-  function desk(s) {
-    let b = `<rect width="1000" height="1000" fill="#13100d"/>` + obj(s, 'window', `<rect x="620" y="120" width="260" height="330" fill="#1b2027" stroke="${INK}" stroke-width="3"/><path d="M620,380 C700,360 760,370 880,350 L880,450 L620,450Z" fill="#141714"/><line x1="750" y1="120" x2="750" y2="450" stroke="${INK}" stroke-width="3"/>`);
+  function desk() {
+    let b = `<rect width="1000" height="1000" fill="#13100d"/><rect x="620" y="120" width="260" height="330" fill="#1b2027" stroke="${INK}" stroke-width="3"/><path d="M620,380 C700,360 760,370 880,350 L880,450 L620,450Z" fill="#141714"/><line x1="750" y1="120" x2="750" y2="450" stroke="${INK}" stroke-width="3"/>`;
     b += `<polygon points="60,620 940,620 1000,1000 0,1000" fill="#1a1410" stroke="${INK}"/><line x1="60" y1="620" x2="940" y2="620" stroke="${INK}" stroke-width="2"/>`;
-    let letter = `<g transform="translate(330 760) rotate(-4)"><rect x="-150" y="-110" width="300" height="220" fill="#d8ccb2" opacity=".85"/>`;
-    for (let y = -80; y < 90; y += 18) letter += `<line x1="-120" y1="${y}" x2="${y > 60 ? 20 : 120}" y2="${y}" stroke="#4a3d30" stroke-width="2" stroke-dasharray="${(y * 7) % 23 + 14} 6" opacity=".7"/>`;
-    b += obj(s, 'letter', letter + `</g>`) + `<path d="M620,720 L700,520" stroke="#cfc2a6" stroke-width="3"/><path d="M700,520 C720,500 740,470 730,440 C710,470 700,490 690,515Z" fill="#cfc2a6" opacity=".7"/><rect x="600" y="715" width="44" height="34" rx="6" fill="#0b0908" stroke="${INK}"/>`;
+    b += `<g transform="translate(330 760) rotate(-4)"><rect x="-150" y="-110" width="300" height="220" fill="#d8ccb2" opacity=".85"/>`;
+    for (let y = -80; y < 90; y += 18) b += `<line x1="-120" y1="${y}" x2="${y > 60 ? 20 : 120}" y2="${y}" stroke="#4a3d30" stroke-width="2" stroke-dasharray="${(y * 7) % 23 + 14} 6" opacity=".7"/>`;
+    b += `</g><path d="M620,720 L700,520" stroke="#cfc2a6" stroke-width="3"/><path d="M700,520 C720,500 740,470 730,440 C710,470 700,490 690,515Z" fill="#cfc2a6" opacity=".7"/><rect x="600" y="715" width="44" height="34" rx="6" fill="#0b0908" stroke="${INK}"/>`;
     b += glow(820, 600, 300) + candle(830, 560, 0.75);
     return svg(b, 'A writing desk by a window over the moor, a letter, an inkwell and a quill');
   }
@@ -2639,10 +2188,6 @@ UH.registerShelf([
   const N = (tier, text, by) => ({ t: 'note', tier, text, by });
   const R = id => ({ t: 'reflect', id });
   const H = text => ({ t: 'h', text });
-  const GO = (hot, prompt, flag) => ({ t: 'gate', hot, prompt, flag });
-  const CHECK = (id, claim, answer, note) => s => s.role === 'reader' ? { t: 'check', id, claim, answer, note } : null;
-  const CROSS = w => s => s.role === 'judge' ? { t: 'crossx', w } : null;
-  const ROLE = (role, text) => s => s.role === role ? P(text) : null;
 
   const JANE = 'Jane Eyre, narrating';
   const ROCH = 'Edward Rochester';
@@ -2650,103 +2195,93 @@ UH.registerShelf([
   /* ---------------------------------------------------------------- notes */
   const clues = {
     c_bluebeard: { tier: 'context', by: 'Perrault, 1697', text: `In Charles Perrault’s tale, a rich husband gives his new wife the keys to every room in the house and forbids her one. Inside it she finds the bodies of the wives who came before her.\n\nJane names the genre of the house in her first hour on the third storey, long before she knows its secret. The comparison fits more closely than she can know. Behind one of these doors is a wife who came before her, and this one is alive.` },
-    c_formal: { tier: 'annotation', text: `*Distinct* and *formal* describe something controlled; *mirthless* rules out amusement. Jane describes the sound carefully before anyone explains it to her.` },
-    c_door: { tier: 'annotation', text: `Jane can place the sound exactly. The household’s answer is about whose laugh it is, not where it came from.` },
-    c_perhaps: { tier: 'annotation', text: `The first explanation of the laugh names the wrong woman, and hedges: *very likely*, *perhaps*. Rochester later says Mrs. Fairfax “may indeed have suspected something, but she could have gained no precise knowledge as to facts” (Ch. XXVII).
-
-Miranda Fricker (2007) writes that testimonial injustice “occurs when prejudice causes a hearer to give a deflated level of credibility to a speaker’s word.” Here the laugh is not disbelieved so much as assigned to someone else.` },
-    c_directions: { tier: 'annotation', text: `The first rule the household is shown enforcing about the woman upstairs is a rule about noise.` },
-    c_leads: { tier: 'annotation', text: `*The leads*: the flat lead roof of the hall. Jane comes here to look at the horizon. In Chapter XXXVI the woman from the third storey stands on this roof on the last night of her life.` },
-    c_silent: { tier: 'annotation', text: `Jane’s argument for women’s inner lives is made on the same storey as a confined woman whose inner life the novel never records.` },
-    c_laughat: { tier: 'annotation', text: `Jane objects to women being laughed at. The next sentence is a laugh.` },
-    c_murmurs: { tier: 'annotation', text: `Jane hears this speech often enough to call it characteristic, records none of it, and still attributes it to Grace Poole.` },
-    c_judgeme: { tier: 'annotation', text: `Rochester takes the wedding party up to the third storey, shows them his wife, and asks to be judged by comparing her with Jane. She is in the room. No one asks her anything.` },
-    c_beast: { tier: 'annotation', text: `The pronoun shifts within the scene: *it* while the figure grovels and growls, *she* when she looks back at her visitors, *its* again a sentence later.` },
-    c_gazed: { tier: 'annotation', text: `The one moment in the scene when she is described looking rather than being looked at. Grace Poole’s warning follows at once: “Ah! sir, she sees you!”` },
-    c_mywife: { tier: 'annotation', text: `An hour earlier he was marrying Jane. Here he claims her as *my wife*. In Chapter XXVII he reports a voice telling him the opposite: she “is not your wife.”` },
-    c_madfamily: { tier: 'criticism', by: 'Thomas, 1999', text: `Rochester presents madness as inherited down the female line from a “Creole” mother. Sue Thomas (1999) connects this kind of description to period writing about the white Creole planter class as morally degenerate, with intemperance among its “stock markers.” The novel never says what “Creole” means for this family.` },
-    c_human: { tier: 'annotation', reflect: 'human', text: `Rochester asks the witnesses to compare the two women: one *a being*, the other *something at least human*.` },
+    c_formal: { tier: 'annotation', text: `Jane chooses her adjectives carefully. *Distinct* and *formal* describe something shaped and deliberate; *mirthless* says it is not amusement. Before anyone has explained the sound to her, her own description resists the explanation she is about to be given.` },
+    c_door: { tier: 'annotation', text: `Jane knows which door. So, presumably, does Mrs. Fairfax. The question the household answers is never *where* the sound came from. It is *whose* it will be said to be.` },
+    c_perhaps: { tier: 'annotation', text: `The first account of the woman upstairs is a misattribution, offered casually and hedged (*very likely*, *perhaps*). Rochester later says Mrs. Fairfax “may indeed have suspected something, but she could have gained no precise knowledge as to facts” (Ch. XXVII).\n\nThe philosopher Miranda Fricker calls it testimonial injustice when prejudice leads a hearer to give a speaker less credibility than she deserves. This is a step earlier than disbelief. A laugh is a kind of utterance, and here it is entered in the household’s record under another woman’s name.` },
+    c_directions: { tier: 'annotation', text: `Directions from whom, about what? The instruction goes to the keeper and concerns noise. The household’s first visible rule about the woman upstairs is a rule about sound.` },
+    c_leads: { tier: 'annotation', text: `*The leads* are the flat lead roof of the hall. Keep this roof in mind. Jane comes here to look at the horizon and want more of the world. In Chapter XXXVI the woman from the third storey stands on it, above the battlements, on the last night of her life.` },
+    c_silent: { tier: 'annotation', text: `Millions in silent revolt, Jane says, and there is one overhead who is not silent. The novel’s most quoted argument for women’s inner lives is made one floor below a woman whose inner life it never records.` },
+    c_laughat: { tier: 'annotation', text: `Jane objects that women who want more are laughed at. Read the next sentence.` },
+    c_murmurs: { tier: 'annotation', text: `Murmurs are speech too low to make out. Jane hears them often enough to call them characteristic and records not one word. She still credits them to Grace Poole. The woman upstairs talks, and the narrator files the talk under eccentricity.` },
+    c_judgeme: { tier: 'annotation', text: `On the morning of the interrupted wedding, Rochester takes the clergyman, the solicitor, Mason and Jane up to the third storey and shows them his wife. Then he sets Jane beside her and asks to be judged by the comparison.\n\nShe is in the room for this hearing. Nobody asks her anything.` },
+    c_beast: { tier: 'annotation', text: `Jane, narrating, cannot settle on a pronoun. The figure is *it* while it grovels and growls. It becomes *she* at the moment she parts her hair and looks back at the people looking at her. A sentence later it is *the clothed hyena* again, on *its* hind-feet.` },
+    c_gazed: { tier: 'annotation', text: `This is the one moment in the scene when the narration grants her a point of view. She has *visitors*, and she looks at them. Grace Poole’s warning follows at once: “Ah! sir, she sees you!”` },
+    c_mywife: { tier: 'annotation', text: `An hour earlier he was ready to marry another woman as if this one did not exist. He claims her as *my wife* when the claim explains him. In Chapter XXVII he will report a voice telling him the opposite, that she “is not your wife.”` },
+    c_madfamily: { tier: 'annotation', text: `Madness here is inherited, and it runs down the female line: a Creole mother, a dutiful daughter. Nineteenth-century ideas about inherited taint often ran together with anxieties about colonial birth. The novel never says what “Creole” means for this family (the word could describe white people born in the West Indies as well as people of African or mixed descent), and that uncertainty does work in the text.` },
+    c_human: { tier: 'annotation', reflect: 'human', text: `He brings the witnesses upstairs so they can measure the two women against each other. One is *a being*. The other is *something at least human*. The first description exists to produce the second.` },
     c_money: { tier: 'context', by: 'Coverture', text: `Under English common law a wife’s money and movable property passed to her husband on marriage unless a settlement protected it. William Blackstone’s *Commentaries* (1765) put the doctrine plainly: “By marriage, the husband and wife are one person in law: that is, the very being or legal existence of the woman is suspended during the marriage.” The Married Women’s Property Acts of 1870 and 1882 began to undo it.` },
-    c_dark: { tier: 'annotation', text: `The same three words describe Blanche Ingram, the heiress Rochester courts at Thornfield. Here *dark* is a compliment about colouring. How to read the later descriptions (*discoloured*, *swelled black face*) is disputed; see the note on *discoloured*.` },
-    c_race: { tier: 'annotation', reflect: 'race', text: `*Race* here means family line. Rochester describes a match between an old English family and a colonial fortune.` },
+    c_dark: { tier: 'annotation', text: `The same three words describe Blanche Ingram, the English heiress Rochester courts at Thornfield. In this sentence *dark* is a compliment about a society beauty’s colouring. It gathers other meanings later, when Jane describes a *discoloured* face and Rochester a *swelled black* one. Whether those later words should be read racially is one of the most contested questions about her.` },
+    c_race: { tier: 'annotation', reflect: 'race', text: `*Race* here means lineage: an old English family. Set beside her “Creole” mother and the Masons’ colonial fortune, the word shows what the marriage was. A planter family bought English ancestry, and an English family bought a Jamaican fortune.` },
     c_30k: { tier: 'context', text: `Thirty thousand pounds was a very large fortune; Jane’s own windfall at the end of the novel is twenty thousand. Rochester was a younger son with no inheritance coming, and by his account his father arranged the match for the money. Under coverture the fortune became her husband’s. The novel never mentions it again, and never says how much of the household that confines her runs on what she brought.` },
-    c_infamous: { tier: 'annotation', text: `Her mother is named once in the novel, in the statement read in church: Antoinetta. Here she is only *infamous*.` },
-    c_unchaste: { tier: 'annotation', reflect: 'unchaste', text: `Both charges concern appetite, for drink and for sex. In the next sentence Rochester presents them as the cause of her madness.
-
-Within the chapter, the woman listening to him will refuse to stay as his mistress.` },
+    c_infamous: { tier: 'annotation', text: `Her mother is named in one place in the novel, the document read aloud in the church: Antoinetta. Here she is *infamous*, and the daughter is defined by descent from her.` },
+    c_unchaste: { tier: 'annotation', reflect: 'unchaste', text: `Both charges concern a woman’s appetites, for drink and for sex. Neither is a symptom of anything. In the next sentence both become the *cause* of madness.\n\nThey also prepare a contrast. Within the chapter, the governess listening to this story will refuse to stay as his mistress and leave Thornfield with nothing.` },
     c_partofme: { tier: 'context', by: 'Coverture', text: `Rochester complains that the law calls her a part of him. Under coverture the fiction ran the other way. It was the wife whose legal existence was absorbed into the husband’s, along with her fortune.` },
     c_doctors: { tier: 'context', text: `No doctor is named. No examination is described, no certificate shown. The diagnosis arrives in a subordinate clause, as the reason he could not divorce her.\n\nBefore the Matrimonial Causes Act of 1857, an English divorce that allowed remarriage took a private Act of Parliament: rare, costly, and in practice granted almost only for a wife’s adultery. Rochester has just called her *unchaste*. In his own account, the finding of madness is what closes the legal way out and makes the marriage permanent.` },
     c_excesses: { tier: 'context', by: 'Prichard, 1835', text: `Moral judgment, turned into diagnosis. James Cowles Prichard’s *Treatise on Insanity* (1835) gave English medicine a category, *moral insanity*, in which disordered feeling and conduct could amount to madness while the intellect stayed intact. Brontë used nearly that phrase about Bertha in a letter of January 1848. Hear the author’s testimony.` },
-    c_europe: { tier: 'criticism', by: 'Spivak, 1985', reflect: 'europe', text: `The passage sets the West Indies (sulphur, a red moon like a cannon-ball) against a wind from Europe. Gayatri Chakravorty Spivak (1985) reads *Jane Eyre* as a novel in which empire supplies the terms of English selfhood. Here Europe is the cure, and the cure is for him.` },
-    c_confine: { tier: 'annotation', text: `In Rochester’s account, the plan to confine her at Thornfield was made in Jamaica, as the condition of his starting again.` },
-    c_notwife: { tier: 'annotation', reflect: 'notwife', text: `At the attic door he called her *my wife*. Here a voice tells him she is not, which leaves him free to form “what new tie you like.”` },
-    c_oblivion: { tier: 'annotation', text: `The plan is to bury her identity. Her full name, and her mother’s, appear once in the novel, read aloud by a solicitor.` },
-    c_ravings: { tier: 'annotation', text: `Rochester says her *ravings* would *betray* his secret, which means what she said was intelligible enough to reveal it. The attendant is chosen for *fidelity*, not for medical skill.
-
-Fricker’s testimonial injustice concerns a hearer who discounts a speaker. Here the arrangement ensures she has no hearers.` },
-    c_lucid: { tier: 'annotation', text: `By his account she used her clear periods to accuse him. The accusations are not recorded.` },
-    c_cannothelp: { tier: 'annotation', text: `Jane is the only character who rebukes Rochester for how he speaks of his wife. Her defence still accepts the diagnosis.` },
-    c_ifyou: { tier: 'annotation', reflect: 'ifmad', text: `He imagines Jane mad, and says he would love her anyway.` },
-    c_tigress: { tier: 'annotation', text: `Her brother, too, describes her as an animal.` },
+    c_europe: { tier: 'criticism', by: 'Spivak, 1985', reflect: 'europe', text: `The geography of the passage is moral. The colony is sulphur, a red moon like a cannon-ball, a pit; Europe arrives as fresh wind. Gayatri Chakravorty Spivak reads *Jane Eyre* as a novel in which empire supplies the terms of English selfhood. Here the West Indies are the place of madness and degradation, and England is the cure. The cure is for him.` },
+    c_confine: { tier: 'annotation', text: `The plan for her confinement is spoken by a voice Rochester calls Hope. In his story the attic is no accident of circumstance. It was decided in Jamaica, as the way for him to begin again.` },
+    c_notwife: { tier: 'annotation', reflect: 'notwife', text: `The man who said “That is my wife” at the attic door reports this voice telling him she is not. Each claim serves him at the moment he makes it. The second clears the ground for *what new tie you like*.` },
+    c_oblivion: { tier: 'annotation', text: `The plan is erasure: her identity and her connection to him, buried. The novel half carries it out. You will not hear her full name, or her mother’s, until a solicitor reads them aloud in a church.` },
+    c_ravings: { tier: 'annotation', text: `Read the clause slowly. Her *ravings* would *betray* his secret. For speech to betray a secret it has to contain the secret, and someone has to believe it. Rochester has just told you that what he calls raving is informative and would be credited.\n\nThe attendant is chosen for *fidelity*: for reliability in keeping what she says from reaching anyone, not for skill in treating her. Fricker’s testimonial injustice is a hearer discounting a speaker. This is its completed form. The speech is kept from ever reaching a hearer.` },
+    c_lucid: { tier: 'annotation', text: `In her clear weeks, by his own account, she accused him. The novel records none of the accusations. It records that she made them, and calls them abuse.` },
+    c_cannothelp: { tier: 'annotation', text: `Jane is the only person in the novel who rebukes Rochester for how he speaks of her. Her defence accepts the diagnosis: pity her because she is mad. The madness itself goes unexamined, and sympathy and verdict arrive together.` },
+    c_ifyou: { tier: 'annotation', reflect: 'ifmad', text: `He imagines Jane mad and promises he would love her anyway. The question works only because Jane is the narrator. A mad Jane would still be the one telling the story.` },
+    c_tigress: { tier: 'annotation', text: `Her brother reaches for an animal too. Every account of her, sympathetic or not, does.` },
     c_interview: { tier: 'annotation', text: `Rochester’s word for a brother visiting his sister. An interview has two speakers.` },
-    c_good: { tier: 'annotation', text: `Mason went up alone, at night, without Rochester. The novel does not record what he meant to say, or what she said before she attacked him; only that “she looked so quiet at first.”` },
-    c_drain: { tier: 'annotation', text: `The only words in the novel attributed to her. They reach you through her brother’s report, narrated by Jane, who has been told to keep quiet.` },
-    c_gibberish: { tier: 'annotation', reflect: 'fool', text: `A threat is a sentence with a meaning. Rochester calls it *gibberish*.
-
-Compare his praise of Jane after the fire in Chapter XV: “You are no talking fool.”` },
-    c_dontrepeat: { tier: 'annotation', text: `He calls her words meaningless and forbids them to be repeated in the same breath.` },
-    c_dead: { tier: 'annotation', text: `The advice Rochester gave himself in Jamaica, “buried in oblivion,” is passed on to her brother. Spanish Town is where she was married.` },
-    c_grains: { tier: 'annotation', text: `Mason is the reason the bigamous wedding stops, and he weeps for his sister. Rochester’s portrait of him is contemptuous and predicts he will go mad too. The account of the Mason family you have is Rochester’s.` },
-    c_charge: { tier: 'annotation', text: `*Charge*: a ward, a responsibility, a cost.` },
-    c_were: { tier: 'annotation', text: `Grace answers for both of them, in the first person plural.` },
-    c_guessed: { tier: 'annotation', text: `Jane offers the name. Rochester accepts it rather than correct her.` },
-    c_saynothing: { tier: 'annotation', reflect: 'fool', text: `The order to keep quiet goes to Jane, who obeys and is praised for it.` },
-    c_mirror: { tier: 'annotation', text: `Before tearing the veil she puts it on and looks at herself. Rochester later reads the act as memory of “her own bridal days” (Ch. XXVII). What she felt is not in the text.` },
-    c_discoloured: { tier: 'criticism', by: 'Meyer, 1990 · Thomas, 1999', text: `Disputed. Susan Meyer (1990) argues that Bertha, apparently white in Rochester’s retrospective account, is darkened in the scenes where she appears, as part of the novel’s figurative use of race and slavery. Sue Thomas (1999) disagrees, reading Bertha through period stereotypes of the white Creole planter class rather than of the rebel slave. Others read the words as describing illness or drink. The novel never states her race.` },
-    c_vampyre: { tier: 'annotation', text: `Jane names her with a figure from German folklore. The Gothic supplies the words available to her.` },
-    c_extinguished: { tier: 'annotation', text: `In the only meeting between the two women, she looks at Jane by candlelight and does her no harm.` },
-    c_creature: { tier: 'annotation', reflect: 'nerves', text: `Rochester explains Jane’s account away as nerves and fever, though he knows who was in her room. He praises Jane’s delicacy. In the attic, Jane reports, the other woman “showed virile force in the contest” (Ch. XXVI).` },
-    c_real: { tier: 'annotation', text: `Jane holds her ground, and the next morning proves her right. Her account is confirmed by the plot, which is hers.` },
-    c_madcat: { tier: 'criticism', by: 'Gilbert & Gubar, 1979', reflect: 'madcat', text: `Jane is the first woman in the novel called mad and locked in a room for it. Sandra Gilbert and Susan Gubar (1979) read Bertha as Jane’s dark double, acting out the rebellion and rage that first appear in this red-room scene.` },
-    c_rebelslave: { tier: 'criticism', by: 'Meyer, 1990', text: `Jane uses the enslaved rebel as a figure for an English child’s anger. Susan Meyer (1990) argues that the novel repeatedly uses slavery as a metaphor for English women’s subordination, while the people of the colonies stay at its margins.` },
-    c_fullname: { tier: 'annotation', text: `Her full name appears once in the novel, read aloud in a church. Until now she has been a laugh, a fire, and Grace Poole.` },
+    c_good: { tier: 'annotation', text: `Mason went up alone, at night, without her husband. Whatever he wanted to say to her, he wanted to say it with Rochester out of the room. The novel never tells us what it was, or what she said before she attacked him. It tells us only that “she looked so quiet at first.”` },
+    c_drain: { tier: 'annotation', text: `These are the only words in the novel attributed to her. They reach you as reported speech, from her brother, through Jane, who is under orders not to talk. They make a complete, grammatical sentence with a subject, a verb, and a target.` },
+    c_gibberish: { tier: 'annotation', reflect: 'fool', text: `A threat is not gibberish. Rochester applies the word to the one sentence of hers that survives.\n\nCompare the compliment he paid Jane in Chapter XV, after the fire in his bed: “You are no talking fool.” The valued woman is the one who keeps quiet. The other one’s speech is noise.` },
+    c_dontrepeat: { tier: 'annotation', text: `He forbids it to be passed on, in the same breath in which he calls it meaningless. Nobody needs to suppress gibberish.\n\nHere the novel’s silence about her is manufactured in front of you. Her sentence is spoken, reported once, and stopped.` },
+    c_dead: { tier: 'annotation', text: `Hope’s instruction from Chapter XXVII (“buried in oblivion”), offered here to her brother. Spanish Town is where she was married, and where he still lives.` },
+    c_grains: { tier: 'annotation', text: `Mason is the reason the bigamous wedding stops, and he weeps for his sister. Rochester’s portrait of him is contemptuous and predicts that he too will go mad: “will probably be in the same state one day.” Ask whose account of the Mason family you have been relying on.` },
+    c_charge: { tier: 'annotation', text: `*Charge*: a responsibility, a ward, a cost. He asks after her the way one asks after an expense.` },
+    c_were: { tier: 'annotation', text: `Grace answers in the first person plural. Of everyone in the novel, the woman paid to keep her is the only one who speaks as if they share a condition.` },
+    c_guessed: { tier: 'annotation', text: `Jane offers the name and Rochester accepts it. He does not have to lie outright. He lets her mistake stand and congratulates her for it.` },
+    c_saynothing: { tier: 'annotation', reflect: 'fool', text: `The order to keep quiet goes to Jane, and it works: she tells no one. Her discretion is praised as intelligence. Five chapters later, the only sentence the other woman is recorded saying will be called gibberish.` },
+    c_mirror: { tier: 'annotation', text: `Before she tears the veil she tries it on and looks at herself in it. Rochester himself later reads this as memory: the veil “perhaps brought back vague reminiscences of her own bridal days” (Ch. XXVII).\n\nThe novel never mentions a mirror in her room, which has no window. Whether this was the first time in years she had seen her own face, the text cannot tell you. It is a fair question to ask.` },
+    c_discoloured: { tier: 'criticism', by: 'Meyer, 1990', text: `Contested. Some critics read Jane’s *discoloured* and *blackened*, and Rochester’s later *swelled black face*, as racial coding that marks Bertha as not white. Susan Meyer argues that the novel darkens her as part of a wider figurative use of race and slavery. Others read the words as the flushed, swollen face of illness or drink. The novel never states her race. It leaves the question to adjectives, and the adjectives belong to frightened or hostile witnesses.` },
+    c_vampyre: { tier: 'annotation', text: `Jane reaches for a German folk monster to name a woman she has never met. The Gothic novel supplies the vocabulary available to her. In this scene Jane is short of words too.` },
+    c_extinguished: { tier: 'annotation', text: `She looks at Jane face to face, by candlelight, and leaves her unharmed. In the one meeting between them that the novel stages, the woman upstairs does nothing to Jane but look.` },
+    c_creature: { tier: 'annotation', reflect: 'nerves', text: `Now Jane’s testimony is discredited, with the same tools: nerves, fever, an over-stimulated brain. Rochester knows exactly who was in her room.\n\nNotice the femininity he praises while he does it: nerves *not made for rough handling*. The woman upstairs, in Jane’s own account of the attic, “showed virile force in the contest.” Delicacy is defined against her too.` },
+    c_real: { tier: 'annotation', text: `Jane holds her ground, and the next morning in the church proves her right. Her credibility is restored by the plot, because the plot is hers. The woman who came to her room has no later chapter in which to be believed.` },
+    c_madcat: { tier: 'criticism', by: 'Gilbert & Gubar, 1979', reflect: 'madcat', text: `Jane is the first woman called mad in this novel, and the first locked in a room for it. Gilbert and Gubar trace the woman in the attic back to this scene.\n\nRead the novel as a story about where madness lives. At ten it is in Jane. By the end it has been moved upstairs, into another woman’s body, and Jane has grown up into the one who narrates.` },
+    c_rebelslave: { tier: 'criticism', by: 'Meyer, 1990', text: `Jane borrows the figure of the enslaved rebel to describe an English child’s anger. Susan Meyer argues that the novel repeatedly uses slavery as a metaphor for English women’s subordination while the people of the colonies stay at its margins. The woman from Jamaica upstairs is as close as the novel brings that world to the house.` },
+    c_fullname: { tier: 'annotation', text: `Her full name appears once in the novel, here, read aloud by a stranger in a church. Until this page she has been a laugh, a fire, and Grace Poole.` },
     c_jonas: { tier: 'context', text: `Rochester calls him “a West India planter and merchant” (Ch. XXVII). Spanish Town was the capital of colonial Jamaica. In the 1790s Jamaican planter wealth rested on the labour of enslaved Africans; Britain abolished slavery in its colonies only in 1834, and forced “apprenticeship” lasted until 1838. The novel never mentions slavery in connection with the Masons. That silence is part of the record too.\n\nOn dating: in Chapter XXXII Jane is given Scott’s *Marmion* (1808) as “a new publication.” If that clue is trusted, Jane’s story falls around 1808 and this wedding, fifteen years earlier, in the early 1790s. Brontë’s chronology is loose, so treat this as an estimate.` },
-    c_antoinetta: { tier: 'context', by: 'Rhys, 1966', text: `Her middle name is her mother’s: the one place in the novel where a line of descent runs through women.
-
-Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea* (1966), and made “Bertha” the name her English husband imposes. In a letter Rhys wrote: “The Creole is of course the important one, the others explain her.”` },
+    c_antoinetta: { tier: 'context', by: 'Rhys, 1966', text: `Her middle name is her mother’s. It is the only place in the novel where the “infamous mother” of Rochester’s story has a name, and where a line of descent runs through women.\n\nIn 1966 the Dominican-born novelist Jean Rhys took the name for the heroine of *Wide Sargasso Sea*, Antoinette Cosway, and made “Bertha” the name her English husband imposes on her.` },
     c_creole: { tier: 'context', text: `In this period *Creole* could describe a person of European descent born in the Caribbean, as well as people of African or mixed descent born there. The word marks her mother as colonial-born. It does not settle her race, and the novel never does.` },
-    c_dashes: { tier: 'annotation', text: `Brontë leaves the year, county, shire and church blank, a common convention of discretion in fiction of the period.` },
-    c_existence: { tier: 'annotation', text: `The first sentence in the novel to treat her as a person with legal standing. It is spoken to stop another woman’s wedding.` },
+    c_dashes: { tier: 'annotation', text: `Brontë blanks the year, the county, the shire, and the church. Dashes like these were a common convention of discretion in fiction of the period. Here the effect is pointed: the one document that gives her a full name and a mother withholds the place and the date.` },
+    c_existence: { tier: 'annotation', text: `The law recognises her existence, as a wife. It is the first sentence in the novel to treat her as a person with standing, and it is spoken to stop another woman’s wedding.` },
     c_funchal: { tier: 'criticism', by: 'Spivak 1985 · Valint 2017', text: `Jane’s uncle, John Eyre, is a merchant in Madeira who works for the Masons’ trading house. The commercial network that produced the first Mrs. Rochester’s dowry is the one that stops the second wedding. When John Eyre dies it also makes Jane an heiress, with twenty thousand pounds.\n\nCritics disagree about what this implicates. Readers following Spivak see Jane’s independence funded by colonial trade. Alexandra Valint argues that Jane’s uneasy handling of the legacy, which she divides with her cousins, keeps her at a distance from it.` },
-    c_witch: { tier: 'annotation', text: `The landlord’s word for her planning.` },
-    c_knew: { tier: 'annotation', text: `He supposes she knew what had passed between her husband and the governess. No one in the novel tells her.` },
-    c_dontknow: { tier: 'annotation', text: `The landlord marks his own story as hearsay.` },
-    c_mile: { tier: 'annotation', text: `Heard a mile away. No witness repeats a word of it.` },
-    c_heardhim: { tier: 'annotation', text: `His words are reported exactly: her name. Hers are reported only as volume. The landlord is also clear that Rochester got the servants out and went up to reach her.` },
+    c_witch: { tier: 'annotation', text: `His word for her planning. A madness that waits for the keeper to drink, takes the key from her pocket, and chooses which rooms to burn is described as a talent for deception.` },
+    c_knew: { tier: 'annotation', text: `He supposes she knew what had passed between her husband and the governess, which nobody had told her. A mind that follows the household’s affairs from behind a locked door is a strange thing to call insane, and he offers it as gossip.` },
+    c_dontknow: { tier: 'annotation', text: `The landlord marks his own story as hearsay. The novel’s last testimony about her life is rumour, told to a stranger at an inn.` },
+    c_mile: { tier: 'annotation', text: `The only time in the novel that her voice carries. Everyone in the grounds could hear her, from a mile away. Not one witness repeats a word she said.` },
+    c_heardhim: { tier: 'annotation', text: `His words are reported exactly: her name. Hers are reported as volume. The landlord is clear that Rochester had already got the servants out and went up to reach her. The novel is fair to him here, and it still keeps her silent.` },
     c_moral: { tier: 'context', by: 'Prichard, 1835', text: `The phrase is close to J. C. Prichard’s *moral insanity* (1835): madness of feeling and conduct, with the intellect intact. A diagnosis of this kind can be made from behaviour alone, and from behaviour judged by moral standards.` },
-    c_fiend: { tier: 'annotation', reflect: 'fiend', text: `Brontë’s letter has the human disappearing and a “fiend-nature” taking its place, and names the right audience for it: “the truly good,” who pity.` },
-    c_erred: { tier: 'annotation', text: `Brontë concedes too much horror and too little pity. She does not revise the diagnosis.` },
-    c_sin: { tier: 'annotation', text: `In Rochester’s account her excesses caused her madness. In Brontë’s letter sin is itself a kind of madness. Both accounts join moral judgment to diagnosis.` }
+    c_fiend: { tier: 'annotation', reflect: 'fiend', text: `The author’s account takes the human out of her and leaves a fiend-nature. That is the frame inside which every other witness in the novel speaks.\n\nThe same letter imagines the right audience for her: “the truly good,” who will behold and pity. Her degradation gives the good reader somewhere to stand.` },
+    c_erred: { tier: 'annotation', text: `Brontë concedes an error of proportion: too much horror, too little pity. She does not concede an error of diagnosis.` },
+    c_sin: { tier: 'annotation', text: `Sin and madness, run together. In Rochester’s story her *excesses* produced her insanity. In her author’s letter, sin is a kind of insanity. The two accounts take different roads to the same place.` }
   };
 
   /* ---------------------------------------------------------- the glass */
   /* Each reflection sets what is said of her beside what it lets someone else become. */
   const reflections = {
-    eyes: { her: 'the red balls yonder · that mask · that bulk', other: 'these clear eyes · this face · this form', who: 'Jane', cite: 'Ch. XXVI', match: { her: 'red balls', other: 'clear eyes' } },
-    demon: { her: 'a demon at its gambols · that fierce ragout', other: 'this young girl, grave and quiet · a change', who: 'Jane', cite: 'Ch. XXVI', match: { her: 'gambols of a demon', other: 'this young girl' } },
-    human: { her: 'what sort of a being', other: 'something at least human', who: 'Jane', cite: 'Ch. XXVI', match: { her: 'what sort of a being', other: 'at least human' } },
-    protest: { her: 'a laugh · eccentric murmurs', other: 'an argument for what women feel', who: 'Jane', cite: 'Ch. XII', match: { her: 'grace poole’s laugh', other: 'women feel just as men feel' } },
+    eyes: { her: 'the red balls yonder · that mask · that bulk', other: 'these clear eyes · this face · this form', who: 'Jane', cite: 'Ch. XXVI' },
+    demon: { her: 'a demon at its gambols · that fierce ragout', other: 'this young girl, grave and quiet · a change', who: 'Jane', cite: 'Ch. XXVI' },
+    human: { her: 'what sort of a being', other: 'something at least human', who: 'Jane', cite: 'Ch. XXVI' },
+    protest: { her: 'a laugh · eccentric murmurs', other: 'an argument for what women feel', who: 'Jane', cite: 'Ch. XII' },
     unchaste: { her: 'intemperate and unchaste', other: 'the governess who leaves rather than be his mistress', who: 'Jane', cite: 'Ch. XXVII' },
-    ifmad: { her: 'hated', other: 'loved, even if she were mad', who: 'Jane', cite: 'Ch. XXVII', match: { her: 'not because she is mad i hate her', other: 'if you were mad' } },
-    notwife: { her: 'not your wife', other: 'what new tie you like', who: 'the next wife', cite: 'Ch. XXVII', match: { her: 'is not your wife', other: 'what new tie you like' } },
-    exist: { her: 'Mrs. Rochester, upstairs', other: 'Mrs. Rochester, who “did not exist” yet', who: 'Jane', cite: 'Ch. XXV', match: { her: 'she is now living at thornfield', other: 'she did not exist' } },
-    nerves: { her: 'virile force · almost throttled him', other: 'nerves not made for rough handling', who: 'Jane', cite: 'Chs. XXV–XXVI', match: { her: 'clothed hyena', other: 'nerves like yours' } },
-    madcat: { her: 'the madwoman upstairs', other: 'the “mad cat” of the red-room, grown into a narrator', who: 'Jane', cite: 'Ch. II', match: { her: 'bertha mason is mad', other: 'mad cat' } },
-    fool: { her: 'gibberish', other: 'no talking fool', who: 'Jane', cite: 'Chs. XV, XX', match: { her: 'gibberish', other: 'no talking fool' } },
-    europe: { her: 'sulphur-steams · a moon like a hot cannon-ball', other: 'a wind fresh from Europe', who: 'England', cite: 'Ch. XXVII', match: { her: 'sulphur-steams', other: 'fresh from europe' } },
-    race: { her: 'her mother, the Creole', other: 'a good race', who: 'Rochester', cite: 'Ch. XXVII', match: { her: 'her mother, the creole', other: 'good race' } },
-    fiend: { her: 'a fiend-nature', other: 'the truly good, who pity', who: 'the reader', cite: 'Letter, 1848', match: { her: 'fiend-nature', other: 'truly good' } },
-    married: { her: 'dead as the stones', other: 'Reader, I married him.', who: 'Jane', cite: 'Chs. XXXVI, XXXVIII', match: { her: 'dead as the stones', other: 'reader, i married him' } }
+    ifmad: { her: 'hated', other: 'loved, even if she were mad', who: 'Jane', cite: 'Ch. XXVII' },
+    notwife: { her: 'not your wife', other: 'what new tie you like', who: 'the next wife', cite: 'Ch. XXVII' },
+    exist: { her: 'Mrs. Rochester, upstairs', other: 'Mrs. Rochester, who “did not exist” yet', who: 'Jane', cite: 'Ch. XXV' },
+    nerves: { her: 'virile force · almost throttled him', other: 'nerves not made for rough handling', who: 'Jane', cite: 'Chs. XXV–XXVI' },
+    madcat: { her: 'the madwoman upstairs', other: 'the “mad cat” of the red-room, grown into a narrator', who: 'Jane', cite: 'Ch. II' },
+    fool: { her: 'gibberish', other: 'no talking fool', who: 'Jane', cite: 'Chs. XV, XX' },
+    europe: { her: 'sulphur-steams · a moon like a hot cannon-ball', other: 'a wind fresh from Europe', who: 'England', cite: 'Ch. XXVII' },
+    race: { her: 'her mother, the Creole', other: 'a good race', who: 'Rochester', cite: 'Ch. XXVII' },
+    fiend: { her: 'a fiend-nature', other: 'the truly good, who pity', who: 'the reader', cite: 'Letter, 1848' },
+    married: { her: 'dead as the stones', other: 'Reader, I married him.', who: 'Jane', cite: 'Chs. XXXVI, XXXVIII' }
   };
 
   /* --------------------------------------------------- words used of her */
@@ -2778,9 +2313,9 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
   /* ---------------------------------------------------- the witnesses */
   const witnesses = [
     { id: 'rochester', scene: 'w_rochester', name: 'Edward Fairfax Rochester', rel: 'Her husband', access: 'Four years with her in Jamaica, by his account. Ten years with her upstairs, through a keeper.', stake: 'If she is mad, he is blameless and cannot divorce. If she is not, the room is a prison.' },
-    { id: 'mason', scene: 'w_mason', rescue: 'x_mason', name: 'Richard Mason', rel: 'Her brother', access: 'Visits from Jamaica. Saw her last April, and on one night in Chapter XX.', stake: 'A sister, a family name, and a trading house with business on both sides of the Atlantic.' },
-    { id: 'grace', scene: 'w_grace', rescue: 'x_grace', name: 'Grace Poole', rel: 'Her keeper', access: 'Ten years in the same room.', stake: 'Her wages, and her own reputation, which the household spends as an alibi.' },
-    { id: 'jane', scene: 'w_jane', rescue: 'x_jane', name: 'Jane Eyre', rel: 'The other bride; the narrator', access: 'One meeting by candlelight, one viewing in the attic, and sounds through walls.', stake: 'The novel is her autobiography.' },
+    { id: 'mason', scene: 'w_mason', name: 'Richard Mason', rel: 'Her brother', access: 'Visits from Jamaica. Saw her last April, and on one night in Chapter XX.', stake: 'A sister, a family name, and a trading house with business on both sides of the Atlantic.' },
+    { id: 'grace', scene: 'w_grace', name: 'Grace Poole', rel: 'Her keeper', access: 'Ten years in the same room.', stake: 'Her wages, and her own reputation, which the household spends as an alibi.' },
+    { id: 'jane', scene: 'w_jane', name: 'Jane Eyre', rel: 'The other bride; the narrator', access: 'One meeting by candlelight, one viewing in the attic, and sounds through walls.', stake: 'The novel is her autobiography.' },
     { id: 'register', scene: 'w_register', name: 'The register', rel: 'A document, read aloud by a solicitor', access: 'None. It records one day: a wedding in Spanish Town.', stake: 'The law’s interest in which marriage is valid.' },
     { id: 'host', scene: 'w_host', name: 'The landlord of the Rochester Arms', rel: 'A neighbour', access: 'Watched the last night from the lawn. Repeats what others say.', stake: 'A good story for a stranger.' },
     { id: 'author', scene: 'w_author', name: 'Charlotte Brontë', rel: 'Her author', access: 'Total. She wrote every other account you will hear.', stake: 'The novel, its reception, and her own explanation of it.' }
@@ -2799,7 +2334,6 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
   /* -------------------------------------------------------- helpers */
   const nameOf = s => ({ bertha: 'Bertha', mrs: 'Mrs. Rochester', antoinetta: 'Antoinetta', none: 'the woman' })[s.name] || 'Bertha';
   const heardCount = s => s.heard.length;
-  const needCite = s => s.role === 'judge' && (s.cited || []).length < 2 ? 'Cite two pieces of evidence first.' : null;
 
   /* ------------------------------------------------------------ scenes */
   const scenes = {
@@ -2815,20 +2349,9 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
           P(`Before you go in, decide what you are.`)
         ],
         choices: [
-          { label: 'A reader', sub: 'I’ve come to read her more carefully than anyone has.', set: s => { s.role = 'reader'; }, next: true },
-          { label: 'A judge', sub: 'Someone should weigh what was said about her.', set: s => { s.role = 'judge'; }, next: true },
-          { label: 'A rescuer', sub: 'I’ve come to get her out.', set: s => { s.role = 'rescuer'; }, next: true }
-        ]
-      }, {
-        blocks: [
-          ROLE('reader', `You are a reader. You may go anywhere and hear everyone. Now and then you will be asked whether a claim is in the text or in you: close readers are the ones most tempted to over-read.`),
-          ROLE('judge', `You are a judge. The court sits for as long as one candle burns: you may hear *four* of the seven witnesses, and put *one question* to each. To enter a finding you must cite two pieces of evidence. Your finding will bind what happens upstairs.`),
-          ROLE('rescuer', `You are a rescuer. On three nights in the novel you can step in before she acts, and stop her. Each rescue works. Each also takes something she did out of the record, and you will see what goes with it.`),
-          P(`Whatever you are, the house responds to you. When something in the picture glows, reach for it.`)
-        ],
-        choices: [
-          { label: 'Go in', to: 'corridor' },
-          { label: 'Choose again', set: s => { s.role = null; }, to: 'threshold' }
+          { label: 'A reader', sub: 'I’ve come to read her more carefully than anyone has.', set: s => { s.role = 'reader'; }, to: 'corridor' },
+          { label: 'A judge', sub: 'Someone should weigh what was said about her.', set: s => { s.role = 'judge'; }, to: 'corridor' },
+          { label: 'A rescuer', sub: 'I’ve come to get her out.', set: s => { s.role = 'rescuer'; }, to: 'corridor' }
         ]
       }]
     },
@@ -2838,12 +2361,10 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
       beats: [
         { blocks: [
           P(`Jane Eyre has just arrived as governess. Mrs. Fairfax, the housekeeper, is showing her the house from the top down.`),
-          GO('doors', 'Walk down the corridor'),
           Q(JANE, 'Ch. XI', `…narrow, low, and dim, with only one little window at the far end, and looking, with its two rows of small black doors all shut, like a corridor in some [[Bluebeard’s castle|c_bluebeard]].`)
         ] },
         { blocks: [
-          Q(JANE, 'Ch. XI', `…a laugh, struck my ear. It was a curious laugh; distinct, [[formal|c_formal]], mirthless. … It passed off in a clamorous peal that seemed to wake an echo in every lonely chamber; though it originated but in one, and [[I could have pointed out the door whence the accents issued|c_door]].`),
-          GO('door', 'Find the door it came from')
+          Q(JANE, 'Ch. XI', `…a laugh, struck my ear. It was a curious laugh; distinct, [[formal|c_formal]], mirthless. … It passed off in a clamorous peal that seemed to wake an echo in every lonely chamber; though it originated but in one, and [[I could have pointed out the door whence the accents issued|c_door]].`)
         ] },
         { blocks: [
           Q('Mrs. Fairfax', 'Ch. XI', `“Some of the servants, very likely,” she answered: “[[perhaps Grace Poole|c_perhaps]].”`),
@@ -2867,19 +2388,16 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
       beats: [
         { blocks: [
           P(`Some weeks later. Jane is restless in the quiet house.`),
-          GO('trapdoor', 'Climb the stairs and raise the trap-door'),
           Q(JANE, 'Ch. XII', `Who blames me? Many, no doubt; and I shall be called discontented.`),
           Q(JANE, 'Ch. XII', `…I climbed the three staircases, raised the trap-door of the attic, and having reached [[the leads|c_leads]], looked out afar over sequestered field and hill, and along dim sky-line—that then I longed for a power of vision which might overpass that limit…`)
         ] },
         { blocks: [
-          GO('horizon', 'Look out past the sky-line'),
           Q(JANE, 'Ch. XII', `It is in vain to say human beings ought to be satisfied with tranquillity: they must have action… Millions are condemned to a stiller doom than mine, and millions are in [[silent revolt|c_silent]] against their lot.`),
           Q(JANE, 'Ch. XII', `Women are supposed to be very calm generally: but women feel just as men feel; they need exercise for their faculties, and a field for their efforts, as much as their brothers do; they suffer from too rigid a restraint, too absolute a stagnation, precisely as men would suffer… It is thoughtless to condemn them, or [[laugh at them|c_laughat]], if they seek to do more or learn more than custom has pronounced necessary for their sex.`)
         ] },
         { blocks: [
           Q(JANE, 'Ch. XII', `When thus alone, I not unfrequently heard Grace Poole’s laugh: the same peal, the same low, slow ha! ha! which, when first heard, had thrilled me: I heard, too, her [[eccentric murmurs|c_murmurs]]; stranger than her laugh.`, { interrupt: true }),
-          R('protest'),
-          CHECK('heard', 'She heard Jane’s speech about women, and laughed in answer to it.', 'reading', `Nothing in the text says she heard Jane, or that the laugh answered anything. The placement is Brontë’s. The motive would be yours.`)
+          R('protest')
         ],
         reading: {
           id: 'placement', prompt: 'Brontë puts the laugh directly after Jane’s protest. How do you read the placement?', labels: PLACEMENT,
@@ -2906,10 +2424,7 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
             reader: `You came to read. In this chapter, reading means hearing evidence, and the first piece of evidence is a comparison.`,
             rescuer: `You came to rescue her. First you will have to hear what was said about her, by people who had reasons for saying it.`
           })[s.role] || ''),
-          s => s.role === 'judge'
-            ? P(`Seven accounts survive: six in the novel, one in a letter from its author. The court sits for one candle: you may hear four, and put one question to each. When you have heard at least two, you may close the hearing.`)
-            : P(`Seven accounts survive: six in the novel, one in a letter from its author. Hear as many as you like. When you have heard at least two, you may close the hearing.`),
-          ROLE('rescuer', `Three of these witnesses were in the house on nights you could change: her brother, her keeper and the other bride. Call one of them, and you will arrive before it happens.`),
+          P(`Seven accounts survive: six in the novel, one in a letter from its author. Hear as many as you like. When you have heard at least two, you may close the hearing.`),
           { t: 'witnesses' }
         ],
         choices: [
@@ -2923,7 +2438,6 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
       beats: [
         { blocks: [
           P(`Rochester leads the witnesses up from the church. He lifts the tapestry from the wall and opens a second door.`),
-          GO('tapestry', 'Follow him through the second door'),
           Q(JANE, 'Ch. XXVI', `In a room without a window, there burnt a fire guarded by a high and strong fender, and a lamp suspended from the ceiling by a chain.`),
           Q(JANE, 'Ch. XXVI', `In the deep shade, at the farther end of the room, a figure ran backwards and forwards. What it was, whether [[beast or human being|c_beast]], one could not, at first sight, tell: it grovelled, seemingly, on all fours; it snatched and growled like some strange wild animal: but it was covered with clothing, and a quantity of dark, grizzled hair, wild as a mane, hid its head and face.`),
           Q(JANE, 'Ch. XXVI', `The maniac bellowed: [[she parted her shaggy locks from her visage, and gazed wildly at her visitors|c_gazed]].`),
@@ -2952,13 +2466,11 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
           Q(ROCH, 'Ch. XXVII', `“‘Go,’ said Hope, ‘and live again in Europe: there it is not known what a sullied name you bear, nor what a filthy burden is bound to you. You may take the maniac with you to England; [[confine her with due attendance and precautions at Thornfield|c_confine]]: then travel yourself to what clime you will, and form what new tie you like. That woman, who has so abused your long-suffering, so sullied your name, so outraged your honour, so blighted your youth, [[is not your wife|c_notwife]], nor are you her husband… Let her identity, her connection with yourself, be [[buried in oblivion|c_oblivion]]…’”`)
         ] },
         { blocks: [
-          Q(ROCH, 'Ch. XXVII', `“I had some trouble in finding an attendant for her, as it was necessary to select one on whose fidelity dependence could be placed; for [[her ravings would inevitably betray my secret|c_ravings]]: besides, she had [[lucid intervals|c_lucid]] of days—sometimes weeks—which she filled up with abuse of me.”`),
-          CHECK('betray', 'Rochester himself says that what she said would give his secret away.', 'text', `In the text: “her ravings would inevitably betray my secret.” His own sentence concedes that her speech carried information.`)
+          Q(ROCH, 'Ch. XXVII', `“I had some trouble in finding an attendant for her, as it was necessary to select one on whose fidelity dependence could be placed; for [[her ravings would inevitably betray my secret|c_ravings]]: besides, she had [[lucid intervals|c_lucid]] of days—sometimes weeks—which she filled up with abuse of me.”`)
         ] },
         { blocks: [
           Q('Jane Eyre', 'Ch. XXVII', `“Sir,” I interrupted him, “you are inexorable for that unfortunate lady: you speak of her with hate—with vindictive antipathy. It is cruel—[[she cannot help being mad|c_cannothelp]].”`),
-          Q(ROCH, 'Ch. XXVII', `“…it is not because she is mad I hate her. [[If you were mad, do you think I should hate you?|c_ifyou]]”`),
-          CROSS('rochester')
+          Q(ROCH, 'Ch. XXVII', `“…it is not because she is mad I hate her. [[If you were mad, do you think I should hate you?|c_ifyou]]”`)
         ],
         choices: [{ label: 'Return to the hearing', to: 'hearing', set: (s, h) => h.hear('rochester') }] }
       ]
@@ -2969,7 +2481,6 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
       beats: [
         { blocks: [
           P(`Chapter XX. A cry wakes the house. Rochester tells his guests a servant has had a nightmare, then fetches Jane and leaves her upstairs to sit with a wounded man until the surgeon comes. Richard Mason has been stabbed and bitten.`),
-          GO('basin', 'Take the basin and sit with him'),
           Q('Richard Mason', 'Ch. XX', `“She bit me,” he murmured. “She worried me like a [[tigress|c_tigress]], when Rochester got the knife from her.”`),
           Q(ROCH, 'Ch. XX', `“I warned you,” was his friend’s answer; “I said—be on your guard when you go near her. Besides, you might have waited till to-morrow, and had me with you: it was mere folly to attempt [[the interview|c_interview]] to-night, and alone.”`),
           Q('Richard Mason', 'Ch. XX', `“[[I thought I could have done some good.|c_good]]” … “she looked so quiet at first.”`)
@@ -2997,8 +2508,6 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
           P(`Months later he stands up in the church at Thornfield.`),
           Q('Richard Mason', 'Ch. XXVI', `“She is now living at Thornfield Hall… I saw her there last April. I am her brother.”`),
           Q(ROCH, 'Ch. XXVII', `“…whom I cannot hate, whilst I abhor all his kindred, because he has [[some grains of affection in his feeble mind|c_grains]], shown in the continued interest he takes in his wretched sister…”`)
-,
-          CROSS('mason')
         ],
         choices: [{ label: 'Return to the hearing', to: 'hearing', set: (s, h) => h.hear('mason') }] }
       ]
@@ -3010,12 +2519,10 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
         { blocks: [
           Q(JANE, 'Ch. XI', `…a set, square-made figure, red-haired, and with a hard, plain face…`),
           Q(ROCH, 'Ch. XXVI', `“Good-morrow, Mrs. Poole!” said Mr. Rochester. “How are you? and how is [[your charge|c_charge]] to-day?”`),
-          GO('saucepan', 'Watch Grace at the hob'),
           Q('Grace Poole', 'Ch. XXVI', `“[[We’re|c_were]] tolerable, sir, I thank you,” replied Grace, lifting the boiling mess carefully on to the hob: “rather snappish, but not ’rageous.”`),
           P(`Grace is also the household’s explanation. Watch how often her name is used.`)
         ] },
         { blocks: [
-          GO('keys', 'Notice where the keys are kept', 'keys'),
           H('The laugh · Chapter XI'),
           Q('Mrs. Fairfax', 'Ch. XI', `“Some of the servants, very likely,” she answered: “perhaps Grace Poole.”`),
           H('The fire · Chapter XV'),
@@ -3036,11 +2543,8 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
           H('The veil · Chapter XXV'),
           Q(ROCH, 'Ch. XXV', `“…A woman did, I doubt not, enter your room: and that woman was—must have been—Grace Poole.”`),
           P(`Three times the household explains her by naming another woman. Grace absorbs it: the strange servant who laughs, drinks and sets fires. One woman is employed partly to be the other’s cover story.`),
-          GO('bottle', 'Look at the bottle on the mantel'),
           Q('The landlord', 'Ch. XXXVI', `“…she kept a private bottle of gin by her, and now and then took a drop over-much.”`),
           N('annotation', `The last account of Grace comes from the man at the inn, and it is about her drinking. Her lapses are how the woman upstairs got the keys.`)
-,
-          CROSS('grace')
         ],
         choices: [{ label: 'Return to the hearing', to: 'hearing', set: (s, h) => h.hear('grace') }] }
       ]
@@ -3051,20 +2555,16 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
       beats: [
         { blocks: [
           P(`Chapter XXV. The trunks are packed. Rochester has addressed the luggage cards himself.`),
-          GO('cards', 'Open the drawer'),
           Q(JANE, 'Ch. XXV', `Mrs. Rochester! She did not exist: she would not be born till to-morrow, some time after eight o’clock a.m.;`),
           R('exist'),
           P(`That night Jane wakes to find a stranger in her room with a candle, looking at her wedding clothes. The next evening she tells Rochester.`),
           Q('Jane Eyre', 'Ch. XXV', `“It seemed, sir, a woman, tall and large, with thick and dark hair hanging long down her back. … it was white and straight; but whether gown, sheet, or shroud, I cannot tell.”`),
           Q('Jane Eyre', 'Ch. XXV', `“…she held it up, gazed at it long, and then she threw it over her own head, and [[turned to the mirror|c_mirror]].”`),
-          GO('mirror', 'Look into the glass'),
-          { t: 'mirror', who: 'Jane Eyre', cite: 'Ch. XXV', text: `At that moment I saw the reflection of the visage and features quite distinctly in the dark oblong glass.` },
-          CHECK('mirror', 'Before she tore the veil, she put it on and looked at herself in the mirror.', 'text', `In the text: she “threw it over her own head, and turned to the mirror.” What she felt as she looked is not in the text.`)
+          { t: 'mirror', who: 'Jane Eyre', cite: 'Ch. XXV', text: `At that moment I saw the reflection of the visage and features quite distinctly in the dark oblong glass.` }
         ] },
         { blocks: [
           Q('Jane Eyre', 'Ch. XXV', `“It was a [[discoloured face—it was a savage face|c_discoloured]]. I wish I could forget the roll of the red eyes and the fearful blackened inflation of the lineaments!”`),
           Q('Jane Eyre', 'Ch. XXV', `“…Of the foul German spectre—[[the Vampyre|c_vampyre]].”`),
-          GO('veil', 'Pick up the veil'),
           Q('Jane Eyre', 'Ch. XXV', `“…it removed my veil from its gaunt head, rent it in two parts, and flinging both on the floor, trampled on them.”`),
           Q('Jane Eyre', 'Ch. XXV', `“…she thrust up her candle close to my face, and [[extinguished it under my eyes|c_extinguished]]. I was aware her lurid visage flamed over mine, and I lost consciousness…”`)
         ],
@@ -3087,8 +2587,6 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
           Q('Bessie', 'Ch. II', `“Hold her arms, Miss Abbot: [[she’s like a mad cat|c_madcat]].”`),
           Q('Bessie', 'Ch. II', `“If you don’t sit still, you must be tied down,” said Bessie. “Miss Abbot, lend me your garters; she would break mine directly.”`),
           Q(JANE, 'Ch. II', `The fact is, I was a trifle beside myself; or rather *out* of myself, as the French would say… and, [[like any other rebel slave|c_rebelslave]], I felt resolved, in my desperation, to go all lengths.`)
-,
-          CROSS('jane')
         ],
         choices: [{ label: 'Return to the hearing', to: 'hearing', set: (s, h) => h.hear('jane') }] }
       ]
@@ -3100,16 +2598,12 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
       beats: [
         { blocks: [
           P(`The clergyman has asked whether anyone knows an impediment. A stranger answers: Mr. Briggs, a solicitor from London. He reads a statement made by Richard Mason.`),
-          GO('paper', 'Look at the paper in his hand'),
-          Q('Mr. Briggs, reading Mason’s statement', 'Ch. XXVI', `“I affirm and can prove that on the 20th of October A.D. —— (a date of fifteen years back), Edward Fairfax Rochester, of Thornfield Hall, in the county of ——, and of Ferndean Manor, in ——shire, England, was married to my sister, [[Bertha Antoinetta Mason|c_fullname]], daughter of [[Jonas Mason, merchant|c_jonas]], and of [[Antoinetta his wife|c_antoinetta]], [[a Creole|c_creole]], at [[—— church|c_dashes]], Spanish Town, Jamaica.”`, { doc: true }),
-          CHECK('creole', 'The novel makes clear that she was Black.', 'reading', `Not in the text. The statement calls her mother “a Creole,” a word that in this period could describe white people born in the Caribbean as well as people of African or mixed descent. The novel never settles her race.`)
+          Q('Mr. Briggs, reading Mason’s statement', 'Ch. XXVI', `“I affirm and can prove that on the 20th of October A.D. —— (a date of fifteen years back), Edward Fairfax Rochester, of Thornfield Hall, in the county of ——, and of Ferndean Manor, in ——shire, England, was married to my sister, [[Bertha Antoinetta Mason|c_fullname]], daughter of [[Jonas Mason, merchant|c_jonas]], and of [[Antoinetta his wife|c_antoinetta]], [[a Creole|c_creole]], at [[—— church|c_dashes]], Spanish Town, Jamaica.”`, { doc: true })
         ] },
         { blocks: [
           Q('Mr. Briggs', 'Ch. XXVI', `“I would remind you of [[your lady’s existence, sir, which the law recognises|c_existence]], if you do not.”`),
           P(`Jane asks how a stranger came to know about her wedding at all.`),
           Q('Mr. Briggs', 'Ch. XXVI', `“Mr. Mason does. Mr. Eyre has been [[the Funchal correspondent of his house|c_funchal]] for some years. When your uncle received your letter intimating the contemplated union between yourself and Mr. Rochester, Mr. Mason, who was staying at Madeira to recruit his health, on his way back to Jamaica, happened to be with him.”`)
-,
-          CROSS('register')
         ],
         choices: [{ label: 'Return to the hearing', to: 'hearing', set: (s, h) => h.hear('register') }] }
       ]
@@ -3119,9 +2613,7 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
       art: 'inn', motes: 'none', place: 'The Rochester Arms · months later', title: 'The Last Account', cite: 'Chapter XXXVI', witness: 'host',
       beats: [
         { blocks: [
-          GO('ruin', 'Look up at the house on the hill'),
           P(`Chapter XXXVI. Jane, who left Thornfield after the failed wedding, has come back and found it a ruin. At the inn she asks what happened, without saying who she is. The landlord tells her.`),
-          GO('sign', 'Go in under the sign'),
           Q('The landlord', 'Ch. XXXVI', `“…[[who was as cunning as a witch|c_witch]], would take the keys out of her pocket…”`),
           Q('The landlord', 'Ch. XXXVI', `“…she set fire first to the hangings of the room next her own…”`),
           P(`Then, he says, she went down to the room the governess had slept in and set the bed alight.`),
@@ -3136,8 +2628,6 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
           P(`Two chapters later the novel’s last chapter opens with four words.`),
           Q(JANE, 'Ch. XXXVIII', `Reader, I married him.`),
           R('married')
-,
-          CROSS('host')
         ],
         choices: [{ label: 'Return to the hearing', to: 'hearing', set: (s, h) => h.hear('host') }] }
       ]
@@ -3148,13 +2638,10 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
       beats: [
         { blocks: [
           P(`Three months after the novel came out, Charlotte Brontë, still writing as Currer Bell, answers readers who found Bertha’s character shocking. She writes to William Smith Williams, a reader at her publishers.`),
-          GO('letter', 'Read over her shoulder'),
           Q('Charlotte Brontë', 'Letter, 4 Jan. 1848', `“There is a phase of insanity which may be called [[moral madness|c_moral]], in which all that is good or even human seems to disappear from the mind and a [[fiend-nature|c_fiend]] replaces it.”`, { doc: true }),
           Q('Charlotte Brontë', 'Letter, 4 Jan. 1848', `“…I agree with them that the character is shocking… profound pity ought to be the only sentiment elicited by the view of such degradation… [[I have erred in making horror too predominant|c_erred]].”`, { doc: true }),
           Q('Charlotte Brontë', 'Letter, 4 Jan. 1848', `“Mrs. Rochester indeed lived a sinful life before she was insane, but [[sin is itself a species of insanity|c_sin]]… the truly good behold and compassionate it as such.”`, { doc: true }),
           P(`The author is also a witness, and the most powerful one. Everything else you have heard, she wrote.`)
-,
-          CROSS('author')
         ],
         choices: [{ label: 'Return to the hearing', to: 'hearing', set: (s, h) => h.hear('author') }] }
       ]
@@ -3165,15 +2652,13 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
       beats: [{
         blocks: [
           s => P(`Rochester asked for a verdict. You have heard ${heardCount(s)} of seven witnesses.` + (heardCount(s) < 7 ? ` You did not hear ${witnesses.filter(w => !s.heard.includes(w.id)).map(w => w.name).join(', ')}.` : ` You did not hear her.`)),
-          P(`The hearing must enter a finding.`),
-          s => s.role === 'judge' ? P(`A judge rules on evidence. Cite two fragments from the record before you rule.`) : P(`You may cite evidence from the record if you like. A finding stands either way.`),
-          { t: 'cite' }
+          P(`The hearing must enter a finding.`)
         ],
         choices: [
-          { label: 'Mad', sub: 'The testimony agrees. Her own testimony will be inadmissible.', set: s => { s.finding = 'mad'; }, to: 'stair', locked: s => needCite(s) },
-          { label: 'Not proven', sub: 'The evidence fails.', set: s => { s.finding = 'notproven'; }, to: 'stair', locked: s => needCite(s) },
-          { label: 'This court is not competent to judge her', sub: 'Refuse the bench.', set: s => { s.finding = 'incompetent'; }, to: 'stair', locked: s => needCite(s) },
-          { label: 'Adjourn', sub: 'Call the missing witness.', set: s => { s.finding = 'adjourn'; }, to: 'stair', locked: s => needCite(s) }
+          { label: 'Mad', sub: 'The testimony agrees.', set: s => { s.finding = 'mad'; }, to: 'stair' },
+          { label: 'Not proven', sub: 'The evidence fails.', set: s => { s.finding = 'notproven'; }, to: 'stair' },
+          { label: 'This court is not competent to judge her', sub: 'Refuse the bench.', set: s => { s.finding = 'incompetent'; }, to: 'stair' },
+          { label: 'Adjourn', sub: 'Call the missing witness.', set: s => { s.finding = 'adjourn'; }, to: 'stair' }
         ]
       }]
     },
@@ -3183,7 +2668,7 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
       beats: [{
         blocks: [
           s => P(({
-            mad: `You find her mad. Every witness who said so either had something to lose if she were not, or never spoke with her. That does not make the finding wrong. It makes it interested, and now it is yours. It also has a consequence: a court that has found a witness mad does not take her testimony.`,
+            mad: `You find her mad. Every witness who said so either had something to lose if she were not, or never spoke with her. That does not make the finding wrong. It makes it interested, and now it is yours.`,
             notproven: `Not proven: the Scottish verdict for a case where the evidence fails. Notice what it leaves in place. Nothing has been proved against her, and the door is still locked.`,
             incompetent: `You refuse the bench Rochester offered. But someone will decide what happens to her, and declining to judge does not take you out of the house.`,
             adjourn: `The hearing adjourns. If she is to be heard, it will have to be where she is.`
@@ -3218,7 +2703,7 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
             Q(JANE, 'Ch. XXVI', `He lifted the hangings from the wall, uncovering the second door: this, too, he opened.`),
             N('annotation', `A door hidden behind a picture of something else. From the corridor, this room does not exist.`)
           ] },
-          { id: 'pocket', label: 'Grace Poole’s pocket', flag: 'keys', blocks: [
+          { id: 'pocket', label: 'Grace Poole’s pocket', blocks: [
             Q(ROCH, 'Ch. XXVII', `“The lunatic is both cunning and malignant; she has never failed to take advantage of her guardian’s temporary lapses; once to secrete the knife with which she stabbed her brother, and twice to possess herself of the key of her cell, and issue therefrom in the night-time.”`),
             N('annotation', `Waiting for a lapse, hiding a knife, taking a key, choosing the night: these are plans. The novel’s word for her planning is *cunning*, which is what intelligence gets called when it belongs to someone who must not be trusted.`)
           ] },
@@ -3227,7 +2712,7 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
           ] }
         ],
         choices: [
-          { label: 'Speak to her', to: 'name', when: s => s.examined.length >= 2, locked: s => s.finding === 'mad' ? 'You found her mad. In your court, her testimony is inadmissible.' : null },
+          { label: 'Speak to her', to: 'name', when: s => s.examined.length >= 2 },
           { label: 'Leave without speaking', set: s => { s.voice.mode = 'unasked'; }, to: 'night', when: s => s.examined.length >= 2 }
         ],
         waitNote: s => s.examined.length < 2 ? 'Look at two or more things before you decide what to do.' : null
@@ -3313,167 +2798,14 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
           P(`You can see everything in this house. You can touch one thing.`)
         ],
         choices: [
-          { label: 'Take the keys and open the door for her', to: 'e_door', locked: s => s.flags.includes('keys') ? null : 'You never looked for the keys, and in the dark you cannot find them.' },
+          { label: 'Take the keys and open the door for her', to: 'e_door' },
           { label: 'Wake Grace Poole', to: 'e_keeper' },
           { label: 'Do nothing. Follow her, and witness', to: 'e_roof' },
           { label: 'Step back, and let her choose', to: 'e_unwritten', locked: s => s.voice.mode === 'silence' ? null : (s.voice.mode === 'unasked' ? 'You never asked her anything.' : 'You have already spoken for her.') },
           { label: 'Follow the register back to Spanish Town', to: 'e_shore', locked: s => s.flags.includes('register') ? null : 'You never read the register, so you don’t know where to go.' },
-          { label: 'Close the book', to: 'e_close' },
-          { label: 'Write in the margin of Chapter XI', sub: 'The one mark a reader can leave in a book.', to: 'e_margin', when: s => s.role === 'reader' },
-          { label: 'Declare a mistrial', sub: 'Rule that no hearing in this house could judge her.', to: 'e_mistrial', when: s => s.role === 'judge', locked: s => s.finding === 'mad' ? 'You have already found her mad.' : null },
-          { label: 'Keep her safe: lock the door and stay with her', sub: 'Prevent this night too.', to: 'e_safe', when: s => s.role === 'rescuer', locked: s => (s.erased || []).length >= 2 ? null : 'You have not prevented enough of what she does to keep her from this.' }
+          { label: 'Close the book', to: 'e_close' }
         ]
       }]
-    },
-
-    /* ------------------------------------------------- the rescuer's nights */
-    x_mason: {
-      art: 'bedside', motes: 'dust', place: 'Thornfield Hall · a night in Chapter XX', title: 'Before Her Brother Goes Up', cite: 'staged from Chapter XX', witness: 'mason',
-      staged: 'You have arrived before the novel’s events. What happens if you act is invented.',
-      beats: [{
-        blocks: [
-          P(`Richard Mason is a guest at Thornfield. Tonight, after the house is asleep, he will go up to the third storey alone to see his sister.`),
-          Q('Richard Mason', 'Ch. XX', `“I thought I could have done some good.”`),
-          P(`You are at the foot of the stairs. You could stop him.`)
-        ],
-        choices: [
-          { label: 'Stop him on the stairs', sub: 'No one will be hurt tonight.', set: (s, h) => { h.erase('bite'); h.flag('rescue-mason'); }, to: 'r_mason' },
-          { label: 'Let the night happen', sub: 'Hear what her brother has to say about it.', set: (s, h) => h.flag('rescue-mason'), to: 'w_mason' }
-        ]
-      }]
-    },
-    r_mason: {
-      art: 'bedside', motes: 'dust', place: 'Thornfield Hall · a night in Chapter XX', title: 'A Quiet Night', cite: 'Ending of a rescue', staged: 'This scene is invented. It does not occur in the novel.',
-      beats: [{
-        blocks: [
-          P(`You stop him. Mason goes back to his room. Upstairs, nothing happens, and nobody is hurt.`),
-          P(`Because of you, these are no longer in the record:`),
-          { t: 'list', items: [
-            'the knife she hid, and her brother’s wounds;',
-            'the only words the novel attributes to her: “she said she’d drain my heart”;',
-            'Rochester calling them “gibberish,” and ordering that they not be repeated;',
-            'Mason’s tears, and his plea that she be treated “as tenderly as may be.”'
-          ] },
-          P(`You have kept her from a violent act and from her only recorded sentence at the same moment. The novel gives her nothing else to say.`)
-        ],
-        choices: [{ label: 'Return to the hearing', to: 'hearing', set: (s, h) => h.hear('mason') }]
-      }]
-    },
-    x_grace: {
-      art: 'hearth', motes: 'embers', place: 'Thornfield Hall · a night in Chapter XV', title: 'Before the Fire', cite: 'staged from Chapter XV', witness: 'grace',
-      staged: 'You have arrived before the novel’s events. What happens if you act is invented.',
-      beats: [{
-        blocks: [
-          P(`Some weeks after Jane meets her master. Grace Poole is asleep, and tonight the woman upstairs will take the key, go down through the house and set fire to the curtains of her husband’s bed while he sleeps.`),
-          P(`You are on the stairs with her. You could take the candle out of her hand.`)
-        ],
-        choices: [
-          { label: 'Take the candle from her', sub: 'No fire tonight.', set: (s, h) => { h.erase('bedfire'); h.flag('rescue-grace'); }, to: 'r_grace' },
-          { label: 'Let the night happen', sub: 'Hear what her keeper is blamed for.', set: (s, h) => h.flag('rescue-grace'), to: 'w_grace' }
-        ]
-      }]
-    },
-    r_grace: {
-      art: 'hearth', motes: 'dust', place: 'Thornfield Hall · a night in Chapter XV', title: 'No Fire', cite: 'Ending of a rescue', staged: 'This scene is invented. It does not occur in the novel.',
-      beats: [{
-        blocks: [
-          P(`You take the candle. She goes back up the stairs. Rochester sleeps through the night in an unburnt bed.`),
-          P(`Because of you, these are no longer in the record:`),
-          { t: 'list', items: [
-            'the low laugh at Jane’s keyhole;',
-            'the fire in her husband’s bed curtains;',
-            'Jane putting out the fire and waking him: the night she saves his life, one of the turning points of their romance;',
-            'Rochester’s “Grace Poole—you have guessed it,” and his order to Jane to say nothing.'
-          ] },
-          P(`In stopping her you also stopped a scene that draws Jane and Rochester together. Her acts are woven into the other woman’s plot, and the novel cannot lose one without losing part of the other.`)
-        ],
-        choices: [{ label: 'Return to the hearing', to: 'hearing', set: (s, h) => h.hear('grace') }]
-      }]
-    },
-    x_jane: {
-      art: 'bedroom', motes: 'dust', place: 'Jane’s room · two nights before the wedding', title: 'Before the Veil', cite: 'staged from Chapter XXV', witness: 'jane',
-      staged: 'You have arrived before the novel’s events. What happens if you act is invented.',
-      beats: [{
-        blocks: [
-          P(`The wedding clothes are laid out. Tonight a stranger with a candle will come into this room, find the veil, put it on, look at herself in the glass, and tear it in two.`),
-          P(`You could take the veil out of the room before she comes.`)
-        ],
-        choices: [
-          { label: 'Hide the veil', sub: 'Nothing for her to find.', set: (s, h) => { h.erase('veil'); h.flag('rescue-jane'); }, to: 'r_jane' },
-          { label: 'Let the night happen', sub: 'Hear the other bride’s account of it.', set: (s, h) => h.flag('rescue-jane'), to: 'w_jane' }
-        ]
-      }]
-    },
-    r_jane: {
-      art: 'bedroom', motes: 'dust', place: 'Jane’s room · two nights before the wedding', title: 'Nothing Torn', cite: 'Ending of a rescue', staged: 'This scene is invented. It does not occur in the novel.',
-      beats: [{
-        blocks: [
-          P(`You hide the veil. Whether or not she comes, she finds nothing to try on. In the morning Jane’s wedding things are untouched.`),
-          P(`Because of you, these are no longer in the record:`),
-          { t: 'list', items: [
-            'the veil over her head, and her face in the dark oblong glass;',
-            'the face Jane saw by candlelight, and the night Jane could not explain away;',
-            'Rochester’s concession that she spent her fury on the veil because it “perhaps brought back vague reminiscences of her own bridal days.”'
-          ] },
-          P(`The veil is the one act in the novel that even her husband reads as memory. Taking it away kept the wedding things safe and took from her the only scene in which she remembers being a bride.`)
-        ],
-        choices: [{ label: 'Return to the hearing', to: 'hearing', set: (s, h) => h.hear('jane') }]
-      }]
-    },
-
-    /* --------------------------------------------------------- role endings */
-    e_margin: {
-      art: 'margin', motes: 'dust', place: 'Chapter XI, again', title: 'The Margin', cite: 'Ending · for readers', ending: 'margin', staged: 'This ending is invented. The quotation is the novel’s; the note is yours.',
-      beats: [
-        { blocks: [
-          P(`You go back to the beginning, to the corridor of small black doors, and find the sentence where the woman upstairs was first explained away.`),
-          Q('Mrs. Fairfax', 'Ch. XI', `“Some of the servants, very likely,” she answered: “perhaps Grace Poole.”`),
-          P(`A reader cannot change a sentence. A reader can write beside it.`),
-          { t: 'marginwrite' }
-        ], wait: 'margin-written' },
-        { blocks: [
-          { t: 'marginshow' },
-          P(`The novel will say *perhaps Grace Poole* every time it is opened. Your note does not change that. It changes what the next reader sees beside it.`),
-          P(`Every reading you met in this game, Woolf’s, Gilbert and Gubar’s, Spivak’s, Rhys’s, is a note written beside this book by someone who could not change it. You never opened her door. You changed how the door is read.`)
-        ] },
-        { blocks: [{ t: 'after' }], choices: 'END' }
-      ]
-    },
-    e_mistrial: {
-      art: 'gallery', motes: 'dust', place: 'Thornfield Hall · the hearing', title: 'Mistrial', cite: 'Ending · for judges', ending: 'mistrial', staged: 'This ending is invented. It does not occur in the novel.',
-      beats: [
-        { blocks: [
-          P(`You reconvene the hearing at midnight and rule that it cannot go on. You give your reasons.`),
-          s => ({ t: 'list', items: [
-            'The accused was never called. In the scenes the novel shows, no one puts a question to her.',
-            'No doctor is named and no examination is described. The diagnosis arrives in her husband’s subordinate clause.',
-            'Every witness who calls her mad had something at stake: a marriage, a fortune, a wage, a heroine, a novel.',
-            'One witness is a document. One repeats what “they say.”',
-            'Her only recorded sentence was ordered not to be repeated, and called gibberish.',
-            `This court heard ${s.heard.length} of seven accounts before its candle burned down.`
-          ] })
-        ] },
-        { blocks: [
-          P(`A mistrial ends a proceeding without a verdict. Nothing has been decided about her, and nothing can be, because every court that could hear her is made of the same witnesses.`),
-          P(`She stays where she is. Rochester’s demand, “judge me,” goes unanswered. So does the question nobody asked her to put.`)
-        ] },
-        { blocks: [{ t: 'after' }], choices: 'END' }
-      ]
-    },
-    e_safe: {
-      art: 'keeper', motes: 'dust', place: 'Thornfield Hall · the inner room', title: 'Safekeeping', cite: 'Ending · for rescuers', ending: 'safe', staged: 'This ending is invented. It does not occur in the novel.',
-      beats: [
-        { blocks: [
-          P(`You take the keys from Grace Poole’s pocket, lock the door from the inside, and sit down by the fender. Nothing happens tonight. Nothing will happen on any night.`),
-          P(`Here is what the record now says she did:`),
-          { t: 'acts' }
-        ] },
-        { blocks: [
-          P(`She is safe and nobody is hurt. Thornfield stands; Rochester keeps his sight and his hand.`),
-          P(`You came to free her. You have kept her in the room she was kept in, and taken away the few things she did there. Rescue, done thoroughly, has become a second keeper.`)
-        ] },
-        { blocks: [{ t: 'after' }], choices: 'END' }
-      ]
     },
 
     /* ------------------------------------------------------------ endings */
@@ -3689,60 +3021,21 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
 
   /* ------------------------------------------------- the acts (for silence) */
   const acts = [
-    { k: 'laugh', ch: 'Chapter XI', t: 'She laughs: “distinct, formal, mirthless.”' },
-    { k: 'murmur', ch: 'Chapter XII', t: 'She murmurs, too low to be written down.' },
-    { k: 'bedfire', ch: 'Chapter XV', t: 'She takes a key, sets fire to her husband’s bed curtains, and laughs at Jane’s keyhole on the way.' },
-    { k: 'bite', ch: 'Chapter XX', t: 'She stabs and bites her brother, and tells him she will drain his heart.' },
-    { k: 'veil', ch: 'Chapter XXV', t: 'She tries on a bride’s veil, looks at herself, tears it in two, and looks the bride in the face without harming her.' },
-    { k: 'fight', ch: 'Chapter XXVI', t: 'She fights her husband in front of witnesses. “More than once she almost throttled him.”' },
-    { k: 'roof', ch: 'Chapter XXXVI', t: 'She takes the keys again, burns the house, stands on the roof shouting loud enough to be heard a mile away, and, when her husband comes toward her, jumps.' }
+    ['Chapter XI', 'She laughs: “distinct, formal, mirthless.”'],
+    ['Chapter XII', 'She murmurs, too low to be written down.'],
+    ['Chapter XV', 'She takes a key, sets fire to her husband’s bed curtains, and laughs at Jane’s keyhole on the way.'],
+    ['Chapter XX', 'She stabs and bites her brother, and tells him she will drain his heart.'],
+    ['Chapter XXV', 'She tries on a bride’s veil, looks at herself, tears it in two, and looks the bride in the face without harming her.'],
+    ['Chapter XXVI', 'She fights her husband in front of witnesses. “More than once she almost throttled him.”'],
+    ['Chapter XXXVI', 'She takes the keys again, burns the house, stands on the roof shouting loud enough to be heard a mile away, and, when her husband comes toward her, jumps.']
   ];
 
-  /* ------------------------------------------------ the judge's questions */
-  const crossx = {
-    rochester: [
-      { q: 'Did you ever ask her anything?', a: Q(ROCH, 'Ch. XXVI', `“Good-morrow, Mrs. Poole!… How are you? and how is your charge to-day?”`) },
-      { q: 'What does she say to you?', a: Q(ROCH, 'Ch. XXVII', `“…she had lucid intervals of days—sometimes weeks—which she filled up with abuse of me.”`) },
-      { q: 'Why is she upstairs?', a: Q(ROCH, 'Ch. XXVII', `“…confine her with due attendance and precautions at Thornfield: then travel yourself to what clime you will, and form what new tie you like.”`) }
-    ],
-    mason: [
-      { q: 'Why did you go to her?', a: Q('Richard Mason', 'Ch. XX', `“I thought I could have done some good.”`) },
-      { q: 'What did she say?', a: Q('Richard Mason', 'Ch. XX', `“She sucked the blood: she said she’d drain my heart.”`) },
-      { q: 'What should be done with her?', a: Q('Richard Mason', 'Ch. XX', `“Let her be taken care of; let her be treated as tenderly as may be: let her—”`) }
-    ],
-    grace: [
-      { q: 'How is she?', a: Q('Grace Poole', 'Ch. XXVI', `“We’re tolerable, sir, I thank you… rather snappish, but not ’rageous.”`) },
-      { q: 'What does she talk about?', a: null },
-      { q: 'Why do you stay?', a: null }
-    ],
-    jane: [
-      { q: 'Did you ever speak to her?', a: Q('Jane Eyre', 'Ch. XXV', `“…she thrust up her candle close to my face, and extinguished it under my eyes.”`) },
-      { q: 'What did she say?', a: Q(JANE, 'Ch. XII', `…I heard, too, her eccentric murmurs; stranger than her laugh.`) },
-      { q: 'Why is she upstairs?', a: Q('Jane Eyre', 'Ch. XXVII', `“It is cruel—she cannot help being mad.”`) }
-    ],
-    register: [
-      { q: 'Who is she?', a: Q('Mr. Briggs, reading Mason’s statement', 'Ch. XXVI', `“…my sister, Bertha Antoinetta Mason, daughter of Jonas Mason, merchant, and of Antoinetta his wife, a Creole…”`) },
-      { q: 'Is she mad?', a: null },
-      { q: 'Where is she?', a: Q('Richard Mason', 'Ch. XXVI', `“She is now living at Thornfield Hall… I saw her there last April. I am her brother.”`) }
-    ],
-    host: [
-      { q: 'Did you ever see her?', a: Q('The landlord', 'Ch. XXXVI', `“She was a big woman, and had long black hair: we could see it streaming against the flames as she stood.”`) },
-      { q: 'What did she shout?', a: Q('The landlord', 'Ch. XXXVI', `“…shouting out till they could hear her a mile off.”`) },
-      { q: 'How do you know all this?', a: Q('The landlord', 'Ch. XXXVI', `“They say she had nearly burnt her husband in his bed once: but I don’t know about that.”`) }
-    ],
-    author: [
-      { q: 'Who is she?', a: Q('Charlotte Brontë', 'Letter, 4 Jan. 1848', `“…all that is good or even human seems to disappear from the mind and a fiend-nature replaces it.”`) },
-      { q: 'What should a reader feel?', a: Q('Charlotte Brontë', 'Letter, 4 Jan. 1848', `“…profound pity ought to be the only sentiment elicited by the view of such degradation…”`) },
-      { q: 'Would you write her differently?', a: Q('Charlotte Brontë', 'Letter, 4 Jan. 1848', `“…I have erred in making horror too predominant.”`) }
-    ]
-  };
-
   /* ------------------------------------------------------- afterword */
-  const ENDINGS = { door: 'The Door', keeper: 'The Keeper', roof: 'The Witness', unwritten: 'Unwritten', shore: 'The Other Shore', close: 'The Reader Leaves', margin: 'The Margin', mistrial: 'Mistrial', safe: 'Safekeeping' };
+  const ENDINGS = { door: 'The Door', keeper: 'The Keeper', roof: 'The Witness', unwritten: 'Unwritten', shore: 'The Other Shore', close: 'The Reader Leaves' };
   const ROLE_LINE = {
-    reader: { door: 'You came only to read, and you ended by turning a key.', keeper: 'You came to read, and you ended by keeping the house in order.', roof: 'You came to read, and you read to the end, including the part the novel only reports.', unwritten: 'You came to read, and you ended by removing the text.', shore: 'You came to read, and you followed the text to the place where it stops.', close: 'You came to read, and you stopped.', margin: 'You came to read, and you ended by writing: the one change a reader can make to a book.' },
-    judge: { door: 'You came to judge. You acted on your own verdict, and she was not consulted about the sentence.', keeper: 'You came to judge, and your last act enforced the existing order.', roof: 'You came to judge, and in the end you only witnessed. That may be the more honest role.', unwritten: 'You came to judge, and you ended by giving up the bench entirely.', shore: 'You came to judge, and you went looking for evidence the court never had.', close: 'You came to judge, and you adjourned indefinitely.', mistrial: 'You came to judge, and you ruled that judging her was impossible in this house.' },
-    rescuer: { door: 'You came to rescue her, and you did: you chose the moment and the means. She did not ask you to.', keeper: 'You came to rescue her, and you ended by securing her door.', roof: 'You came to rescue her, and you watched. This rescue may never have been yours to make.', unwritten: 'You came to rescue her, and in the end you let her act without you. It is the only ending in which you are not the hero.', shore: 'You came to rescue her and went back to before she needed rescuing, and found almost nothing there.', close: 'You came to rescue her, and you left her where you found her.', safe: 'You came to rescue her, and you kept her: safe, unharmed, and with fewer acts to her name.' }
+    reader: { door: 'You came only to read, and you ended by turning a key.', keeper: 'You came to read, and you ended by keeping the house in order.', roof: 'You came to read, and you read to the end, including the part the novel only reports.', unwritten: 'You came to read, and you ended by removing the text.', shore: 'You came to read, and you followed the text to the place where it stops.', close: 'You came to read, and you stopped.' },
+    judge: { door: 'You came to judge. You acted on your own verdict, and she was not consulted about the sentence.', keeper: 'You came to judge, and your last act enforced the existing order.', roof: 'You came to judge, and in the end you only witnessed. That may be the more honest role.', unwritten: 'You came to judge, and you ended by giving up the bench entirely.', shore: 'You came to judge, and you went looking for evidence the court never had.', close: 'You came to judge, and you adjourned indefinitely.' },
+    rescuer: { door: 'You came to rescue her, and you did: you chose the moment and the means. She did not ask you to.', keeper: 'You came to rescue her, and you ended by securing her door.', roof: 'You came to rescue her, and you watched. This rescue may never have been yours to make.', unwritten: 'You came to rescue her, and in the end you let her act without you. It is the only ending in which you are not the hero.', shore: 'You came to rescue her and went back to before she needed rescuing, and found almost nothing there.', close: 'You came to rescue her, and you left her where you found her.' }
   };
   const FINDING = { mad: 'You found her mad.', notproven: 'Not proven.', incompetent: 'You declined to judge her.', adjourn: 'You adjourned the hearing to hear her.' };
   const NAMES = { bertha: 'Bertha', mrs: 'Mrs. Rochester', antoinetta: 'Antoinetta', none: 'No name' };
@@ -3768,19 +3061,6 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
     rows.push({ label: 'Your readings', readings: Object.keys(ACTS).filter(k => s.readings[k]).map(k => [ACTS[k], READ_LABELS[s.readings[k]]]).concat(s.readings.placement ? [['The laugh’s placement (Ch. XII)', PLACEMENT[s.readings.placement]]] : []), note: readingPattern(s) });
     const notHeard = witnesses.filter(w => !s.heard.includes(w.id)).map(w => w.name);
     rows.push({ label: 'Witnesses heard', text: `${s.heard.length} of 7.` + (notHeard.length ? ` Not heard: ${notHeard.join('; ')}.` : ' You heard every account the record holds, except hers.') });
-    if (s.role === 'reader') {
-      const ks = Object.keys(s.checks || {});
-      const right = ks.filter(k => s.checks[k]).length;
-      rows.push({ label: 'Text or reading', text: ks.length ? `You told the text from your own reading ${right} of ${ks.length} times.` : 'You answered none of the reader’s checks.', note: ks.length && right < ks.length ? 'Over-reading is a close reader’s particular temptation: the more carefully you look, the more you find, including what you brought.' : '' });
-    }
-    if (s.role === 'judge') {
-      const asked = Object.keys(s.crossx || {});
-      rows.push({ label: 'Your questions', text: asked.length ? `You cross-examined ${asked.length} ${asked.length === 1 ? 'witness' : 'witnesses'}. Every answer came from that witness’s own words, or from silence.` : 'You put no questions to the witnesses.' });
-    }
-    if (s.role === 'rescuer') {
-      const gone = acts.filter(a => (s.erased || []).includes(a.k)).map(a => a.ch);
-      rows.push({ label: 'What you prevented', text: gone.length ? `Her acts in ${gone.join(', ')}.` : 'Nothing. You let every night happen.', note: gone.length ? 'Each rescue worked, and each removed something she did from the record.' : '' });
-    }
     const ident = s.struck.filter(w => lexicon.find(l => l.w === w && l.identity));
     rows.push({ label: 'Words you struck', text: s.struck.length ? s.struck.join(', ') + '.' : 'None.', note: s.struck.length ? 'The novel still says them. Striking a word records an objection; it does not recover what should have been said instead.' + (ident.length ? ` You also struck words that said who she was (${ident.join(', ')}), not only what she was called.` : '') : 'You can strike words from the Record, under “Words for her.”' });
     return rows;
@@ -3800,7 +3080,7 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
     const top = Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0];
     const r = { resistance: ['a rebel', 'a reader who admires rebels'], madness: ['mad', 'a reader who can tell'], suffering: ['a victim', 'a reader who pities'], open: ['undecidable', 'a reader who keeps an open mind'] }[top];
     if (r) out.push(r);
-    const e = { door: ['freed', 'the liberator'], keeper: ['kept safe', 'the keeper'], roof: ['the subject of a witness', 'the witness'], unwritten: ['erased, or free', 'the one who stepped back'], shore: ['a blank in the archive', 'the archivist'], close: ['left where she was', 'the reader who left'], margin: ['a sentence in a book', 'the note beside it'], mistrial: ['undecided', 'the court that could not try her'], safe: ['safe, and silent', 'her second keeper'] }[s.ending];
+    const e = { door: ['freed', 'the liberator'], keeper: ['kept safe', 'the keeper'], roof: ['the subject of a witness', 'the witness'], unwritten: ['erased, or free', 'the one who stepped back'], shore: ['a blank in the archive', 'the archivist'], close: ['left where she was', 'the reader who left'] }[s.ending];
     if (e) out.push(e);
     return out.map(([her, other]) => ({ her, other, who: 'you' }));
   }
@@ -3827,10 +3107,7 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
     title: 'The Third Storey',
     heroine: 'Bertha Antoinetta Mason',
     start: 'threshold',
-    clues, reflections, lexicon, witnesses, missingWitness, scenes, tiles, acts, crossx,
-    witnessLimit: s => s.role === 'judge' ? 4 : null,
-    enterWitness: (s, w) => s.role === 'rescuer' && w.rescue && !s.flags.includes('rescue-' + w.id) ? w.rescue : w.scene,
-    roleChip: s => ({ reader: 'Reader', judge: `Judge · ${Math.min(s.heard.length, 4)}/4`, rescuer: `Rescuer · ${(s.erased || []).length}/3` })[s.role] || null,
+    clues, reflections, lexicon, witnesses, missingWitness, scenes, tiles, acts,
     silenceOpen: 'The page is hers. Nothing is written on it.',
     silenceClose: `This is everything the novel lets her do. Read as a sentence, it is not nothing. You have not put words in her mouth, and whatever she does next she will do without your dialogue.`,
     endings: ENDINGS,
@@ -5496,3 +4773,5 @@ Jean Rhys took the name for Antoinette Cosway, the heroine of *Wide Sargasso Sea
 })();
 
 </script>
+</body>
+</html>

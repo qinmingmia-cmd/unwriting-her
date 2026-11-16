@@ -25,7 +25,7 @@ After Toni Morrison's *Playing in the Dark*: the madwoman serves as a mirror of 
 
 ## Layout of this branch (`drafts`)
 - `index.html`: the live build, the same as `main`.
-- `source/`: the full source.
+- `source/`: the full source. **Build from `source/src/live/index.html`**, the exact page live on unwritingher.com; `build.py` adds only the chapter hooks and the Moon Orchid chapter. `source/src/unapproved-v4/` holds Bertha revisions the author never approved; never ship them.
   - `src/engine.js` is the game engine. `src/art.js` is the SVG scene art. `src/page.html` is the page shell.
   - `src/stories/bertha.js` holds all of Bertha's content: clues, reflections, witnesses, scenes, readings, endings and the essay. `src/stories/shelf.js` is the bookshelf catalogue.
   - `build.py` builds `dist/unwriting-her.html` (artifact preview) and `dist/standalone/index.html` (the site file).
