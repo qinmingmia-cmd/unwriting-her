@@ -35,7 +35,11 @@ def run(tag, picks, w=1440, h=900, shots=True, reduced=False):
             mg = beat.locator('.mo-margin-btn[aria-expanded="false"]')
             for i in range(mg.count()):
                 beat.locator('.mo-margin-btn[aria-expanded="false"]').first.click(); pg.wait_for_timeout(60)
-            if pg.locator('.mo-end').count(): shot('end'); break
+            if pg.locator('.mo-end').count():
+                shot('end')
+                pg.get_by_role('button', name='Read the closing thesis').click(); pg.wait_for_timeout(500)
+                if not pg.locator('.mo-essay').count(): errors.append(f'[{tag}] thesis did not open')
+                shot('thesis', full=True); break
             ch = pg.locator('.mo-choice')
             if ch.count():
                 n += 1
@@ -59,7 +63,7 @@ def run(tag, picks, w=1440, h=900, shots=True, reduced=False):
         if pg.evaluate('JSON.stringify(UH._mo.state)') != before: errors.append(f'[{tag}] reading the record changed state')
         # refresh and resume
         pg.reload(); pg.wait_for_timeout(800)
-        if not pg.locator('.mo-end').count(): errors.append(f'[{tag}] did not resume at the end')
+        if not pg.locator('.mo-essay').count(): errors.append(f'[{tag}] did not resume on the thesis')
         ow = pg.evaluate('document.documentElement.scrollWidth - document.documentElement.clientWidth')
         if ow > 0: errors.append(f'[{tag}] horizontal overflow {ow}px')
         # other chapters still load

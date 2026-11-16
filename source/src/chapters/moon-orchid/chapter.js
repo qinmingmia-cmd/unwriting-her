@@ -145,10 +145,11 @@
     b.append(el('div', { class: 'mo-bar-r' }, drawerBtn, el('div', { class: 'mo-menu-wrap' }, menuBtn, menu)));
     return b;
   }
-  function sceneLabel() { const sc = scene(); return sc ? `${C.movements[sc.mv].n} · ${C.movements[sc.mv].title}` : ''; }
+  function sceneLabel() { const sc = scene(); return !sc ? '' : sc.essay ? 'The closing thesis' : `${C.movements[sc.mv].n} · ${C.movements[sc.mv].title}`; }
 
   /* ============================================================ STAGE */
   function renderStage(resuming) {
+    if (scene().essay) return renderEssay();
     root.innerHTML = '';
     root.className = 'mo mo-in';
     const sc = scene();
@@ -173,6 +174,40 @@
     s.trail.forEach(item => flowEl.append(renderItem(item, false)));
     applyArt(); drawAccount(false); drawControls();
     if (resuming) { const last = flowEl.lastElementChild; if (last) last.scrollIntoView({ block: 'start' }); } else window.scrollTo(0, 0);
+  }
+
+  /* ---------- the closing thesis */
+  function renderEssay() {
+    root.innerHTML = '';
+    root.className = 'mo mo-in mo-at-essay';
+    const T = C.thesis;
+    drawer = el('aside', { class: 'mo-drawer', id: 'mo-said', 'aria-label': 'The record', hidden: true, tabindex: '-1' });
+    const art = el('figure', { class: 'mo-essay-art', 'aria-hidden': 'true', html: A.house() });
+    const body = el('div', { class: 'mo-essay-body' });
+    T.body.forEach(x => {
+      if (x.h) body.append(el('h3', { class: 'mo-essay-h', text: x.h }));
+      else if (x.p) body.append(el('p', { html: ital(x.p) }));
+      else if (x.seen) {
+        const ids = s.seenIds.filter(id => C.seen[id]);
+        body.append(el('p', { class: 'mo-essay-note', text: `You collected ${ids.length} of ${Object.keys(C.seen).length} so far. Each sets how she was seen against what the text shows.` }));
+        ids.forEach(id => body.append(stepNode({ t: 'seen', id })));
+      } else if (x.count) {
+        const all = Object.values(s.account), hers = all.filter(a => a.who === 'mo').length;
+        body.append(el('p', { class: 'mo-essay-note', text: !all.length ? 'No moment in your reading has been put into words yet.'
+          : hers ? `Of the ${all.length} moments put into words in your reading, ${hers} ${hers === 1 ? 'was' : 'were'} kept in her terms, and only because you chose to keep ${hers === 1 ? 'it' : 'them'}. The household kept none.`
+          : `Of the ${all.length} moments put into words in your reading, none was kept in her terms.` }));
+      }
+    });
+    const foot = el('div', { class: 'mo-row mo-essay-foot' },
+      el('button', { type: 'button', class: 'mo-btn', onclick: () => host.navigate('reading-room') }, 'Back to the Reading Room'),
+      el('button', { type: 'button', class: 'mo-btn quiet', onclick: () => openDrawer() }, 'Open the record'));
+    root.append(bar(true), el('main', { class: 'mo-essay', id: 'mo-main' }, art,
+      el('article', { class: 'mo-essay-col' },
+        el('p', { class: 'mo-kicker', text: T.kicker }),
+        el('h1', { class: 'mo-essay-t', text: T.title, tabindex: '-1' }),
+        el('p', { class: 'mo-essay-sub', text: T.sub }), body, foot)), drawer);
+    window.scrollTo(0, 0);
+    const h = root.querySelector('.mo-essay-t'); if (h) h.focus({ preventScroll: true });
   }
 
   /* ---------- art */
@@ -300,7 +335,8 @@
       ctlEl.append(el('div', { class: 'mo-end' },
         el('p', { class: 'mo-end-k', text: 'End of the preview' }),
         el('div', { class: 'mo-row' },
-          el('button', { type: 'button', class: 'mo-btn', onclick: () => openDrawer() }, 'Open the record'),
+          C.scenes.thesis ? el('button', { type: 'button', class: 'mo-btn', onclick: () => goScene('thesis') }, 'Read the closing thesis') : null,
+          el('button', { type: 'button', class: 'mo-btn quiet', onclick: () => openDrawer() }, 'Open the record'),
           el('button', { type: 'button', class: 'mo-btn quiet', onclick: () => host.navigate('reading-room') }, 'Back to the Reading Room'))));
       return;
     }
@@ -358,6 +394,7 @@
     if (!s.order.includes(id)) s.order.push(id);
     save();
     const go = () => { renderStage(false); enterBeat(C.scenes[id].first); const t = sceneHead.querySelector('.mo-scene-title'); if (t) t.focus({ preventScroll: true }); };
+    if (C.scenes[id].essay) { renderEssay(); return; }
     if (C.scenes[id].mv !== prevMv) titleCard(C.movements[C.scenes[id].mv], go); else go();
   }
   function focusNew(node) {
